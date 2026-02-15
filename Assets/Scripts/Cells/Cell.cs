@@ -13,11 +13,6 @@ public class Cell : MonoBehaviour
 {
     private Dictionary<Vector2Int, CellObject> cellObjects = new();
     public ICellBehaviour behaviour;
-
-    private void Start() {
-        OnEnable();
-    }
-
     private void OnEnable() {
         GameStorage.Instance.AddCell(this);
         GameEvents.OnCellSelected += OnAnyCellSelected;

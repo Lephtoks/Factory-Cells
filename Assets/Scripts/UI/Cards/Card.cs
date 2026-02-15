@@ -23,7 +23,6 @@ namespace UI.Cards
         private void Start() {
             _rectTransform = GetComponent<RectTransform>();
             ApplyHandTransform(5);
-            OnEnable();
             
             // TODO TEMP:
             CellObject = CellObjectTypes.CONVEYOR;

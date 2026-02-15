@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Data
 {
+    [DefaultExecutionOrder(-1000)]
     public class GameStorage : MonoBehaviour
     {
         public static GameStorage Instance;
