@@ -7,6 +7,7 @@ namespace Cells.Object.Bulding
     public class BuildingInitializer : MonoBehaviour
     {
         public ConveyorRepr conveyor;
+        public DrillRepr drill;
         
         public static BuildingInitializer Instance { get; private set; }
         private void Awake() {

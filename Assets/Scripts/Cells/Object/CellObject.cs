@@ -1,5 +1,6 @@
 using System;
 using Data;
+using Economics;
 using UnityEngine;
 
 namespace Cells.Object
@@ -17,6 +18,9 @@ namespace Cells.Object
         
         public virtual void WhenBeingAddedToCell() {
         }
+
+        public abstract ItemStack[] GetItems();
+
     }
     public abstract class CellObject<T, K> : CellObject where T : CellNodeRepr<K> where K : CellObject
     {
@@ -38,8 +42,6 @@ namespace Cells.Object
         public bool TryGetNeighbor(Direction direction, out CellObject neighbor) {
             return TryGetNeighbor(direction.ToVector2Int(), out neighbor);
         }
-
-        public virtual void UpdateMove() {}
 
         public override void WhenBeingAddedToCell() {
             if (this is not K k) throw new ArgumentException("Type argument mismatch");

@@ -2,6 +2,7 @@ namespace Economics
 {
     public enum Currency
     {
+        AIR,
         STONE,
         WOOD,
         COAL,
@@ -13,5 +14,12 @@ namespace Economics
         GOLD,
         COPPER_ORE,
         COPPER
+    }
+
+    public static class CurrencyExtensions
+    {
+        public static ItemStack OfCount(this Currency currency, int count) {
+            return new ItemStack(currency, count);
+        }
     }
 }

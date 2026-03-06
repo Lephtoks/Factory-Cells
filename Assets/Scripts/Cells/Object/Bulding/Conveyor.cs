@@ -11,5 +11,9 @@ namespace Cells.Object.Bulding
         }
 
         public override ConveyorRepr Representation => BuildingInitializer.Instance.conveyor;
+        public override void SetItem(ItemStack itemStack) {
+            base.SetItem(itemStack);
+            LivingRepresentation.UpdateDisplay(this);
+        }
     }
 }

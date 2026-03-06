@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public record CellObjectType(Func<Cell, Vector2Int, Direction, CellObject> factory, Texture2D textureForUI);
+    public record CellObjectType(Func<Cell, Vector2Int, Direction, CellObject> factory, Sprite textureForUI);
 }

@@ -13,6 +13,7 @@ public class Cell : MonoBehaviour
 {
     private Dictionary<Vector2Int, CellObject> cellObjects = new();
     public ICellBehaviour behaviour;
+    
     private void OnEnable() {
         GameStorage.Instance.AddCell(this);
         GameEvents.OnCellSelected += OnAnyCellSelected;
@@ -63,6 +64,9 @@ public class Cell : MonoBehaviour
 
         foreach (Intent intent in intents) {
             intent.Do();
+        }
+        foreach (CellObject cellObject in cellObjects.Values) {
+            cellObject.UpdateMove();
         }
         
     }

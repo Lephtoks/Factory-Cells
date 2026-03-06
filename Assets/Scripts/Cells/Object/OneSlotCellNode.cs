@@ -12,10 +12,14 @@ namespace Cells.Object
         public OneSlotCellNode(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos, direction) {
         }
 
+        public override ItemStack[] GetItems() {
+            return new[] {_itemStack};
+        }
+
         public override void GenerateIntent() {
-            // if (_itemStack.IsEmpty() || !TryGetNeighbor(GetDirection(), out CellObject neighbor) || neighbor is not CellNode<CellNodeRepr<object>> node) return;
-            //
-            // Intent = new Intent(this, node, _itemStack);
+            if (_itemStack.IsEmpty() || !TryGetNeighbor(GetDirection(), out CellObject neighbor) || neighbor is not ICellNode node) return;
+            
+            Intent = new Intent(this, node, _itemStack);
         }
 
         public override ItemStack SuggestMoveStack() {
@@ -26,19 +30,23 @@ namespace Cells.Object
             return 1;
         }
 
+        public ItemStack GetItemStack() {
+            return _itemStack;
+        }
+
         public override ItemStack AddItemStack(ItemStack stack) {
             if (stack.IsEmpty()) return ItemStack.EMPTY;
             if (_itemStack.IsEmpty()) {
                 int caped = Math.Min(stack.Count, GetCapacity());
-                _itemStack = stack.OfCount(caped);
+                SetItem(stack.OfCount(caped));
                 return _itemStack;
             }
 
-            if (_itemStack.Type == stack.Type) {
+            if (_itemStack.CurrencyType == stack.CurrencyType) {
                 int newCount = _itemStack.Count + stack.Count;
                 int caped = Math.Min(newCount, GetCapacity());
                 int dif = caped - _itemStack.Count;
-                _itemStack = _itemStack.OfCount(caped);
+                SetItem(_itemStack.OfCount(caped));
                 return _itemStack.OfCount(dif);
             }
             return ItemStack.EMPTY;
@@ -48,8 +56,8 @@ namespace Cells.Object
             if (stack.IsEmpty()) return ItemStack.EMPTY;
             if (_itemStack.IsEmpty()) return ItemStack.EMPTY;
 
-            if (_itemStack.Type == stack.Type) {
-                _itemStack = _itemStack.OfCount(_itemStack.Count - stack.Count);
+            if (_itemStack.CurrencyType == stack.CurrencyType) {
+                SetItem(_itemStack.OfCount(_itemStack.Count - stack.Count));
                 return stack;
             }
             return ItemStack.EMPTY;

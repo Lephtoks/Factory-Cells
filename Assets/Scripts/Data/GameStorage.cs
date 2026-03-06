@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UI.Cards;
+using UI.Cloud;
 using UnityEngine;
 
 namespace Data
@@ -33,5 +35,18 @@ namespace Data
         public Camera cam;
         public GameObject Table;
         public CellInventory CellInventory = new CellInventory();
+        public UICloudInfo InfoCloud;
+
+
+        private float time = 0;
+        public void Update() {
+            time += Time.deltaTime;
+            if (time > 1f) {
+                foreach (var cell in tilemaps) {
+                    cell.UpdateMove();
+                }
+                time = 0;
+            }
+        }
     }
 }
