@@ -2,7 +2,7 @@ namespace Economics
 {
     public struct ItemStack
     {
-        public static readonly ItemStack EMPTY = new ItemStack(Currency.AIR, 0);
+        public static readonly ItemStack EMPTY = new(Currency.AIR, 0);
         public ItemStack(Currency type, int count) {
             CurrencyType = type;
             Count = count;

@@ -1,5 +1,4 @@
 using Cells.Object.Node;
-using Data;
 using Economics;
 using UnityEngine;
 

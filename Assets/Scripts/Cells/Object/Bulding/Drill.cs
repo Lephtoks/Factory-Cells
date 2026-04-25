@@ -1,4 +1,5 @@
 using Cells.Object.Bulding.Mono;
+using Core;
 using Data;
 using Economics;
 using UnityEngine;
@@ -11,10 +12,10 @@ namespace Cells.Object.Bulding
         public Drill(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos, direction) {
         }
 
-        public override DrillRepr Representation => BuildingInitializer.Instance.drill;
+        public override DrillRepr Representation => AssetProvider.Instance.registry.drill;
         
         
-        private int _counter = 0;
+        private int _counter;
         public override void UpdateMove() {
             _counter++;
             if (_counter >= 5) {

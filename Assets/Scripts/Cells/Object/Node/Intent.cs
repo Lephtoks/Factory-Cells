@@ -13,8 +13,8 @@ namespace Cells.Object.Node
         public ICellNode Actor;
         public ICellNode Victim;
         public ItemStack Backup;
-        public bool Activated = false;
-        public bool Processed = false;
+        public bool Activated;
+        public bool Processed;
 
         public void Do() {
             if (Activated) return;

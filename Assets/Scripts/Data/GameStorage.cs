@@ -1,19 +1,18 @@
-using System;
 using System.Collections.Generic;
+using Core;
 using UI.Cards;
 using UI.Cloud;
 using UnityEngine;
 
 namespace Data
 {
-    [DefaultExecutionOrder(-1000)]
-    public class GameStorage : MonoBehaviour
+    public class GameStorage : Singleton<GameStorage>, IUpdatable
     {
-        public static GameStorage Instance;
-
-        private void Awake() {
-            Instance = this;
+        public override void Init() {
+            base.Init();
             cam = Camera.main;
+            InfoCloud = GameObject.FindGameObjectWithTag("UICloud").GetComponent<UICloudInfo>();
+            Table = GameObject.FindGameObjectWithTag("Table");
         }
 
         public void AddCell(Cell cell) {
@@ -31,14 +30,15 @@ namespace Data
         }
         
         public Card ActiveCard;
-        private List<Cell> tilemaps = new();
         public Camera cam;
         public GameObject Table;
-        public CellInventory CellInventory = new CellInventory();
         public UICloudInfo InfoCloud;
+        
+        private List<Cell> tilemaps = new();
+        public CellInventory CellInventory = new();
 
 
-        private float time = 0;
+        private float time;
         public void Update() {
             time += Time.deltaTime;
             if (time > 1f) {

@@ -1,6 +1,5 @@
+using Core;
 using Data;
-using Global;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Cells.Object.Bulding.Mono
@@ -9,7 +8,7 @@ namespace Cells.Object.Bulding.Mono
     {
         [SerializeField] private SpriteRenderer itemOnConveyor;
         public override void Init(Conveyor original) {
-            transform.parent = original.Parent.transform;
+            transform.parent = original.Parent.transform.GetChild(0).GetChild(0);
             transform.localPosition = new Vector3(original.Position.x, original.Position.y, -1) + new Vector3(0.5f, 0.5f, 0);
             var vector2Int = original.GetDirection().ToVector2Int();
             transform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(vector2Int.x, vector2Int.y, 0));
@@ -18,7 +17,7 @@ namespace Cells.Object.Bulding.Mono
 
         public void UpdateDisplay(Conveyor conveyor) {
             itemOnConveyor.sprite =
-                GlobalData.Instance.currencySettingsDatabase.Get(conveyor.GetItemStack().CurrencyType).icon;
+                AssetProvider.Instance.GetCurrency(conveyor.GetItemStack().CurrencyType).icon;
         }
     }
 }

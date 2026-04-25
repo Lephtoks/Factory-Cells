@@ -1,0 +1,33 @@
+using System.Collections.Generic;
+using Cells.Object.Bulding.Mono;
+using Economics;
+using ScriptableObjects;
+using UnityEngine;
+
+namespace Core
+{
+    [CreateAssetMenu(menuName = "Data/Asset Registry")]
+    public class AssetRegistry : ScriptableObject
+    {
+        public Texture2D playerTexture;
+        
+        private Dictionary<Currency, CurrencySettings> currencies = new();
+        
+        public CurrencySettings air;
+        public CurrencySettings copper;
+        public CurrencySettings copperOre;
+        public CurrencySettings stone;
+        public CurrencySettings wood;
+        public CurrencySettings iron;
+        public CurrencySettings ironOre;
+        public CurrencySettings planks;
+        public CurrencySettings gold;
+        public CurrencySettings goldenOre;
+        public CurrencySettings coal;
+        public CurrencySettings stoneHull;
+        
+        
+        public ConveyorRepr conveyor;
+        public DrillRepr drill;
+    }
+}

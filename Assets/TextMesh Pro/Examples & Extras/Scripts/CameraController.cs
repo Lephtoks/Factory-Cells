@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
@@ -20,14 +19,14 @@ namespace TMPro.Examples
 
         public float ElevationAngle = 30.0f;
         public float MaxElevationAngle = 85.0f;
-        public float MinElevationAngle = 0f;
+        public float MinElevationAngle;
 
-        public float OrbitalAngle = 0f;
+        public float OrbitalAngle;
 
         public CameraModes CameraMode = CameraModes.Follow;
 
         public bool MovementSmoothing = true;
-        public bool RotationSmoothing = false;
+        public bool RotationSmoothing;
         private bool previousSmoothing;
 
         public float MovementSmoothingValue = 25f;

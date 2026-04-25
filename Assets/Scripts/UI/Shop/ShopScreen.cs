@@ -1,14 +1,12 @@
-using UnityEngine;
+using Core;
 
 namespace UI.Shop
 {
-    public class ShopScreen : MonoBehaviour
+    public class ShopScreen : MonoSingleton<ShopScreen>
     {
-        public static ShopScreen Instance;
-
-        private void Awake() {
-            Instance = this;
-            this.gameObject.SetActive(false);
+        public override void Awake() {
+            base.Awake();
+            gameObject.SetActive(false);
         }
     }
 }

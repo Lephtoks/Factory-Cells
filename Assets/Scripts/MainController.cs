@@ -1,16 +1,11 @@
-using System.Collections.Generic;
 using Cells.Object;
-using Cells.Object.Bulding;
-using Cells.Object.Bulding.Mono;
+using Core;
 using Data;
-using Global;
-using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class MainController : MonoBehaviour
+public class MainController : IUpdatable
 {
-    void Update()
+    public void Update()
     {
         Vector3 worldPos = GameStorage.Instance.cam.ScreenToWorldPoint(Input.mousePosition);
         Cell selectedCell = null;
@@ -31,7 +26,7 @@ public class MainController : MonoBehaviour
         GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
         GameStorage.Instance.InfoCloud.ResetIcons();
 
-        if (selectedCell != null) {
+        if (selectedCell) {
             if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject)) {
                 GameStorage.Instance.InfoCloud.transform.position = Input.mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);

@@ -45,8 +45,8 @@ namespace Cells.Object
 
         public override void WhenBeingAddedToCell() {
             if (this is not K k) throw new ArgumentException("Type argument mismatch");
-            this.CreateRepresentation();
-            this.LivingRepresentation.Init(k);
+            CreateRepresentation();
+            LivingRepresentation.Init(k);
         }
     }
 }

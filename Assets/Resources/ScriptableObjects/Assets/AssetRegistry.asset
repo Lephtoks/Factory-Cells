@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7705bc05e56847c2b9b715eda592457a, type: 3}
+  m_Name: AssetRegistry
+  m_EditorClassIdentifier: Assembly-CSharp::Core.AssetRegistry
+  playerTexture: {fileID: 0}
+  air: {fileID: 11400000, guid: 5ba86c6b1d0a37959bbc61928a2be9c4, type: 2}
+  copper: {fileID: 11400000, guid: 1916dbbdc73337303bb8904ce9594ee0, type: 2}
+  copperOre: {fileID: 0}
+  stone: {fileID: 11400000, guid: 8a393e48389289ccb981999658167aca, type: 2}
+  wood: {fileID: 0}
+  iron: {fileID: 0}
+  ironOre: {fileID: 0}
+  planks: {fileID: 0}
+  gold: {fileID: 0}
+  goldenOre: {fileID: 0}
+  coal: {fileID: 0}
+  stoneHull: {fileID: 0}
+  conveyor: {fileID: 7415543107196063511, guid: 417eeab0ef45ddb25a2a6caba951807a, type: 3}
+  drill: {fileID: 6073688260768873602, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}

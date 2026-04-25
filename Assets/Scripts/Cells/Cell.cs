@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Cells.Object;
-using Cells.Object.Bulding;
 using Cells.Object.Node;
 using Data;
 using DG.Tweening;
@@ -26,14 +25,24 @@ public class Cell : MonoBehaviour
     
 
     private void OnAnyCellSelected(Cell obj) {
-        Debug.Log("Cell selected eve");
         transform.DOKill();
         if (this == GameStorage.Instance.CellInventory.GetTable()) {
-            transform.DOMove(GameStorage.Instance.Table.transform.position, 0.2f);
+            transform.DOMove(GameStorage.Instance.Table.transform.position, 0.25f).SetEase(Ease.InOutSine);
+            transform.DOScale(1, 0.35f).SetEase(Ease.InOutQuad);
         }
         else {
-            var pos = new Vector2(5 * ((List<Cell>)GameStorage.Instance.CellInventory.GetCells()).IndexOf(this), 0);
-            transform.DOLocalMove(pos, 0.2f);
+            var pos = new Vector2(6.075f * ((List<Cell>)GameStorage.Instance.CellInventory.GetCells()).IndexOf(this), 0);
+            
+            var dif = pos - (Vector2) transform.localPosition;
+            if (dif.sqrMagnitude > 0.1f) {
+                Sequence rot = DOTween.Sequence();
+                rot.Append(transform.DOLocalRotateQuaternion(Quaternion.Euler(0,0,15 * Math.Sign(dif.x)),0.15f).SetEase(Ease.OutBack));
+                rot.Append(transform.DOLocalRotateQuaternion(Quaternion.identity,0.15f).SetEase(Ease.InOutSine));
+                
+            }
+
+            transform.DOLocalMove(pos, 0.25f).SetEase(Ease.InOutSine);
+            transform.DOScale(0.6f, 0.35f).SetEase(Ease.InOutQuad);
         }
     }
 
@@ -115,8 +124,8 @@ public interface ICellBehaviour
 
 public static class CellBehaviours
 {
-    public static readonly InventoryBehaviour INVENTORY = new InventoryBehaviour();
-    public static readonly TableBehaviour TABLE = new TableBehaviour();
+    public static readonly InventoryBehaviour INVENTORY = new();
+    public static readonly TableBehaviour TABLE = new();
 }
 
 public class InventoryBehaviour : ICellBehaviour
@@ -124,14 +133,12 @@ public class InventoryBehaviour : ICellBehaviour
     public void OnClick(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
         GameStorage.Instance.CellInventory.PlaceOnTable(cell);
         GameEvents.InvokeCellSelection(cell);
-        Debug.Log("OKKKK");
     }
 }
 public class TableBehaviour : ICellBehaviour
 {
     public void OnClick(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
         var clickedPos = new Vector2Int(tilePos.x, tilePos.y);
-        Debug.Log($"Клик по тайлу в {cell.tilemap.name} на {tilePos}");
         var currentCard = GameStorage.Instance.ActiveCard;
         if (currentCard) {
             cell.TryAddObject(currentCard.CellObject.factory.Invoke(cell, clickedPos, Direction.EAST));

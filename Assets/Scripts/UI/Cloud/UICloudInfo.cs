@@ -1,15 +1,15 @@
+using Core;
 using Economics;
-using Global;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Cloud
 {
-    public class UICloudInfo : MonoBehaviour
+    public class UICloudInfo : MonoSingleton<UICloudInfo>
     {
         [SerializeField] private Image[] icons;
 
-        private int index = 0;
+        private int index;
         public void ResetIcons() {
             foreach (var icon in icons) {
                 icon.gameObject.SetActive(false);
@@ -22,7 +22,7 @@ namespace UI.Cloud
             
             if (index < icons.Length) {
                 icons[index].gameObject.SetActive(true);
-                icons[index].sprite = GlobalData.Instance.currencySettingsDatabase.Get(stack.CurrencyType).icon;
+                icons[index].sprite = AssetProvider.Instance.GetCurrency(stack.CurrencyType).icon;
                 index++;
                 return true;
             }
