@@ -12,14 +12,6 @@ namespace Core
             new AssetProvider(),
             new GameDataManager()
         };
-        
-        private void RegisterLocals() {
-            _locals.Add(BootstrapsIdentity.GAMEPLAY, new IUpdatable[] {
-                new GameStorage(),
-                new MainController()
-            });
-        }
-        private readonly Dictionary<BootstrapsIdentity, IUpdatable[]> _locals = new();
     
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -29,13 +21,7 @@ namespace Core
             foreach (var g in _globals) {
                 g.Init();
             }
-            RegisterLocals();
-            
             Instance = this;
-        }
-
-        public IUpdatable[] GetLocals(BootstrapsIdentity identity) {
-            return _locals[identity];
         }
     }
 }

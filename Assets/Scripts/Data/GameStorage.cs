@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core;
+using Core.Locals;
 using UI.Cards;
 using UI.Cloud;
 using UnityEngine;
@@ -8,44 +9,42 @@ namespace Data
 {
     public class GameStorage : Singleton<GameStorage>, IUpdatable
     {
+        public Card ActiveCard;
+        public Camera Cam;
+        public GameObject Table;
+        public UICloudInfo InfoCloud;
+        private readonly List<Cell> _tilemaps = new();
+        public readonly CellInventory CellInventory = new();
+        private float _time;
+        
         public override void Init() {
             base.Init();
-            cam = Camera.main;
+            Cam = Camera.main;
             InfoCloud = GameObject.FindGameObjectWithTag("UICloud").GetComponent<UICloudInfo>();
-            Table = GameObject.FindGameObjectWithTag("Table");
+            Table = GameLocalBootstrap.Instance.table;
         }
 
         public void AddCell(Cell cell) {
-            tilemaps.Add(cell);
+            _tilemaps.Add(cell);
             CellInventory.AddCell(cell);
         }
 
         public void RemoveCell(Cell cell) {
-            tilemaps.Remove(cell);
+            _tilemaps.Remove(cell);
             CellInventory.RemoveCell(cell);
         }
 
         public IReadOnlyList<Cell> GetCells() {
-            return tilemaps;
+            return _tilemaps;
         }
-        
-        public Card ActiveCard;
-        public Camera cam;
-        public GameObject Table;
-        public UICloudInfo InfoCloud;
-        
-        private List<Cell> tilemaps = new();
-        public CellInventory CellInventory = new();
 
-
-        private float time;
         public void Update() {
-            time += Time.deltaTime;
-            if (time > 1f) {
-                foreach (var cell in tilemaps) {
+            _time += Time.deltaTime;
+            if (_time > 1f) {
+                foreach (var cell in _tilemaps) {
                     cell.UpdateMove();
                 }
-                time = 0;
+                _time = 0;
             }
         }
     }

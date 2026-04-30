@@ -7,7 +7,7 @@ public class MainController : IUpdatable
 {
     public void Update()
     {
-        Vector3 worldPos = GameStorage.Instance.cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 worldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
         Cell selectedCell = null;
         Vector3Int cellPos = Vector3Int.zero;
         
