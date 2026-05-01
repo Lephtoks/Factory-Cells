@@ -15,6 +15,7 @@ namespace Core.Locals
 
         public GameObject table;
         public GameObject shopScreen;
+        public GameObject canvasCardHolder;
 
         public void OpenShopScreen() {
             shopScreen.SetActive(true);

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cells.Object.Bulding.Mono;
 using Economics;
 using ScriptableObjects;
+using UI.Cards;
 using UnityEngine;
 
 namespace Core
@@ -26,7 +27,7 @@ namespace Core
         public CurrencySettings coal;
         public CurrencySettings stoneHull;
         
-        
+        public Card cardPrefab;
         public ConveyorRepr conveyor;
         public DrillRepr drill;
     }

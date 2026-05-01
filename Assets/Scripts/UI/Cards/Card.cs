@@ -20,19 +20,14 @@ namespace UI.Cards
 
         private void Start() {
             _rectTransform = GetComponent<RectTransform>();
-            ApplyHandTransform(5);
-            
-            // TODO TEMP:
-            CellObject = CellObjectTypes.CONVEYOR;
-            if (index == 1) {
-                CellObject = CellObjectTypes.DRILL;
-            }
-
-            image.sprite = CellObject.textureForUI;
+            ApplyHandTransform(GameStorage.Instance.GetCards().Count);
+            image.sprite = CellObject.TextureForUI;
         }
 
         private void OnEnable() {
             GameEvents.OnCardSelected += OnAnyCardSelected;
+            GameEvents.OnCardHandUpdated += OnHandUpdate;
+            
         }
 
         private void OnDisable() {
@@ -46,11 +41,15 @@ namespace UI.Cards
 
         private void OnAnyCardSelected(Card card) {
             if (card == this) {
-                ApplyHandTransform( 5, radius: 300, offset: 30f);
+                ApplyHandTransform(GameStorage.Instance.GetCards().Count, radius: 300, offset: 30f);
             }
             else {
-                ApplyHandTransform( 5);
+                ApplyHandTransform(GameStorage.Instance.GetCards().Count);
             }
+        }
+
+        private void OnHandUpdate() {
+            OnAnyCardSelected(GameStorage.Instance.ActiveCard);
         }
 
         public void ApplyHandTransform(
@@ -73,6 +72,7 @@ namespace UI.Cards
             }
 
             float t = index / (float)(total - 1);
+            fanAngle = Mathf.Min(fanAngle, 8*total);
             float angle = Mathf.Lerp(-fanAngle / 2f, fanAngle / 2f, t);
             float rad = angle * Mathf.Deg2Rad;
 
@@ -95,11 +95,11 @@ namespace UI.Cards
         }
 
         public void OnPointerEnter(PointerEventData eventData) {
-            if (GameStorage.Instance.ActiveCard != this) ApplyHandTransform( 5, radius: 300, offset: 15f);
+            if (GameStorage.Instance.ActiveCard != this) ApplyHandTransform( GameStorage.Instance.GetCards().Count, radius: 300, offset: 15f);
         }
 
         public void OnPointerExit(PointerEventData eventData) {
-            if (GameStorage.Instance.ActiveCard != this) ApplyHandTransform( 5, radius: 300);
+            if (GameStorage.Instance.ActiveCard != this) ApplyHandTransform( GameStorage.Instance.GetCards().Count, radius: 300);
         }
     }
 }

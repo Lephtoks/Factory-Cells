@@ -5,7 +5,7 @@ namespace Cells.Object
 {
     public static class CellObjectTypes
     {
-        public static readonly CellObjectType DRILL = new((cell, pos, dir) => new Drill(cell, pos, dir), Resources.Load<Sprite>("Textures/Items/Drill"));
-        public static readonly CellObjectType CONVEYOR = new((cell, pos, dir) => new Conveyor(cell, pos, dir), Resources.Load<Sprite>("Textures/Items/Conveyor"));
+        public static readonly CellObjectType DRILL = new((cell, pos, dir) => new Drill(cell, pos, dir), Resources.Load<Sprite>("Textures/Items/Drill"), "Drill", "Just another drill");
+        public static readonly CellObjectType CONVEYOR = new((cell, pos, dir) => new Conveyor(cell, pos, dir), Resources.Load<Sprite>("Textures/Items/Conveyor"), "Conveyor", "Just another conveyor");
     }
 }

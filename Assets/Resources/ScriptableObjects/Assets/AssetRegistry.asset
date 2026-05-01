@@ -25,5 +25,6 @@ MonoBehaviour:
   goldenOre: {fileID: 0}
   coal: {fileID: 0}
   stoneHull: {fileID: 0}
+  cardPrefab: {fileID: 9209573435649445907, guid: 88ff4e445a81ac92c89c7d870db3c6a1, type: 3}
   conveyor: {fileID: 7415543107196063511, guid: 417eeab0ef45ddb25a2a6caba951807a, type: 3}
   drill: {fileID: 6073688260768873602, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}
