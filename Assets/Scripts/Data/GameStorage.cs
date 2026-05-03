@@ -41,10 +41,9 @@ namespace Data
             return _tilemaps;
         }
 
-        public void AddCard(CellObjectType type) {
-            Card instantiate = Object.Instantiate(AssetProvider.Instance.registry.cardPrefab, GameLocalBootstrap.Instance.canvasCardHolder.transform);
-            instantiate.CellObject =  type;
-            _cardsInHand.Add(instantiate);
+        public void AddCard(Card card) {
+            card.transform.SetParent(GameLocalBootstrap.Instance.canvasCardHolder.transform);
+            _cardsInHand.Add(card);
             for (int i = 0; i < _cardsInHand.Count; i++) {
                 _cardsInHand[i].index = i;
             }
@@ -53,9 +52,10 @@ namespace Data
 
         public void RemoveCard(CellObjectType type) {
             foreach (var cell in _cardsInHand) {
-                if (cell.CellObject != type) continue;
+                if (cell.Data.CellObject != type) continue;
                 
                 _cardsInHand.Remove(cell);
+                Object.Destroy(cell.gameObject);
                 return;
             }
             for (int i = 0; i < _cardsInHand.Count; i++) {

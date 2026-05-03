@@ -1,3 +1,4 @@
+using System;
 using Cells.Object;
 using Data;
 using DG.Tweening;
@@ -13,15 +14,17 @@ namespace UI.Cards
         IPointerEnterHandler,
         IPointerExitHandler
     {
-        [SerializeField] private Image image;
         private RectTransform _rectTransform;
         public int index;
-        public CellObjectType CellObject;
+        [HideInInspector] public CardData Data;
+
+        private void Awake() {
+            Data = GetComponent<CardData>();
+            _rectTransform = GetComponent<RectTransform>();
+        }
 
         private void Start() {
-            _rectTransform = GetComponent<RectTransform>();
             ApplyHandTransform(GameStorage.Instance.GetCards().Count);
-            image.sprite = CellObject.TextureForUI;
         }
 
         private void OnEnable() {
@@ -31,8 +34,8 @@ namespace UI.Cards
         }
 
         private void OnDisable() {
-            
             GameEvents.OnCardSelected -= OnAnyCardSelected;
+            GameEvents.OnCardHandUpdated -= OnHandUpdate;
         }
         public void Activate() {
             GameStorage.Instance.ActiveCard = this;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Data;
 using UnityEngine;
@@ -22,6 +23,14 @@ namespace Core
                 g.Init();
             }
             Instance = this;
+        }
+
+        private void Update() {
+            foreach (var g in _globals) {
+                if (g is IUpdatable updatable) {
+                    updatable.Update();
+                }
+            }
         }
     }
 }

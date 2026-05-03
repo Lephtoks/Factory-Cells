@@ -8,6 +8,7 @@ namespace Data
         public static event Action<Card> OnCardSelected;
         public static event Action OnCardHandUpdated;
         public static event Action<Cell> OnCellSelected;
+        public static event Action<int, int> OnScreenSizeChanged;
 
         public static void InvokeCardSelection(Card obj) {
             OnCardSelected?.Invoke(obj);
@@ -17,6 +18,9 @@ namespace Data
         }
         public static void InvokeCellSelection(Cell obj) {
             OnCellSelected?.Invoke(obj);
+        }
+        public static void InvokeScreenSizeChange(int width, int height) {
+            OnScreenSizeChanged.Invoke(width, height);
         }
     }
 }

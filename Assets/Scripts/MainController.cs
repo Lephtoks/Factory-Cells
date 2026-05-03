@@ -1,9 +1,11 @@
 using Cells.Object;
 using Core;
+using Core.Locals;
 using Data;
+using UI.Cards;
 using UnityEngine;
 
-public class MainController : IUpdatable
+public class MainController : Singleton<MainController>, IUpdatable
 {
     public void Update()
     {
@@ -40,5 +42,26 @@ public class MainController : IUpdatable
             }
             
         }
+    }
+
+    public void ShowOffer(params CellObjectType[] types) {
+        for (int i = 0; i < types.Length; i++) {
+            CellObjectType type = types[i];
+            var card = type.Instantiate();
+            card.transform.SetParent(GameLocalBootstrap.Instance.shopScreen.transform);
+            card.enabled = false;
+            var cardInShop = card.gameObject.AddComponent<CardInShop>();
+            cardInShop.index = i;
+            cardInShop.total = types.Length;
+        }
+    }
+
+    public override void Init() {
+        base.Init();
+        ShowOffer(
+            CellObjectTypes.DRILL,
+            CellObjectTypes.DRILL,
+            CellObjectTypes.DRILL
+            );
     }
 }
