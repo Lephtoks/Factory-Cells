@@ -42,6 +42,10 @@ namespace Data
         }
 
         public void AddCard(Card card) {
+            if (!card.enabled) {
+                card.enabled = true;
+                Object.Destroy(card.gameObject.GetComponent<CardInShop>());
+            }
             card.transform.SetParent(GameLocalBootstrap.Instance.canvasCardHolder.transform);
             _cardsInHand.Add(card);
             for (int i = 0; i < _cardsInHand.Count; i++) {

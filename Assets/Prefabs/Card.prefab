@@ -336,8 +336,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9209573435649445907}
-        m_TargetAssemblyTypeName: UI.Cards.Card, Assembly-CSharp
+      - m_Target: {fileID: 1461333756191654507}
+        m_TargetAssemblyTypeName: UI.Cards.CardData, Assembly-CSharp
         m_MethodName: Activate
         m_Mode: 1
         m_Arguments:
