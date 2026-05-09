@@ -131,13 +131,18 @@ namespace UI.Cards
             float angle = Mathf.Lerp(-fanAngle / 2f, fanAngle / 2f, t);
             float rad = angle * Mathf.Deg2Rad;
             
+            lineLength = Mathf.Min(lineLength, 50*total);
             float lineX = Mathf.Lerp(-lineLength / 2f, lineLength / 2f, t);
 
             float x = lineX + Mathf.Sin(rad) * (radius + offset);
             float y = Mathf.Cos(rad) * (radius + offset) - radius;
 
             Vector2 targetPos = new Vector2(x, y);
-            Vector3 targetRot = new Vector3(0, 0, -angle);
+            Vector2 dir = targetPos - new Vector2(lineX, -radius);
+            
+            float rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+
+            Vector3 targetRot = new Vector3(0, 0, rot);
 
             _rectTransform.DOKill();
 
