@@ -5,6 +5,7 @@ using Core.Locals;
 using UI.Cards;
 using UI.Cloud;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GameObject;
 
 namespace Data
@@ -42,11 +43,6 @@ namespace Data
         }
 
         public void AddCard(Card card) {
-            if (!card.enabled) {
-                card.enabled = true;
-                Object.Destroy(card.gameObject.GetComponent<CardInShop>());
-            }
-            card.transform.SetParent(GameLocalBootstrap.Instance.canvasCardHolder.transform);
             _cardsInHand.Add(card);
             for (int i = 0; i < _cardsInHand.Count; i++) {
                 _cardsInHand[i].index = i;
@@ -56,7 +52,7 @@ namespace Data
 
         public void RemoveCard(CellObjectType type) {
             foreach (var cell in _cardsInHand) {
-                if (cell.Data.CellObject != type) continue;
+                if (cell.CellObject != type) continue;
                 
                 _cardsInHand.Remove(cell);
                 Object.Destroy(cell.gameObject);

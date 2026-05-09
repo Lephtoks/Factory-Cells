@@ -13,10 +13,22 @@ namespace Cells.Object
         string Title,
         string Description)
     {
-        public Card Instantiate() {
+        
+        private Card Instantiate(CellObjectType type) {
             Card instantiate = UnityEngine.Object.Instantiate(AssetProvider.Instance.registry.cardPrefab);
-            instantiate.Data.CellObject = this;
             return instantiate;
+        }
+
+        public Card InstantiateInShop(CellObjectType type, int index, int total) {
+            Card ins = Instantiate(type);
+            ins.Init(CardBehaviours.SHOP, this, index, total);
+            return ins;
+        }
+
+        public Card InstantiateInHand(CellObjectType type, int index, int total) {
+            Card ins = Instantiate(type);
+            ins.Init(CardBehaviours.HAND, this, index, total);
+            return ins;
         }
     };
 }

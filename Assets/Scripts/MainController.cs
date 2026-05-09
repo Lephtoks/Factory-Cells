@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cells.Object;
 using Core;
 using Core.Locals;
@@ -43,25 +44,24 @@ public class MainController : Singleton<MainController>, IUpdatable
             
         }
     }
+    
+    private readonly List<Card> _allOfferedCards = new List<Card>();
 
     public void ShowOffer(params CellObjectType[] types) {
+        GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(true);
         for (int i = 0; i < types.Length; i++) {
             CellObjectType type = types[i];
-            var card = type.Instantiate();
-            card.transform.SetParent(GameLocalBootstrap.Instance.shopScreen.transform);
-            card.enabled = false;
-            var cardInShop = card.gameObject.AddComponent<CardInShop>();
-            cardInShop.index = i;
-            cardInShop.total = types.Length;
+            _allOfferedCards.Add(type.InstantiateInShop(type, index: i, total: types.Length));
         }
     }
 
-    public override void Init() {
-        base.Init();
-        ShowOffer(
-            CellObjectTypes.DRILL,
-            CellObjectTypes.DRILL,
-            CellObjectTypes.DRILL
-            );
+    public void CloseOffer() {
+        foreach (var card in _allOfferedCards) {
+            if (card.GetBehaviour() == CardBehaviours.SHOP) {
+                GameObject.Destroy(card.gameObject);
+            }
+        }
+        GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(false);
+        _allOfferedCards.Clear();
     }
 }

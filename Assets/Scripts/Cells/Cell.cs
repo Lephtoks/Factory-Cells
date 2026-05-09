@@ -141,7 +141,7 @@ public class TableBehaviour : ICellBehaviour
         var clickedPos = new Vector2Int(tilePos.x, tilePos.y);
         var currentCard = GameStorage.Instance.ActiveCard;
         if (currentCard) {
-            cell.TryAddObject(currentCard.Data.CellObject.Factory.Invoke(cell, clickedPos, Direction.EAST));
+            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, clickedPos, Direction.EAST));
         }
     }
 }

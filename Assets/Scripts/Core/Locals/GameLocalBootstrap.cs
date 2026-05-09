@@ -1,3 +1,4 @@
+using Cells.Object;
 using Data;
 using UI.Cloud;
 using UnityEngine;
@@ -17,12 +18,13 @@ namespace Core.Locals
         public GameObject shopScreen;
         public GameObject canvasCardHolder;
 
-        public void OpenShopScreen() {
-            shopScreen.SetActive(true);
-        }
-
-        public void CloseShopScreen() {
-            shopScreen.SetActive(false);
+        public void OpenOffer() {
+            MainController.Instance.
+                ShowOffer(
+                    CellObjectTypes.DRILL,
+                    CellObjectTypes.DRILL,
+                    CellObjectTypes.CONVEYOR
+                );
         }
     }
 }
