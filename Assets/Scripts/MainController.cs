@@ -3,6 +3,7 @@ using Cells.Object;
 using Core;
 using Core.Locals;
 using Data;
+using DG.Tweening;
 using UI.Cards;
 using UnityEngine;
 
@@ -58,6 +59,7 @@ public class MainController : Singleton<MainController>, IUpdatable
     public void CloseOffer() {
         foreach (var card in _allOfferedCards) {
             if (card.GetBehaviour() == CardBehaviours.SHOP) {
+                card.transform.DOKill();
                 GameObject.Destroy(card.gameObject);
             }
         }
