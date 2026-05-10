@@ -11,12 +11,11 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace UI.Cards
 {
-    public class Card : MonoBehaviour, 
-        IPointerEnterHandler,
-        IPointerExitHandler
+    public class Card : MonoBehaviour
     {
         internal RectTransform _rectTransform;
         internal Vector3 _baseScale;
+        internal int _siblingIndex;
         private RectTransform _parent;
         private ICardBehaviour _behaviour;
         private bool _initialized;
@@ -324,10 +323,13 @@ namespace UI.Cards
         
         public void OnPointerEnter(PointerEventData eventData, Card card) {
             if (GameStorage.Instance.ActiveCard != card) card.ApplyHandTransform(radius: 300, offset: 15f);
+            card._siblingIndex = card.transform.GetSiblingIndex();
+            card.transform.SetAsLastSibling();
         }
 
         public void OnPointerExit(PointerEventData eventData, Card card) {
             if (GameStorage.Instance.ActiveCard != card) card.ApplyHandTransform(radius: 300);
+            card.transform.SetSiblingIndex(card._siblingIndex);
         }
     }
 
