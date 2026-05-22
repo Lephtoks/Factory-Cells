@@ -22,5 +22,29 @@ namespace Data
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
+        public static Direction Vector2Direction(Vector2 direction) {
+            direction = direction.normalized;
+
+            float up = Vector2.Dot(direction, Vector2.up);
+            float right = Vector2.Dot(direction, Vector2.right);
+            float down = Vector2.Dot(direction, Vector2.down);
+            float left = Vector2.Dot(direction, Vector2.left);
+
+            float max = Mathf.Max(up, right, down, left);
+
+            if (Mathf.Approximately(max, up))
+                return Direction.NORTH;
+
+            if (Mathf.Approximately(max, right))
+                return Direction.EAST;
+
+            if (Mathf.Approximately(max, down))
+                return Direction.SOUTH;
+
+            return Direction.WEST;
+        }
+        public static Direction Vector2Direction(Vector2Int direction) {
+            return Vector2Direction((Vector2)direction);
+        }
     }
 }

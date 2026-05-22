@@ -22,7 +22,16 @@ public class Cell : MonoBehaviour
         GameStorage.Instance.RemoveCell(this);
         GameEvents.OnCellSelected -= OnAnyCellSelected;
     }
-    
+
+    public void OnClickBegin(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
+        behaviour.OnClickBegin(worldPos, tilePos, cell);
+    }
+    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
+        behaviour.OnClickRelease(worldPos, tilePos, cell, lastDelta);
+    }
+    public void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
+        behaviour.OnClickMove(worldPos, tilePos, cell, delta, lastTilePos);
+    }
 
     private void OnAnyCellSelected(Cell obj) {
         transform.DOKill();
@@ -119,7 +128,9 @@ public class Cell : MonoBehaviour
 
 public interface ICellBehaviour
 {
-    void OnClick(Vector2 worldPos, Vector3Int tilePos, Cell cell);
+    void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {}
+    void OnClickBegin(Vector2 worldPos, Vector3Int tilePos, Cell cell) {}
+    void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {}
 }
 
 public static class CellBehaviours
@@ -130,18 +141,28 @@ public static class CellBehaviours
 
 public class InventoryBehaviour : ICellBehaviour
 {
-    public void OnClick(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
+    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
         GameStorage.Instance.CellInventory.PlaceOnTable(cell);
         GameEvents.InvokeCellSelection(cell);
     }
 }
 public class TableBehaviour : ICellBehaviour
 {
-    public void OnClick(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
+    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
         var clickedPos = new Vector2Int(tilePos.x, tilePos.y);
         var currentCard = GameStorage.Instance.ActiveCard;
         if (currentCard) {
-            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, clickedPos, Direction.EAST));
+            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, clickedPos, DirectionHelper.Vector2Direction(lastDelta)));
+        }
+    }
+
+    public void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
+        if (lastTilePos != tilePos) {
+            var pastPos = new Vector2Int(lastTilePos.x, lastTilePos.y);
+            var currentCard = GameStorage.Instance.ActiveCard;
+            if (currentCard) {
+                cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, pastPos, DirectionHelper.Vector2Direction((Vector2Int)(tilePos - lastTilePos))));
+            }
         }
     }
 }

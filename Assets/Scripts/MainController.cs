@@ -9,9 +9,13 @@ using UnityEngine;
 
 public class MainController : Singleton<MainController>, IUpdatable
 {
+    private Vector3 _lastMousePos;
+    private Vector3Int _lastCellPos;
+    private Vector2 _lastDelta;
     public void Update()
     {
-        Vector3 worldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePosition = Input.mousePosition;
+        Vector3 worldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePosition);
         Cell selectedCell = null;
         Vector3Int cellPos = Vector3Int.zero;
         
@@ -32,17 +36,28 @@ public class MainController : Singleton<MainController>, IUpdatable
 
         if (selectedCell) {
             if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject)) {
-                GameStorage.Instance.InfoCloud.transform.position = Input.mousePosition;
+                GameStorage.Instance.InfoCloud.transform.position = mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
                 foreach (var itemStack in cellObject.GetItems()) {
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
             };
-            if (Input.GetMouseButtonUp(0))
-            {
-                selectedCell.behaviour.OnClick(worldPos, cellPos, selectedCell);
+            Vector2 delta = mousePosition - _lastMousePos;
+            if (Input.GetMouseButtonUp(0)) {
+                selectedCell.OnClickRelease(worldPos, cellPos, selectedCell, _lastDelta);
             }
-            
+            if (Input.GetMouseButtonDown(0)) {
+                selectedCell.OnClickBegin(worldPos, cellPos, selectedCell);
+            }
+            if (Input.GetMouseButton(0) && _lastMousePos != mousePosition) {
+                selectedCell.OnClickMove(worldPos, cellPos, selectedCell, delta, _lastCellPos);
+            }
+            _lastMousePos = mousePosition;
+            _lastCellPos = cellPos;
+            if (delta.sqrMagnitude > 50) {
+                _lastDelta = delta;
+            }
+
         }
     }
     
