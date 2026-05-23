@@ -12,6 +12,7 @@ public class MainController : Singleton<MainController>, IUpdatable
     private Vector3 _lastMousePos;
     private Vector3Int _lastCellPos;
     private Vector2 _lastDelta;
+    private Vector2 _lastWorldPos;
     public void Update()
     {
         Vector3 mousePosition = Input.mousePosition;
@@ -48,12 +49,14 @@ public class MainController : Singleton<MainController>, IUpdatable
             }
             if (Input.GetMouseButtonDown(0)) {
                 selectedCell.OnClickBegin(worldPos, cellPos, selectedCell);
+                _lastWorldPos = worldPos;
             }
             if (Input.GetMouseButton(0) && _lastMousePos != mousePosition) {
-                selectedCell.OnClickMove(worldPos, cellPos, selectedCell, delta, _lastCellPos);
+                selectedCell.OnClickMove(worldPos, _lastWorldPos, cellPos, selectedCell, delta, _lastCellPos);
             }
             _lastMousePos = mousePosition;
             _lastCellPos = cellPos;
+            _lastWorldPos = worldPos;
             if (delta.sqrMagnitude > 50) {
                 _lastDelta = delta;
             }

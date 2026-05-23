@@ -29,8 +29,8 @@ public class Cell : MonoBehaviour
     public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
         behaviour.OnClickRelease(worldPos, tilePos, cell, lastDelta);
     }
-    public void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
-        behaviour.OnClickMove(worldPos, tilePos, cell, delta, lastTilePos);
+    public void OnClickMove(Vector2 worldPos, Vector2 startPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
+        behaviour.OnClickMove(worldPos, startPos, tilePos, cell, delta, lastTilePos);
     }
 
     private void OnAnyCellSelected(Cell obj) {
@@ -130,7 +130,7 @@ public interface ICellBehaviour
 {
     void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {}
     void OnClickBegin(Vector2 worldPos, Vector3Int tilePos, Cell cell) {}
-    void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {}
+    void OnClickMove(Vector2 worldCellPos, Vector2 startCellPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {}
 }
 
 public static class CellBehaviours
@@ -156,13 +156,65 @@ public class TableBehaviour : ICellBehaviour
         }
     }
 
-    public void OnClickMove(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
-        if (lastTilePos != tilePos) {
-            var pastPos = new Vector2Int(lastTilePos.x, lastTilePos.y);
-            var currentCard = GameStorage.Instance.ActiveCard;
-            if (currentCard) {
-                cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, pastPos, DirectionHelper.Vector2Direction((Vector2Int)(tilePos - lastTilePos))));
+    public void OnClickMove(Vector2 worldPos, Vector2 startPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
+        if (lastTilePos == tilePos) return;
+        
+        var worldCellPos = cell.tilemap.WorldToLocal(worldPos);
+        var startCellPos = cell.tilemap.WorldToLocal(startPos);
+        
+        Vector2 dir = worldCellPos - startCellPos;
+        
+        int x = Mathf.FloorToInt(startCellPos.x);
+        int y = Mathf.FloorToInt(startCellPos.y);
+
+        int endX = Mathf.FloorToInt(worldCellPos.x);
+        int endY = Mathf.FloorToInt(worldCellPos.y);
+
+        int stepX = dir.x > 0 ? 1 : -1;
+        int stepY = dir.y > 0 ? 1 : -1;
+
+        float tDeltaX = dir.x == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.x);
+        float tDeltaY = dir.y == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.y);
+
+        float nextVertical = dir.x > 0
+            ? (x + 1 - startCellPos.x)
+            : (startCellPos.x - x);
+
+        float nextHorizontal = dir.y > 0
+            ? (y + 1 - startCellPos.y)
+            : (startCellPos.y - y);
+
+        float tMaxX = dir.x == 0 ? float.PositiveInfinity : tDeltaX * nextVertical;
+        float tMaxY = dir.y == 0 ? float.PositiveInfinity : tDeltaY * nextHorizontal;
+
+        var tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
+        
+        ProcessTile(startCellPos, dir, cell, (Vector2Int) tilePos, tileDelta);
+
+        while (x != endX || y != endY) {
+            if (tMaxX < tMaxY)
+            {
+                tMaxX += tDeltaX;
+                x += stepX;
             }
+            else
+            {
+                tMaxY += tDeltaY;
+                y += stepY;
+            }
+            
+            tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
+            var tilePosInLocalWorld = new Vector3(x, y);
+            ProcessTile(tilePosInLocalWorld, dir, cell, (Vector2Int) tilePos, tileDelta);
+        }
+    }
+    private static void ProcessTile(Vector3 tilePosInLocalWorld, Vector2 delta, Cell cell, Vector2Int currentTilePos, Vector2Int tileDelta)
+    {        
+        var localToCell = (Vector2Int)cell.tilemap.LocalToCell(tilePosInLocalWorld);
+        if (localToCell == currentTilePos) return;
+        var currentCard = GameStorage.Instance.ActiveCard;
+        if (currentCard) {
+            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, localToCell, DirectionHelper.Vector2Direction(tileDelta)));
         }
     }
 }
