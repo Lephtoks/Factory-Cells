@@ -90,18 +90,16 @@ namespace Data
         }
 
         public void UpdatePointerRepr() {
-            foreach (var repr in NodeReprs) {
-                Object.Destroy(repr.gameObject);
+            foreach (var repr in NodeReprs.ToArray()) {
+                RemoveRepresentation(repr);
             }
-            NodeReprs.Clear();
             CreatePointerRepr();
             
         }
 
         public void CreatePointerRepr() {
-            CellNodeRepr cellNodeRepr = Object.Instantiate(ActiveCard.CellObject.Representation);
+            CellNodeRepr cellNodeRepr = CreateRepresentation(ActiveCard.CellObject.Representation);
             cellNodeRepr.MakeInvisible();
-            NodeReprs.Add(cellNodeRepr);
         }
         public void SetAmountOfRepresentations(CellNodeRepr cellObjectRepresentation, int reprs) {
             int visibleCount = 0;
