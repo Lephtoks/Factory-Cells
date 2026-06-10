@@ -4,6 +4,7 @@ using Cells.Object;
 using Cells.Object.Node;
 using Data;
 using DG.Tweening;
+using UI.Cards;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
@@ -157,22 +158,23 @@ public class TableBehaviour : ICellBehaviour
 {
     public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
         var currentCard = GameStorage.Instance.ActiveCard;
-        if (currentCard) {
-            var reprs = GameStorage.Instance.NodeReprs;
-            while (reprs.Count > 0) {
-                var repr = reprs[^1];
-                reprs.Remove(repr);
-                if (!cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, repr))) {
-                    Object.Destroy(repr.gameObject);
-                }
-                
+        if (!currentCard) return;
+        
+        var reprs = GameStorage.Instance.NodeReprs;
+        while (reprs.Count > 0) {
+            var repr = reprs[^1];
+            reprs.Remove(repr);
+            if (!cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, repr))) {
+                Object.Destroy(repr.gameObject);
             }
-            GameStorage.Instance.CreatePointerRepr();
+                
         }
+        GameStorage.Instance.CreatePointerRepr();
     }
 
     public void OnClickMove(Cell cell, CellBehaviourArguments args) {
-        
+        var currentCard = GameStorage.Instance.ActiveCard;
+        if (!currentCard) return;
         
         var localMousePosUnclamped = cell.tilemap.WorldToLocal(args.WorldPos);
         var localMousePos = new Vector3(
@@ -196,7 +198,7 @@ public class TableBehaviour : ICellBehaviour
             reprs = Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y));
             dy = Math.Sign(dir.y);
         }
-        GameStorage.Instance.SetAmountOfRepresentations(GameStorage.Instance.ActiveCard.CellObject.Representation, reprs);
+        GameStorage.Instance.SetAmountOfRepresentations(currentCard.CellObject.Representation, reprs);
 
         for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
             CellNodeRepr repr = GameStorage.Instance.NodeReprs[i];
