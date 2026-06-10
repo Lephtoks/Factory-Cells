@@ -1,5 +1,6 @@
 using Cells.Object;
 using Data;
+using UI.Cards;
 using UI.Cloud;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Core.Locals
 
         public GameObject table;
         public GameObject shopScreen;
-        public GameObject canvasCardHolder;
+        public CardHolder canvasCardHolder;
 
         public void OpenOffer() {
             MainController.Instance.
