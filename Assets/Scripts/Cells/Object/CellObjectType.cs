@@ -8,7 +8,8 @@ using UnityEngine;
 namespace Cells.Object
 {
     public record CellObjectType(
-        Func<Cell, Vector2Int, Direction, CellObject> Factory,
+        Func<Cell, ICellNodeRepr, CellObject> Factory,
+        CellNodeRepr Representation,
         Sprite TextureForUI,
         string Title,
         string Description)

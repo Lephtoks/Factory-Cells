@@ -22,7 +22,7 @@ namespace Cells.Object
     {
         public Intent Intent {get; protected set; }
         public ReserveIntent ReserveIntent { get; set; }
-        public CellNode(Cell parent, Vector2Int pos) : base(parent, pos) {
+        public CellNode(Cell parent, T repr) : base(parent, repr) {
         }
 
         public abstract void GenerateIntent();

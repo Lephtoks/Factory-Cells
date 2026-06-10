@@ -9,21 +9,18 @@ using UnityEngine;
 
 public class MainController : Singleton<MainController>, IUpdatable
 {
-    private Vector3 _lastMousePos;
-    private Vector3Int _lastCellPos;
-    private Vector2 _lastDelta;
-    private Vector2 _lastWorldPos;
+    private readonly CellBehaviourArguments _cellBehaviourArguments = new();
     public void Update()
     {
         Vector3 mousePosition = Input.mousePosition;
-        Vector3 worldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePosition);
+        _cellBehaviourArguments.WorldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePosition);
         Cell selectedCell = null;
         Vector3Int cellPos = Vector3Int.zero;
         
         // перебираем тайлмапы в порядке приоритета
         foreach (var cell in GameStorage.Instance.GetCells()) {
             var tm = cell.tilemap;
-            cellPos = tm.WorldToCell(worldPos);
+            cellPos = tm.WorldToCell(_cellBehaviourArguments.WorldPos);
             if (tm.HasTile(cellPos))
             {
                 selectedCell = cell;
@@ -36,6 +33,11 @@ public class MainController : Singleton<MainController>, IUpdatable
         GameStorage.Instance.InfoCloud.ResetIcons();
 
         if (selectedCell) {
+            if (GameStorage.Instance.ActiveCard && selectedCell.behaviour == CellBehaviours.TABLE && !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0)) {
+                ICellNodeRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
+                instanceNodeRepr.MakePhantom();
+                instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), selectedCell.CellPivot);
+            }
             if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject)) {
                 GameStorage.Instance.InfoCloud.transform.position = mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
@@ -43,24 +45,33 @@ public class MainController : Singleton<MainController>, IUpdatable
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
             };
-            Vector2 delta = mousePosition - _lastMousePos;
-            if (Input.GetMouseButtonUp(0)) {
-                selectedCell.OnClickRelease(worldPos, cellPos, selectedCell, _lastDelta);
-            }
             if (Input.GetMouseButtonDown(0)) {
-                selectedCell.OnClickBegin(worldPos, cellPos, selectedCell);
-                _lastWorldPos = worldPos;
-            }
-            if (Input.GetMouseButton(0) && _lastMousePos != mousePosition) {
-                selectedCell.OnClickMove(worldPos, _lastWorldPos, cellPos, selectedCell, delta, _lastCellPos);
-            }
-            _lastMousePos = mousePosition;
-            _lastCellPos = cellPos;
-            _lastWorldPos = worldPos;
-            if (delta.sqrMagnitude > 50) {
-                _lastDelta = delta;
+                _cellBehaviourArguments.MouseBeginPos = _cellBehaviourArguments.WorldPos;
+                _cellBehaviourArguments.LocalMouseBeginPos = selectedCell.tilemap.WorldToLocal(_cellBehaviourArguments.MouseBeginPos); 
+                _cellBehaviourArguments.Cell = selectedCell;
+                selectedCell.OnClickBegin(_cellBehaviourArguments);
             }
 
+        }
+        else {
+            if (GameStorage.Instance.ActiveCard) {
+                GameStorage.Instance.NodeReprs[0].MakeInvisible();
+            }
+            
+        }
+
+        if (_cellBehaviourArguments.Cell) {
+            if (Input.GetMouseButtonUp(0) && (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.TABLE || (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.INVENTORY && selectedCell))) {
+                _cellBehaviourArguments.Cell.OnClickRelease(_cellBehaviourArguments);
+            }
+
+            if (Input.GetMouseButton(0)) {
+                _cellBehaviourArguments.Cell.OnClickMove(_cellBehaviourArguments);
+            }
+
+            if (Input.GetMouseButtonUp(0)) {
+                _cellBehaviourArguments.Cell = null;
+            }
         }
     }
     

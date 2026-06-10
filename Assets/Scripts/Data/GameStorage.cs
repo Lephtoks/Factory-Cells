@@ -1,18 +1,21 @@
+using System;
 using System.Collections.Generic;
 using Cells.Object;
 using Core;
 using Core.Locals;
 using UI.Cards;
 using UI.Cloud;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GameObject;
+using Object = UnityEngine.Object;
 
 namespace Data
 {
     public class GameStorage : Singleton<GameStorage>, IUpdatable
     {
-        public Card ActiveCard;
+        public Card ActiveCard {private set; get;}
         private readonly List<Card> _cardsInHand = new();
         public Camera Cam;
         public GameObject Table;
@@ -20,6 +23,9 @@ namespace Data
         private readonly List<Cell> _tilemaps = new();
         public readonly CellInventory CellInventory = new();
         private float _time;
+        public readonly List<CellNodeRepr> NodeReprs = new();
+        public readonly RepresentationSettings RepresentationSettings = new();
+        private Dictionary<System.Type, List<CellNodeRepr>> _reprCache = new();
         
         public override void Init() {
             base.Init();
@@ -76,6 +82,87 @@ namespace Data
                 }
                 _time = 0;
             }
+        }
+
+        public void SetActiveCard(Card card) {
+            ActiveCard = card;
+            UpdatePointerRepr();
+        }
+
+        public void UpdatePointerRepr() {
+            foreach (var repr in NodeReprs) {
+                Object.Destroy(repr.gameObject);
+            }
+            NodeReprs.Clear();
+            CreatePointerRepr();
+            
+        }
+
+        public void CreatePointerRepr() {
+            CellNodeRepr cellNodeRepr = Object.Instantiate(ActiveCard.CellObject.Representation);
+            cellNodeRepr.MakeInvisible();
+            NodeReprs.Add(cellNodeRepr);
+        }
+        public void SetAmountOfRepresentations(CellNodeRepr cellObjectRepresentation, int reprs) {
+            int visibleCount = 0;
+            System.Type targetType = cellObjectRepresentation.GetType();
+
+            foreach (var repr in NodeReprs.ToArray()) {
+                if (repr.GetType() != targetType) {
+                    RemoveRepresentation(repr);
+                    continue;
+                }
+
+                if (visibleCount < reprs) {
+                    repr.MakePhantom();
+                    repr.UseSettings(RepresentationSettings);
+                    visibleCount++;
+                }
+                else {
+                    RemoveRepresentation(repr);
+                }
+            }
+
+            for (int i = visibleCount; i < reprs; i++) {
+                var repr = CreateRepresentation(cellObjectRepresentation);
+                repr.MakePhantom();
+                repr.UseSettings(RepresentationSettings);
+            }
+        }
+
+        public CellNodeRepr CreateRepresentation(CellNodeRepr cellObjectRepresentation) {
+            CellNodeRepr repr;
+            Type type = cellObjectRepresentation.GetType();
+            if (_reprCache.TryGetValue(type, out List<CellNodeRepr> reprs)) {
+                if (reprs.Count > 0) {
+                    repr = reprs[^1];
+                    reprs.RemoveAt(reprs.Count - 1);
+                    NodeReprs.Add(repr);
+                    return repr;
+                }
+            }
+            else {
+                _reprCache[type] = new List<CellNodeRepr>();
+            }
+            repr = Object.Instantiate(cellObjectRepresentation);
+            NodeReprs.Add(repr);
+            return repr;
+        }
+
+        public void RemoveRepresentation(CellNodeRepr cellObjectRepresentation) {
+            
+            Type type = cellObjectRepresentation.GetType();
+            if (!_reprCache.TryGetValue(type, out List<CellNodeRepr> reprs)) {
+                _reprCache[type] = reprs = new List<CellNodeRepr>();
+            }
+            NodeReprs.Remove(cellObjectRepresentation);
+            if (reprs.Count < 5) {
+                reprs.Add(cellObjectRepresentation);
+                cellObjectRepresentation.MakeInvisible();
+                return;
+            }
+            Object.Destroy(cellObjectRepresentation.gameObject);
+            
         }
     }
 }

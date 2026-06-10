@@ -304,7 +304,7 @@ namespace UI.Cards
     public class HandCardBehaviour : ICardBehaviour
     {
         public void OnClick(Card card) {
-            GameStorage.Instance.ActiveCard = card;
+            GameStorage.Instance.SetActiveCard(card);
             GameEvents.InvokeCardHandUpdate();
         }
 

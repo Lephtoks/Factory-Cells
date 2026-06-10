@@ -6,13 +6,20 @@ using Data;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class Cell : MonoBehaviour
 {
     private Dictionary<Vector2Int, CellObject> cellObjects = new();
     public ICellBehaviour behaviour;
-    
+    public Transform FramePivot { get; private set; }
+    public Transform CellPivot { get; private set; }
+
+    private void Awake() {
+        FramePivot = transform.GetChild(0);
+        CellPivot = FramePivot.GetChild(0);
+    }
     private void OnEnable() {
         GameStorage.Instance.AddCell(this);
         GameEvents.OnCellSelected += OnAnyCellSelected;
@@ -23,14 +30,14 @@ public class Cell : MonoBehaviour
         GameEvents.OnCellSelected -= OnAnyCellSelected;
     }
 
-    public void OnClickBegin(Vector2 worldPos, Vector3Int tilePos, Cell cell) {
-        behaviour.OnClickBegin(worldPos, tilePos, cell);
+    public void OnClickBegin(CellBehaviourArguments args) {
+        behaviour.OnClickBegin(this, args);
     }
-    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
-        behaviour.OnClickRelease(worldPos, tilePos, cell, lastDelta);
+    public void OnClickRelease(CellBehaviourArguments args) {
+        behaviour.OnClickRelease(this, args);
     }
-    public void OnClickMove(Vector2 worldPos, Vector2 startPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
-        behaviour.OnClickMove(worldPos, startPos, tilePos, cell, delta, lastTilePos);
+    public void OnClickMove(CellBehaviourArguments args) {
+        behaviour.OnClickMove(this, args);
     }
 
     private void OnAnyCellSelected(Cell obj) {
@@ -128,9 +135,9 @@ public class Cell : MonoBehaviour
 
 public interface ICellBehaviour
 {
-    void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {}
-    void OnClickBegin(Vector2 worldPos, Vector3Int tilePos, Cell cell) {}
-    void OnClickMove(Vector2 worldCellPos, Vector2 startCellPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {}
+    void OnClickRelease(Cell cell, CellBehaviourArguments args) {}
+    void OnClickBegin(Cell cell, CellBehaviourArguments args) {}
+    void OnClickMove(Cell cell, CellBehaviourArguments args) {}
 }
 
 public static class CellBehaviours
@@ -141,80 +148,113 @@ public static class CellBehaviours
 
 public class InventoryBehaviour : ICellBehaviour
 {
-    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
+    public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
         GameStorage.Instance.CellInventory.PlaceOnTable(cell);
         GameEvents.InvokeCellSelection(cell);
     }
 }
 public class TableBehaviour : ICellBehaviour
 {
-    public void OnClickRelease(Vector2 worldPos, Vector3Int tilePos, Cell cell, Vector2 lastDelta) {
-        var clickedPos = new Vector2Int(tilePos.x, tilePos.y);
+    public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
         var currentCard = GameStorage.Instance.ActiveCard;
         if (currentCard) {
-            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, clickedPos, DirectionHelper.Vector2Direction(lastDelta)));
-        }
-    }
-
-    public void OnClickMove(Vector2 worldPos, Vector2 startPos, Vector3Int tilePos, Cell cell, Vector2 delta, Vector3Int lastTilePos) {
-        if (lastTilePos == tilePos) return;
-        
-        var worldCellPos = cell.tilemap.WorldToLocal(worldPos);
-        var startCellPos = cell.tilemap.WorldToLocal(startPos);
-        
-        Vector2 dir = worldCellPos - startCellPos;
-        
-        int x = Mathf.FloorToInt(startCellPos.x);
-        int y = Mathf.FloorToInt(startCellPos.y);
-
-        int endX = Mathf.FloorToInt(worldCellPos.x);
-        int endY = Mathf.FloorToInt(worldCellPos.y);
-
-        int stepX = dir.x > 0 ? 1 : -1;
-        int stepY = dir.y > 0 ? 1 : -1;
-
-        float tDeltaX = dir.x == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.x);
-        float tDeltaY = dir.y == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.y);
-
-        float nextVertical = dir.x > 0
-            ? (x + 1 - startCellPos.x)
-            : (startCellPos.x - x);
-
-        float nextHorizontal = dir.y > 0
-            ? (y + 1 - startCellPos.y)
-            : (startCellPos.y - y);
-
-        float tMaxX = dir.x == 0 ? float.PositiveInfinity : tDeltaX * nextVertical;
-        float tMaxY = dir.y == 0 ? float.PositiveInfinity : tDeltaY * nextHorizontal;
-
-        var tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
-        
-        ProcessTile(startCellPos, dir, cell, (Vector2Int) tilePos, tileDelta);
-
-        while (x != endX || y != endY) {
-            if (tMaxX < tMaxY)
-            {
-                tMaxX += tDeltaX;
-                x += stepX;
+            var reprs = GameStorage.Instance.NodeReprs;
+            while (reprs.Count > 0) {
+                var repr = reprs[^1];
+                reprs.Remove(repr);
+                if (!cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, repr))) {
+                    Object.Destroy(repr.gameObject);
+                }
+                
             }
-            else
-            {
-                tMaxY += tDeltaY;
-                y += stepY;
-            }
-            
-            tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
-            var tilePosInLocalWorld = new Vector3(x, y);
-            ProcessTile(tilePosInLocalWorld, dir, cell, (Vector2Int) tilePos, tileDelta);
+            GameStorage.Instance.CreatePointerRepr();
         }
     }
-    private static void ProcessTile(Vector3 tilePosInLocalWorld, Vector2 delta, Cell cell, Vector2Int currentTilePos, Vector2Int tileDelta)
-    {        
-        var localToCell = (Vector2Int)cell.tilemap.LocalToCell(tilePosInLocalWorld);
-        if (localToCell == currentTilePos) return;
-        var currentCard = GameStorage.Instance.ActiveCard;
-        if (currentCard) {
-            cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, localToCell, DirectionHelper.Vector2Direction(tileDelta)));
+
+    public void OnClickMove(Cell cell, CellBehaviourArguments args) {
+        
+        
+        var localMousePosUnclamped = cell.tilemap.WorldToLocal(args.WorldPos);
+        var localMousePos = new Vector3(
+            Mathf.Clamp(localMousePosUnclamped.x, 0f, cell.size - 0.001f),
+            Mathf.Clamp(localMousePosUnclamped.y, 0f, cell.size - 0.001f),
+            localMousePosUnclamped.z
+        );
+
+        Vector3 localEndPoint;
+        int reprs;
+        var dx = 0;
+        var dy = 0;
+        var dir = localMousePos - args.LocalMouseBeginPos;
+        if (Math.Abs(dir.x) > Math.Abs(dir.y)) {
+            localEndPoint = new Vector2(localMousePos.x, args.LocalMouseBeginPos.y);
+            reprs = Mathf.CeilToInt(Math.Max(localEndPoint.x, args.LocalMouseBeginPos.x)) - Mathf.FloorToInt(Math.Min(localEndPoint.x, args.LocalMouseBeginPos.x));
+            dx = Math.Sign(dir.x);
         }
+        else {
+            localEndPoint = new Vector2(args.LocalMouseBeginPos.x, localMousePos.y);
+            reprs = Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y));
+            dy = Math.Sign(dir.y);
+        }
+        GameStorage.Instance.SetAmountOfRepresentations(GameStorage.Instance.ActiveCard.CellObject.Representation, reprs);
+
+        for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
+            CellNodeRepr repr = GameStorage.Instance.NodeReprs[i];
+            repr.SetPos(new Vector3Int((int)args.LocalMouseBeginPos.x + dx * i, (int)args.LocalMouseBeginPos.y + dy * i,-1), cell.CellPivot);
+        }
+
+
+        // int x = Mathf.FloorToInt(startCellPos.x);
+        // int y = Mathf.FloorToInt(startCellPos.y);
+        //
+        // int endX = Mathf.FloorToInt(worldCellPos.x);
+        // int endY = Mathf.FloorToInt(worldCellPos.y);
+        //
+        // int stepX = dir.x > 0 ? 1 : -1;
+        // int stepY = dir.y > 0 ? 1 : -1;
+        //
+        // float tDeltaX = dir.x == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.x);
+        // float tDeltaY = dir.y == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.y);
+        //
+        // float nextVertical = dir.x > 0
+        //     ? (x + 1 - startCellPos.x)
+        //     : (startCellPos.x - x);
+        //
+        // float nextHorizontal = dir.y > 0
+        //     ? (y + 1 - startCellPos.y)
+        //     : (startCellPos.y - y);
+        //
+        // float tMaxX = dir.x == 0 ? float.PositiveInfinity : tDeltaX * nextVertical;
+        // float tMaxY = dir.y == 0 ? float.PositiveInfinity : tDeltaY * nextHorizontal;
+        //
+        // var tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
+        //
+        // ProcessTile(startCellPos, dir, cell, (Vector2Int) tilePos, tileDelta);
+        //
+        // while (x != endX || y != endY) {
+        //     if (tMaxX < tMaxY)
+        //     {
+        //         tMaxX += tDeltaX;
+        //         x += stepX;
+        //     }
+        //     else
+        //     {
+        //         tMaxY += tDeltaY;
+        //         y += stepY;
+        //     }
+        //     
+        //     tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
+        //     var tilePosInLocalWorld = new Vector3(x, y);
+        //     ProcessTile(tilePosInLocalWorld, dir, cell, (Vector2Int) tilePos, tileDelta);
+        // }
     }
+    // private static void ProcessTile(Vector3 tilePosInLocalWorld, Vector2 delta, Cell cell, Vector2Int currentTilePos, Vector2Int tileDelta)
+    // {        
+    //     var localToCell = (Vector2Int)cell.tilemap.LocalToCell(tilePosInLocalWorld);
+    //     if (localToCell == currentTilePos) return;
+    //     var currentCard = GameStorage.Instance.ActiveCard;
+    //     if (currentCard) {
+    //         cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, localToCell, DirectionHelper.Vector2Direction(tileDelta)));
+    //     }
+    // }
 }
