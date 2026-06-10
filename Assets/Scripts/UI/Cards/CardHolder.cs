@@ -8,6 +8,10 @@ namespace UI.Cards
     public class CardHolder : MonoBehaviour, IPointerExitHandler, IPointerMoveHandler
     {
         private Card _hoveredCard;
+
+        public bool IsCardHovered() {
+            return _hoveredCard != null;
+        }
         public void OnPointerExit(PointerEventData eventData) {
             if (_hoveredCard != null) {
                 _hoveredCard.OnPointerExit(eventData);

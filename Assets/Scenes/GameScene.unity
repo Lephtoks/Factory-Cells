@@ -6287,7 +6287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.Locals.GameLocalBootstrap
   table: {fileID: 518577506}
   shopScreen: {fileID: 1269010800}
-  canvasCardHolder: {fileID: 574447010}
+  canvasCardHolder: {fileID: 574447012}
 --- !u!1 &352497326
 GameObject:
   m_ObjectHideFlags: 0

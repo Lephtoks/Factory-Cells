@@ -10,14 +10,18 @@ using UnityEngine;
 public class MainController : Singleton<MainController>, IUpdatable
 {
     private readonly CellBehaviourArguments _cellBehaviourArguments = new();
+    private bool _canTouchCell;
     public void Update()
     {
+        if (Input.GetMouseButtonDown(0)) {
+            _canTouchCell = !GameLocalBootstrap.Instance.canvasCardHolder.IsCardHovered();
+        }
+
         Vector3 mousePosition = Input.mousePosition;
         _cellBehaviourArguments.WorldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePosition);
         Cell selectedCell = null;
         Vector3Int cellPos = Vector3Int.zero;
         
-        // перебираем тайлмапы в порядке приоритета
         foreach (var cell in GameStorage.Instance.GetCells()) {
             var tm = cell.tilemap;
             cellPos = tm.WorldToCell(_cellBehaviourArguments.WorldPos);
@@ -38,6 +42,13 @@ public class MainController : Singleton<MainController>, IUpdatable
                 instanceNodeRepr.MakePhantom();
                 instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), selectedCell.CellPivot);
             }
+            if (_canTouchCell && Input.GetMouseButtonDown(0)) {
+                _cellBehaviourArguments.MouseBeginPos = _cellBehaviourArguments.WorldPos;
+                _cellBehaviourArguments.LocalMouseBeginPos = selectedCell.tilemap.WorldToLocal(_cellBehaviourArguments.MouseBeginPos); 
+                _cellBehaviourArguments.Cell = selectedCell;
+                selectedCell.OnClickBegin(_cellBehaviourArguments);
+            }
+            
             if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject)) {
                 GameStorage.Instance.InfoCloud.transform.position = mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
@@ -45,12 +56,6 @@ public class MainController : Singleton<MainController>, IUpdatable
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
             };
-            if (Input.GetMouseButtonDown(0)) {
-                _cellBehaviourArguments.MouseBeginPos = _cellBehaviourArguments.WorldPos;
-                _cellBehaviourArguments.LocalMouseBeginPos = selectedCell.tilemap.WorldToLocal(_cellBehaviourArguments.MouseBeginPos); 
-                _cellBehaviourArguments.Cell = selectedCell;
-                selectedCell.OnClickBegin(_cellBehaviourArguments);
-            }
 
         }
         else {
@@ -60,7 +65,7 @@ public class MainController : Singleton<MainController>, IUpdatable
             
         }
 
-        if (_cellBehaviourArguments.Cell) {
+        if (_canTouchCell && _cellBehaviourArguments.Cell) {
             if (Input.GetMouseButtonUp(0) && (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.TABLE || (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.INVENTORY && selectedCell))) {
                 _cellBehaviourArguments.Cell.OnClickRelease(_cellBehaviourArguments);
             }
