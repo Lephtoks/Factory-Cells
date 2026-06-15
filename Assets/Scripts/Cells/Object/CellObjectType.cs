@@ -14,22 +14,26 @@ namespace Cells.Object
         string Title,
         string Description)
     {
+
+        public CellObject Create(Cell cell, ICellNodeRepr repr) {
+            return Factory.Invoke(cell, repr);
+        }
         
-        private Card Instantiate(CellObjectType type) {
-            Card instantiate = UnityEngine.Object.Instantiate(AssetProvider.Instance.registry.cardPrefab);
-            return instantiate;
+        private Card Instantiate() {
+            Card card = UnityEngine.Object.Instantiate(AssetProvider.Instance.registry.cardPrefab);
+            return card;
         }
 
-        public Card InstantiateInShop(CellObjectType type, int index, int total) {
-            Card ins = Instantiate(type);
-            ins.Init(CardBehaviours.SHOP, this, index, total);
-            return ins;
+        public Card InstantiateInShop(int index, int total) {
+            Card card = Instantiate();
+            card.Init(CardBehaviours.SHOP, this, index, total);
+            return card;
         }
 
-        public Card InstantiateInHand(CellObjectType type, int index, int total) {
-            Card ins = Instantiate(type);
-            ins.Init(CardBehaviours.HAND, this, index, total);
-            return ins;
+        public Card InstantiateInHand(int index, int total) {
+            Card card = Instantiate();
+            card.Init(CardBehaviours.HAND, this, index, total);
+            return card;
         }
     };
 }

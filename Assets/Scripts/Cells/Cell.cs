@@ -164,7 +164,7 @@ public class TableBehaviour : ICellBehaviour
         while (reprs.Count > 0) {
             var repr = reprs[^1];
             reprs.Remove(repr);
-            if (!cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, repr))) {
+            if (!cell.TryAddObject(currentCard.CellObject.Create(cell, repr))) {
                 Object.Destroy(repr.gameObject);
             }
                 

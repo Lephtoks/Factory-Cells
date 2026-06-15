@@ -86,7 +86,7 @@ public class MainController : Singleton<MainController>, IUpdatable
         GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(true);
         for (int i = 0; i < types.Length; i++) {
             CellObjectType type = types[i];
-            _allOfferedCards.Add(type.InstantiateInShop(type, index: i, total: types.Length));
+            _allOfferedCards.Add(type.InstantiateInShop(index: i, total: types.Length));
         }
     }
 
