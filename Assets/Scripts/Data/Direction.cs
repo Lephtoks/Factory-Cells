@@ -46,5 +46,23 @@ namespace Data
         public static Direction Vector2Direction(Vector2Int direction) {
             return Vector2Direction((Vector2)direction);
         }
+        
+        public static Quaternion ToQuaternion(this Direction direction)
+        {
+            return direction switch
+            {
+                Direction.NORTH => Quaternion.Euler(0, 0, 0),
+                Direction.EAST  => Quaternion.Euler(0, 0, -90),
+                Direction.SOUTH => Quaternion.Euler(0, 0, 180),
+                Direction.WEST  => Quaternion.Euler(0, 0, 90),
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
+
+        public static Direction QuaternionToDirection(Quaternion rotation)
+        {
+            Vector2 dir = rotation * Vector2.up;
+            return Vector2Direction(dir);
+        }
     }
 }

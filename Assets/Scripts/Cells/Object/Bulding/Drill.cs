@@ -14,7 +14,7 @@ namespace Cells.Object.Bulding
 
         public override DrillRepr Representation => AssetProvider.Instance.registry.drill;
         public static Drill Create(Cell parent, DrillRepr repr) {
-            return new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.Vector2Direction(repr.transform.localRotation * Vector3.forward)).AssignRepresentation(repr);
+            return new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation)).AssignRepresentation(repr);
         }
 
 
