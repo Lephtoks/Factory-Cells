@@ -188,6 +188,7 @@ public class TableBehaviour : ICellBehaviour
         var dx = 0;
         var dy = 0;
         var dir = localMousePos - args.LocalMouseBeginPos;
+        
         if (Math.Abs(dir.x) > Math.Abs(dir.y)) {
             localEndPoint = new Vector2(localMousePos.x, args.LocalMouseBeginPos.y);
             reprs = Mathf.CeilToInt(Math.Max(localEndPoint.x, args.LocalMouseBeginPos.x)) - Mathf.FloorToInt(Math.Min(localEndPoint.x, args.LocalMouseBeginPos.x));
@@ -198,6 +199,11 @@ public class TableBehaviour : ICellBehaviour
             reprs = Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y));
             dy = Math.Sign(dir.y);
         }
+        
+        if (reprs >= 2) {
+            GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
+        }
+        
         GameStorage.Instance.SetAmountOfRepresentations(currentCard.CellObject.Representation, reprs);
 
         for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
