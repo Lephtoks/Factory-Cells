@@ -9,7 +9,7 @@ namespace Cells.Object
     public abstract class OneSlotCellNode<T, K> : DirectedCellNode<T, K> where T : CellNodeRepr<K> where K : CellObject
     {
         private ItemStack _itemStack;
-        public OneSlotCellNode(Cell parent, T repr) : base(parent, repr) {
+        public OneSlotCellNode(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos, direction) {
         }
 
         public override ItemStack[] GetItems() {

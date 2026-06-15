@@ -9,9 +9,15 @@ namespace Cells.Object.Bulding
     public class Drill : OneSlotCellNode<DrillRepr, Drill>
     {
 
-        public Drill(Cell parent, DrillRepr repr) : base(parent, repr) {
+        public Drill(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos, direction) {
         }
-        
+
+        public override DrillRepr Representation => AssetProvider.Instance.registry.drill;
+        public static Drill Create(Cell parent, DrillRepr repr) {
+            return new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.Vector2Direction(repr.transform.localRotation * Vector3.forward)).AssignRepresentation(repr);
+        }
+
+
         private int _counter;
         public override void UpdateMove() {
             _counter++;

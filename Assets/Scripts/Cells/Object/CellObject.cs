@@ -24,13 +24,19 @@ namespace Cells.Object
     }
     public abstract class CellObject<T, K> : CellObject where T : CellNodeRepr<K> where K : CellObject
     {
+        public virtual T Representation => null;
         public T LivingRepresentation;
 
-        public CellObject(Cell parent, T repr) : base(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y)) {
-            LivingRepresentation = repr;
-            repr.Init(this as K);
+        public CellObject(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
 
+        public K AssignRepresentation(T repr) {
+            this.LivingRepresentation = repr;
+            var cellObject = this as K;
+            repr.Init(cellObject);
+            return cellObject;
+        }
+        
         public void CreateRepresentation() {
             // if (LivingRepresentation) UnityEngine.Object.Destroy(LivingRepresentation);
             // LivingRepresentation = UnityEngine.Object.Instantiate(Representation);
