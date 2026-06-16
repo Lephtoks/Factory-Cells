@@ -4,14 +4,14 @@ namespace Cells.Object.Node
 {
     public class ReserveIntent
     {
-        public ReserveIntent(ICellNode actor, ICellNode victim, ItemStack reserve) {
+        public ReserveIntent(IInventory actor, IInventory victim, ItemStack reserve) {
             Actor = actor;
             Victim = victim;
             Reserve = reserve;
         }
         
-        public ICellNode Actor;
-        public ICellNode Victim;
+        public IInventory Actor;
+        public IInventory Victim;
         public ItemStack Reserve;
     }
 }

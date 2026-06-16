@@ -49,10 +49,10 @@ public class MainController : Singleton<MainController>, IUpdatable
                 selectedCell.OnClickBegin(_cellBehaviourArguments);
             }
             
-            if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject)) {
+            if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject) && cellObject is IInventory inventory) {
                 GameStorage.Instance.InfoCloud.transform.position = mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
-                foreach (var itemStack in cellObject.GetItems()) {
+                foreach (var itemStack in inventory.GetItems()) {
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
             };

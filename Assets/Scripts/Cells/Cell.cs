@@ -81,10 +81,10 @@ public class Cell : MonoBehaviour
     public void UpdateMove() {
         var intents = new List<Intent>();
         foreach (CellObject cellObject in cellObjects.Values) {
-            if (cellObject is ICellNode node) {
+            if (cellObject is IInventory node) {
                 node.ResetIntent();
                 node.GenerateIntent();
-                if (node.GetIntent() != null) intents.Add(node.GetIntent());
+                if (node.Intent != null) intents.Add(node.Intent);
             }
         }
 

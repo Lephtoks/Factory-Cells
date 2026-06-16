@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cells.Object.Node;
 using Data;
 using Economics;
@@ -6,35 +7,32 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public abstract class OneSlotCellNode<T, K> : DirectedCellNode<T, K> where T : CellNodeRepr<K> where K : CellObject
+    public abstract class OneSlotCellNode : CellObject, IInventoryOut
     {
         private ItemStack _itemStack;
-        public OneSlotCellNode(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos, direction) {
+        public Intent Intent { get; set; }
+        public ReserveIntent ReserveIntent { get; set; }
+
+        public OneSlotCellNode(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
 
-        public override ItemStack[] GetItems() {
+        public ItemStack[] GetItems() {
             return new[] {_itemStack};
         }
 
-        public override void GenerateIntent() {
-            if (_itemStack.IsEmpty() || !TryGetNeighbor(GetDirection(), out CellObject neighbor) || neighbor is not ICellNode node) return;
-            
-            Intent = new Intent(this, node, _itemStack);
+        public ItemStack GetOutStack() {
+            return _itemStack;
         }
 
-        public override ItemStack SuggestMoveStack() {
+        public ItemStack SuggestMoveStack() {
             return _itemStack.OfCount(Math.Min(GetThroughput(), _itemStack.Count));
-        }
-
-        protected virtual int GetThroughput() {
-            return 1;
         }
 
         public ItemStack GetItemStack() {
             return _itemStack;
         }
 
-        public override ItemStack AddItemStack(ItemStack stack) {
+        public ItemStack AddItemStack(ItemStack stack) {
             if (stack.IsEmpty()) return ItemStack.EMPTY;
             if (_itemStack.IsEmpty()) {
                 int caped = Math.Min(stack.Count, GetCapacity());
@@ -52,7 +50,7 @@ namespace Cells.Object
             return ItemStack.EMPTY;
         }
 
-        public override ItemStack RemoveItemStack(ItemStack stack) {
+        public ItemStack RemoveItemStack(ItemStack stack) {
             if (stack.IsEmpty()) return ItemStack.EMPTY;
             if (_itemStack.IsEmpty()) return ItemStack.EMPTY;
 
@@ -64,12 +62,19 @@ namespace Cells.Object
 
         }
 
-        public override void SetItem(ItemStack itemStack) {
+        public virtual void SetItem(ItemStack itemStack) {
             _itemStack = itemStack;
         }
 
-        protected int GetCapacity() {
+
+        public virtual int GetCapacity() {
             return 999999;
         }
+
+        public virtual int GetThroughput() {
+            return 1;
+        }
+
+        public abstract IEnumerable<Direction> OutDirections();
     }
 }
