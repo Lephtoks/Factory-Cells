@@ -22,9 +22,9 @@ namespace Core.Locals
         public void OpenOffer() {
             MainController.Instance.
                 ShowOffer(
-                    CellObjectTypes.DRILL,
-                    CellObjectTypes.DRILL,
-                    CellObjectTypes.CONVEYOR
+                    BlockTypes.DRILL,
+                    BlockTypes.DRILL,
+                    BlockTypes.CONVEYOR
                 );
         }
     }

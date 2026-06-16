@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cells;
 using Cells.Object;
 using Core;
 using Core.Locals;
@@ -37,8 +38,8 @@ public class MainController : Singleton<MainController>, IUpdatable
         GameStorage.Instance.InfoCloud.ResetIcons();
 
         if (selectedCell) {
-            if (GameStorage.Instance.ActiveCard && selectedCell.behaviour == CellBehaviours.TABLE && !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0)) {
-                ICellNodeRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
+            if (GameStorage.Instance.ActiveCard && selectedCell.Behaviour == CellBehaviours.TABLE && !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0)) {
+                IBlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
                 instanceNodeRepr.MakePhantom();
                 instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), selectedCell.CellPivot);
             }
@@ -49,13 +50,13 @@ public class MainController : Singleton<MainController>, IUpdatable
                 selectedCell.OnClickBegin(_cellBehaviourArguments);
             }
             
-            if (selectedCell.TryGetObject((Vector2Int)cellPos, out CellObject cellObject) && cellObject is IInventory inventory) {
+            if (selectedCell.TryGetObject((Vector2Int)cellPos, out Block cellObject) && cellObject is IInventory inventory) {
                 GameStorage.Instance.InfoCloud.transform.position = mousePosition;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
                 foreach (var itemStack in inventory.GetItems()) {
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
-            };
+            }
 
         }
         else {
@@ -66,7 +67,7 @@ public class MainController : Singleton<MainController>, IUpdatable
         }
 
         if (_canTouchCell && _cellBehaviourArguments.Cell) {
-            if (Input.GetMouseButtonUp(0) && (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.TABLE || (_cellBehaviourArguments.Cell.behaviour == CellBehaviours.INVENTORY && selectedCell))) {
+            if (Input.GetMouseButtonUp(0) && (_cellBehaviourArguments.Cell.Behaviour == CellBehaviours.TABLE || (_cellBehaviourArguments.Cell.Behaviour == CellBehaviours.INVENTORY && selectedCell))) {
                 _cellBehaviourArguments.Cell.OnClickRelease(_cellBehaviourArguments);
             }
 
@@ -82,10 +83,10 @@ public class MainController : Singleton<MainController>, IUpdatable
     
     private readonly List<Card> _allOfferedCards = new List<Card>();
 
-    public void ShowOffer(params CellObjectType[] types) {
+    public void ShowOffer(params BlockType[] types) {
         GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(true);
         for (int i = 0; i < types.Length; i++) {
-            CellObjectType type = types[i];
+            BlockType type = types[i];
             _allOfferedCards.Add(type.InstantiateInShop(index: i, total: types.Length));
         }
     }
@@ -94,7 +95,7 @@ public class MainController : Singleton<MainController>, IUpdatable
         foreach (var card in _allOfferedCards) {
             if (card.GetBehaviour() == CardBehaviours.SHOP) {
                 card.transform.DOKill();
-                GameObject.Destroy(card.gameObject);
+                Object.Destroy(card.gameObject);
             }
         }
         GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(false);

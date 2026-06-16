@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Cells.Object.Bulding.Mono
+namespace Cells.Object.Building.Mono
 {
-    public class DefaultRepr<T> : CellNodeRepr<T> where T : CellObject
+    public class DefaultRepr<T> : BlockRepr<T> where T : Block
     {
         public override void Init(T original) {
             MakeReal();

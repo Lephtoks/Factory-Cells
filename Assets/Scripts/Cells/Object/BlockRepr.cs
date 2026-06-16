@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public abstract class CellNodeRepr : TransparencyGroup, ICellNodeRepr
+    public abstract class BlockRepr : TransparencyGroup, IBlockRepr
     {
         public Texture2D textureForUI;
         public void MakePhantom() {
@@ -35,7 +35,7 @@ namespace Cells.Object
             transform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(vector2Int.x, vector2Int.y, 0));
         }
     }
-    public abstract class CellNodeRepr<T> : CellNodeRepr where T : CellObject
+    public abstract class BlockRepr<T> : BlockRepr where T : Block
     {
         public abstract void Init(T original);
 

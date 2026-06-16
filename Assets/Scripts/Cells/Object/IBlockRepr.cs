@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public interface ICellNodeRepr
+    public interface IBlockRepr
     {
         public void MakePhantom();
         public void MakeReal();

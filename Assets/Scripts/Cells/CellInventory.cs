@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cells;
 
 public class CellInventory
 {
@@ -12,7 +13,7 @@ public class CellInventory
     public void AddCell(Cell cell) {
         if (onTable == cell) { return; }
     
-        cell.behaviour = CellBehaviours.INVENTORY;
+        cell.Behaviour = CellBehaviours.INVENTORY;
         cells.Add(cell);
     }
     public void RemoveCell(Cell cell) {
@@ -34,6 +35,6 @@ public class CellInventory
         }
         cells.Remove(cell);
         onTable = cell;
-        onTable.behaviour = CellBehaviours.TABLE;
+        onTable.Behaviour = CellBehaviours.TABLE;
     }
 }

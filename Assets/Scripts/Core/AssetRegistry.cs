@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Cells.Object.Bulding.Mono;
+using Cells.Object.Building.Mono;
 using Economics;
 using ScriptableObjects;
 using UI.Cards;

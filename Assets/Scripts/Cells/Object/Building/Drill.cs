@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using Cells.Object.Bulding.Mono;
+using Cells.Object.Building.Mono;
 using Core;
 using Data;
 using Economics;
 using UnityEngine;
 
-namespace Cells.Object.Bulding
+namespace Cells.Object.Building
 {
-    public class Drill : OneSlotCellNode, IRepresentable<DrillRepr, Drill>
+    public class Drill : OneSlotBlock, IRepresentable<DrillRepr, Drill>
     {
         public DrillRepr Representation => AssetProvider.Instance.registry.drill;
         public DrillRepr LivingRepresentation { get; set; }

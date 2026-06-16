@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public abstract class OneSlotCellNode : CellObject, IInventoryOut
+    public abstract class OneSlotBlock : Block, IInventoryOut
     {
         private ItemStack _itemStack;
         public Intent Intent { get; set; }
         public ReserveIntent ReserveIntent { get; set; }
 
-        public OneSlotCellNode(Cell parent, Vector2Int pos) : base(parent, pos) {
+        public OneSlotBlock(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
 
         public ItemStack[] GetItems() {

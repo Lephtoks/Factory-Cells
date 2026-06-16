@@ -10,7 +10,7 @@ namespace Cells.Object
 
         void IInventory.GenerateIntent() {
             ItemStack outStack = GetOutStack();
-            if (outStack.IsEmpty() || !TryGetNeighbor(out CellObject neighbor) || neighbor is not IInventory node) return;
+            if (outStack.IsEmpty() || !TryGetNeighbor(out Block neighbor) || neighbor is not IInventory node) return;
             
             Intent = new Intent(this, node, backup: outStack);
         }

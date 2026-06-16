@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using Cells.Object.Bulding.Mono;
+using Cells.Object.Building.Mono;
 using Core;
 using Data;
 using Economics;
 using UnityEngine;
 
-namespace Cells.Object.Bulding
+namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotCellNode, IRepresentable<ConveyorRepr, Conveyor>, IDirected
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected
     {
         public Direction Direction { get; }
         public ConveyorRepr Representation => AssetProvider.Instance.registry.conveyor;

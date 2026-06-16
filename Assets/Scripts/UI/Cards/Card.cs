@@ -21,7 +21,7 @@ namespace UI.Cards
         private bool _initialized;
         public int index;
         public int total;
-        public CellObjectType CellObject;
+        public BlockType Block;
         [SerializeField] private Image image;
 
         // Mono
@@ -34,10 +34,10 @@ namespace UI.Cards
             _rectTransform.pivot = new Vector2(0.5f, 0.5f);
         }
 
-        public void Init(ICardBehaviour behaviour, CellObjectType cellObjectType, int index, int total) {
+        public void Init(ICardBehaviour behaviour, BlockType blockType, int index, int total) {
             _initialized = true;
             _behaviour = behaviour;
-            CellObject = cellObjectType;
+            Block = blockType;
             this.index = index;
             this.total = total;
             OnEnable();
@@ -55,7 +55,7 @@ namespace UI.Cards
         }
 
         private void Start() {
-            image.sprite = CellObject.TextureForUI;
+            image.sprite = Block.TextureForUI;
         }
 
         internal void SetParent(Transform parent) {

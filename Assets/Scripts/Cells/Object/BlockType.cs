@@ -7,15 +7,15 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public record CellObjectType(
-        Func<Cell, ICellNodeRepr, CellObject> Factory,
-        CellNodeRepr Representation,
+    public record BlockType(
+        Func<Cell, IBlockRepr, Block> Factory,
+        BlockRepr Representation,
         Sprite TextureForUI,
         string Title,
         string Description)
     {
 
-        public CellObject Create(Cell cell, ICellNodeRepr repr) {
+        public Block Create(Cell cell, IBlockRepr repr) {
             return Factory.Invoke(cell, repr);
         }
         

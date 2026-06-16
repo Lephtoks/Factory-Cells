@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cells;
 using Cells.Object;
 using Core;
 using Core.Locals;
@@ -23,9 +24,9 @@ namespace Data
         private readonly List<Cell> _tilemaps = new();
         public readonly CellInventory CellInventory = new();
         private float _time;
-        public readonly List<CellNodeRepr> NodeReprs = new();
+        public readonly List<BlockRepr> NodeReprs = new();
         public readonly RepresentationSettings RepresentationSettings = new();
-        private Dictionary<System.Type, List<CellNodeRepr>> _reprCache = new();
+        private readonly Dictionary<System.Type, List<BlockRepr>> _reprCache = new();
         
         public override void Init() {
             base.Init();
@@ -56,9 +57,9 @@ namespace Data
             GameEvents.InvokeCardHandUpdate();
         }
 
-        public void RemoveCard(CellObjectType type) {
+        public void RemoveCard(BlockType type) {
             foreach (var cell in _cardsInHand) {
-                if (cell.CellObject != type) continue;
+                if (cell.Block != type) continue;
                 
                 _cardsInHand.Remove(cell);
                 Object.Destroy(cell.gameObject);
@@ -98,10 +99,10 @@ namespace Data
         }
 
         public void CreatePointerRepr() {
-            CellNodeRepr cellNodeRepr = CreateRepresentation(ActiveCard.CellObject.Representation);
-            cellNodeRepr.MakeInvisible();
+            BlockRepr blockRepr = CreateRepresentation(ActiveCard.Block.Representation);
+            blockRepr.MakeInvisible();
         }
-        public void SetAmountOfRepresentations(CellNodeRepr cellObjectRepresentation, int reprs) {
+        public void SetAmountOfRepresentations(BlockRepr cellObjectRepresentation, int reprs) {
             int visibleCount = 0;
             System.Type targetType = cellObjectRepresentation.GetType();
 
@@ -128,10 +129,10 @@ namespace Data
             }
         }
 
-        public CellNodeRepr CreateRepresentation(CellNodeRepr cellObjectRepresentation) {
-            CellNodeRepr repr;
+        public BlockRepr CreateRepresentation(BlockRepr cellObjectRepresentation) {
+            BlockRepr repr;
             Type type = cellObjectRepresentation.GetType();
-            if (_reprCache.TryGetValue(type, out List<CellNodeRepr> reprs)) {
+            if (_reprCache.TryGetValue(type, out List<BlockRepr> reprs)) {
                 if (reprs.Count > 0) {
                     repr = reprs[^1];
                     reprs.RemoveAt(reprs.Count - 1);
@@ -140,18 +141,18 @@ namespace Data
                 }
             }
             else {
-                _reprCache[type] = new List<CellNodeRepr>();
+                _reprCache[type] = new List<BlockRepr>();
             }
             repr = Object.Instantiate(cellObjectRepresentation);
             NodeReprs.Add(repr);
             return repr;
         }
 
-        public void RemoveRepresentation(CellNodeRepr cellObjectRepresentation) {
+        public void RemoveRepresentation(BlockRepr cellObjectRepresentation) {
             
             Type type = cellObjectRepresentation.GetType();
-            if (!_reprCache.TryGetValue(type, out List<CellNodeRepr> reprs)) {
-                _reprCache[type] = reprs = new List<CellNodeRepr>();
+            if (!_reprCache.TryGetValue(type, out List<BlockRepr> reprs)) {
+                _reprCache[type] = reprs = new List<BlockRepr>();
             }
             NodeReprs.Remove(cellObjectRepresentation);
             if (reprs.Count < 5) {

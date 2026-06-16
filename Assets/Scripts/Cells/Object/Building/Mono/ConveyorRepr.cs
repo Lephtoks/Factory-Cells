@@ -2,9 +2,9 @@ using Core;
 using Data;
 using UnityEngine;
 
-namespace Cells.Object.Bulding.Mono
+namespace Cells.Object.Building.Mono
 {
-    public class ConveyorRepr : CellNodeRepr<Conveyor>
+    public class ConveyorRepr : BlockRepr<Conveyor>
     {
         [SerializeField] private SpriteRenderer itemOnConveyor;
         public override void Init(Conveyor original) {
