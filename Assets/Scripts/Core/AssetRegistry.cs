@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Economics;
 using ScriptableObjects;
@@ -30,5 +31,6 @@ namespace Core
         public Card cardPrefab;
         public ConveyorRepr conveyor;
         public DrillRepr drill;
+        public ItemSourceRepr itemSource;
     }
 }

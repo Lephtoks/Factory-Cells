@@ -28,3 +28,4 @@ MonoBehaviour:
   cardPrefab: {fileID: 9209573435649445907, guid: 88ff4e445a81ac92c89c7d870db3c6a1, type: 3}
   conveyor: {fileID: 7415543107196063511, guid: 417eeab0ef45ddb25a2a6caba951807a, type: 3}
   drill: {fileID: 6073688260768873602, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}
+  itemSource: {fileID: 4641244845488463114, guid: ae26dd6e26adfe5c699c8405b48982fe, type: 3}

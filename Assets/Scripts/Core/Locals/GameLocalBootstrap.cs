@@ -22,7 +22,7 @@ namespace Core.Locals
         public void OpenOffer() {
             MainController.Instance.
                 ShowOffer(
-                    BlockTypes.DRILL,
+                    BlockTypes.ITEM_SOURCE,
                     BlockTypes.DRILL,
                     BlockTypes.CONVEYOR
                 );
