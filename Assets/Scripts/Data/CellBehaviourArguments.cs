@@ -7,7 +7,8 @@ namespace Data
     {
         public Vector2 WorldPos;
         public Vector3 LocalMouseBeginPos;
-        public Cell Cell;
         public Vector2 MouseBeginPos;
+        public bool ObjectCaptured;
+        public int CapturedButton;
     }
 }

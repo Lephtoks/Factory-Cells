@@ -4,13 +4,14 @@ using Cells.Object;
 using Cells.Object.Node;
 using Data;
 using DG.Tweening;
+using Interactions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace Cells
 {
-    public class Cell : MonoBehaviour
+    public class Cell : MonoBehaviour, ITouchable
     {
         private readonly Dictionary<Vector2Int, Block> _cellObjects = new();
         public ICellBehaviour Behaviour;
@@ -23,11 +24,13 @@ namespace Cells
         }
         private void OnEnable() {
             GameStorage.Instance.AddCell(this);
+            MainController.Instance.InteractionManager.Register(this);
             GameEvents.OnCellSelected += OnAnyCellSelected;
         }
 
         private void OnDisable() {
             GameStorage.Instance.RemoveCell(this);
+            MainController.Instance.InteractionManager.Unregister(this);
             GameEvents.OnCellSelected -= OnAnyCellSelected;
         }
 
@@ -132,6 +135,53 @@ namespace Cells
                 }
             }
         }
+
+        public float GetDepth() {
+            return DepthLayers.CELLS;
+        }
+
+        public bool CapturesClick() {
+            return Behaviour == CellBehaviours.TABLE;
+        }
+
+        public bool IsSelected(Vector3 mousePos, Vector3 worldPos) {
+            var cellPos = tilemap.WorldToCell(worldPos);
+            return tilemap.HasTile(cellPos);
+        }
+
+        public void Select(Vector3 mousePos, Vector3 worldPos, int capturedButton, bool captured) {
+            MainController.Instance.CellBehaviourArguments.CapturedButton = capturedButton;
+            var cellPos = tilemap.WorldToCell(worldPos);
+            
+            if (GameStorage.Instance.ActiveCard && Behaviour == CellBehaviours.TABLE &&
+                !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0)) {
+                IBlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
+                instanceNodeRepr.MakePhantom();
+                instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), CellPivot);
+            }
+
+            if (Input.GetMouseButtonDown(0)) {
+                MainController.Instance.CellBehaviourArguments.MouseBeginPos = worldPos;
+                MainController.Instance.CellBehaviourArguments.ObjectCaptured = captured;
+                MainController.Instance.CellBehaviourArguments.LocalMouseBeginPos = tilemap.WorldToLocal(worldPos); 
+                OnClickBegin(MainController.Instance.CellBehaviourArguments);
+            }
+            if (Input.GetMouseButtonUp(0)) {
+                OnClickRelease(MainController.Instance.CellBehaviourArguments);
+            }
+            
+            if (Input.GetMouseButton(0)) {
+                OnClickMove(MainController.Instance.CellBehaviourArguments);
+            }
+            
+            if (TryGetObject((Vector2Int)cellPos, out Block cellObject) && cellObject is IInventory inventory) {
+                GameStorage.Instance.InfoCloud.transform.position = mousePos;
+                GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
+                foreach (var itemStack in inventory.GetItems()) {
+                    GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
+                }
+            }
+        }
     }
 
     public interface ICellBehaviour
@@ -157,6 +207,8 @@ namespace Cells
     public class TableBehaviour : ICellBehaviour
     {
         public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
+            if (!args.ObjectCaptured)  return;
+
             var currentCard = GameStorage.Instance.ActiveCard;
             if (!currentCard) return;
         
@@ -173,6 +225,8 @@ namespace Cells
         }
 
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
+            if (!args.ObjectCaptured)  return;
+            
             var currentCard = GameStorage.Instance.ActiveCard;
             if (!currentCard) return;
         
@@ -210,60 +264,6 @@ namespace Cells
                 BlockRepr repr = GameStorage.Instance.NodeReprs[i];
                 repr.SetPos(new Vector3Int((int)args.LocalMouseBeginPos.x + dx * i, (int)args.LocalMouseBeginPos.y + dy * i,-1), cell.CellPivot);
             }
-
-
-            // int x = Mathf.FloorToInt(startCellPos.x);
-            // int y = Mathf.FloorToInt(startCellPos.y);
-            //
-            // int endX = Mathf.FloorToInt(worldCellPos.x);
-            // int endY = Mathf.FloorToInt(worldCellPos.y);
-            //
-            // int stepX = dir.x > 0 ? 1 : -1;
-            // int stepY = dir.y > 0 ? 1 : -1;
-            //
-            // float tDeltaX = dir.x == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.x);
-            // float tDeltaY = dir.y == 0 ? float.PositiveInfinity : Mathf.Abs(1f / dir.y);
-            //
-            // float nextVertical = dir.x > 0
-            //     ? (x + 1 - startCellPos.x)
-            //     : (startCellPos.x - x);
-            //
-            // float nextHorizontal = dir.y > 0
-            //     ? (y + 1 - startCellPos.y)
-            //     : (startCellPos.y - y);
-            //
-            // float tMaxX = dir.x == 0 ? float.PositiveInfinity : tDeltaX * nextVertical;
-            // float tMaxY = dir.y == 0 ? float.PositiveInfinity : tDeltaY * nextHorizontal;
-            //
-            // var tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
-            //
-            // ProcessTile(startCellPos, dir, cell, (Vector2Int) tilePos, tileDelta);
-            //
-            // while (x != endX || y != endY) {
-            //     if (tMaxX < tMaxY)
-            //     {
-            //         tMaxX += tDeltaX;
-            //         x += stepX;
-            //     }
-            //     else
-            //     {
-            //         tMaxY += tDeltaY;
-            //         y += stepY;
-            //     }
-            //     
-            //     tileDelta = tMaxX < tMaxY ? new Vector2Int(stepX, 0) : new Vector2Int(0, stepY);
-            //     var tilePosInLocalWorld = new Vector3(x, y);
-            //     ProcessTile(tilePosInLocalWorld, dir, cell, (Vector2Int) tilePos, tileDelta);
-            // }
         }
-        // private static void ProcessTile(Vector3 tilePosInLocalWorld, Vector2 delta, Cell cell, Vector2Int currentTilePos, Vector2Int tileDelta)
-        // {        
-        //     var localToCell = (Vector2Int)cell.tilemap.LocalToCell(tilePosInLocalWorld);
-        //     if (localToCell == currentTilePos) return;
-        //     var currentCard = GameStorage.Instance.ActiveCard;
-        //     if (currentCard) {
-        //         cell.TryAddObject(currentCard.CellObject.Factory.Invoke(cell, localToCell, DirectionHelper.Vector2Direction(tileDelta)));
-        //     }
-        // }
     }
 }
