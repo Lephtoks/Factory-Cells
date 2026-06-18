@@ -195,6 +195,9 @@ namespace Cells
                     GameStorage.Instance.InfoCloud.TryAddIcon(itemStack);
                 }
             }
+            else {
+                GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
+            }
         }
     }
 

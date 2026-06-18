@@ -17,6 +17,7 @@ public class MainController : Singleton<MainController>, IUpdatable
     private bool _canTouchCell;
     public void Update()
     {
+        GameStorage.Instance.InfoCloud.ResetIcons();
         Vector3 mousePos = Input.mousePosition;
         CellBehaviourArguments.WorldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePos);
         InteractionManager.Select(mousePos, CellBehaviourArguments.WorldPos);
