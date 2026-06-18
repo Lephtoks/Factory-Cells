@@ -66,6 +66,15 @@ namespace Cells
             }
         }
 
+        public void RemoveObject(Vector2Int position) {
+            var block = _cellObjects[position];
+            _cellObjects.Remove(position);
+            if (block is IRepresentable representable) {
+                Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
+                Debug.Log(block);
+            }
+        }
+
         public bool TryAddObject(Block block) {
             if (!IsTileEmpty(block.Position)) return false;
             _cellObjects.Add(block.Position, block);
@@ -154,26 +163,31 @@ namespace Cells
             var cellPos = tilemap.WorldToCell(worldPos);
             
             if (GameStorage.Instance.ActiveCard && Behaviour == CellBehaviours.TABLE &&
-                !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0)) {
+                ( capturedButton == -1 || 
+                  (!Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton) &&
+                   !Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)))) {
                 IBlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
                 instanceNodeRepr.MakePhantom();
                 instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), CellPivot);
             }
 
-            if (Input.GetMouseButtonDown(0)) {
-                MainController.Instance.CellBehaviourArguments.MouseBeginPos = worldPos;
-                MainController.Instance.CellBehaviourArguments.ObjectCaptured = captured;
-                MainController.Instance.CellBehaviourArguments.LocalMouseBeginPos = tilemap.WorldToLocal(worldPos); 
-                OnClickBegin(MainController.Instance.CellBehaviourArguments);
+            if (capturedButton != -1) {
+                if (Input.GetMouseButtonDown(MainController.Instance.CellBehaviourArguments.CapturedButton)) {
+                    MainController.Instance.CellBehaviourArguments.MouseBeginPos = worldPos;
+                    MainController.Instance.CellBehaviourArguments.ObjectCaptured = captured;
+                    MainController.Instance.CellBehaviourArguments.LocalMouseBeginPos = tilemap.WorldToLocal(worldPos);
+                    OnClickBegin(MainController.Instance.CellBehaviourArguments);
+                }
+
+                if (Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)) {
+                    OnClickRelease(MainController.Instance.CellBehaviourArguments);
+                }
+
+                if (Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton)) {
+                    OnClickMove(MainController.Instance.CellBehaviourArguments);
+                }
             }
-            if (Input.GetMouseButtonUp(0)) {
-                OnClickRelease(MainController.Instance.CellBehaviourArguments);
-            }
-            
-            if (Input.GetMouseButton(0)) {
-                OnClickMove(MainController.Instance.CellBehaviourArguments);
-            }
-            
+
             if (TryGetObject((Vector2Int)cellPos, out Block cellObject) && cellObject is IInventory inventory) {
                 GameStorage.Instance.InfoCloud.transform.position = mousePos;
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(true);
@@ -207,21 +221,31 @@ namespace Cells
     public class TableBehaviour : ICellBehaviour
     {
         public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
-            if (!args.ObjectCaptured)  return;
+            if (!args.ObjectCaptured) return;
 
-            var currentCard = GameStorage.Instance.ActiveCard;
-            if (!currentCard) return;
-        
-            var reprs = GameStorage.Instance.NodeReprs;
-            while (reprs.Count > 0) {
-                var repr = reprs[^1];
-                reprs.Remove(repr);
-                if (!cell.TryAddObject(currentCard.Block.Create(cell, repr))) {
-                    UnityEngine.Object.Destroy(repr.gameObject);
+            switch (args.CapturedButton) {
+                case 0: {
+                    var currentCard = GameStorage.Instance.ActiveCard;
+                    if (!currentCard) return;
+
+                    var reprs = GameStorage.Instance.NodeReprs;
+                    while (reprs.Count > 0) {
+                        var repr = reprs[^1];
+                        reprs.Remove(repr);
+                        if (!cell.TryAddObject(currentCard.Block.Create(cell, repr))) {
+                            UnityEngine.Object.Destroy(repr.gameObject);
+                        }
+
+                    }
+
+                    GameStorage.Instance.CreatePointerRepr();
+                    break;
                 }
-                
+                case 1:
+                    var cellMousePoint = cell.tilemap.WorldToCell(args.WorldPos);
+                    cell.RemoveObject((Vector2Int) cellMousePoint);
+                    break;
             }
-            GameStorage.Instance.CreatePointerRepr();
         }
 
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
@@ -230,6 +254,8 @@ namespace Cells
             var currentCard = GameStorage.Instance.ActiveCard;
             if (!currentCard) return;
         
+            if (args.CapturedButton != 0) return;
+            
             var localMousePosUnclamped = cell.tilemap.WorldToLocal(args.WorldPos);
             var localMousePos = new Vector3(
                 Mathf.Clamp(localMousePosUnclamped.x, 0f, cell.size - 0.001f),
