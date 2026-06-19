@@ -20,7 +20,12 @@ public class MainController : Singleton<MainController>, IUpdatable
         GameStorage.Instance.InfoCloud.ResetIcons();
         Vector3 mousePos = Input.mousePosition;
         CellBehaviourArguments.WorldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePos);
-        InteractionManager.Select(mousePos, CellBehaviourArguments.WorldPos);
+        if (!InteractionManager.Select(mousePos, CellBehaviourArguments.WorldPos)) {
+            var instanceNodeReprs = GameStorage.Instance.NodeReprs;
+            if (instanceNodeReprs.Count > 0) {
+                GameStorage.Instance.NodeReprs[0].MakeInvisible();
+            }
+        }
     }
     
     private readonly List<Card> _allOfferedCards = new List<Card>();

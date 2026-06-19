@@ -14,7 +14,7 @@ namespace Interactions
         }
         private readonly List<TouchableElement> _pool =  new List<TouchableElement>();
 
-        public void Select(Vector3 mousePos, Vector3 worldPos) {
+        public bool Select(Vector3 mousePos, Vector3 worldPos) {
             ITouchable hovered = null;
             if (_captured == null) {
                 foreach (var element in _pool) {
@@ -40,14 +40,20 @@ namespace Interactions
                     break;
                 }
             }
-            
-            if (_captured != null) _captured.Select(mousePos, worldPos, _capturedButton, true);
-            else hovered?.Select(mousePos, worldPos, _capturedButton, false);
+
+            if (_captured != null) {
+                _captured.Select(mousePos, worldPos, _capturedButton, true);
+            }
+            else {
+                hovered?.Select(mousePos, worldPos, _capturedButton, false);
+            }
             
             if (_capturedButton != -1 && Input.GetMouseButtonUp(_capturedButton)) {
                 _captured = null;
                 _capturedButton = -1;
             }
+
+            return hovered != null || _captured != null;
         }
         
         
