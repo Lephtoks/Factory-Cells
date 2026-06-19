@@ -25,6 +25,7 @@ public class MainController : Singleton<MainController>, IUpdatable
             if (instanceNodeReprs.Count > 0) {
                 GameStorage.Instance.NodeReprs[0].MakeInvisible();
             }
+            GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
         }
     }
     
