@@ -29,5 +29,9 @@ namespace Cells.Object.Building
         public static Conveyor Create(Cell parent, ConveyorRepr repr) {
             return ((IRepresentable<ConveyorRepr, Conveyor>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
+
+        public override void IntentSucceed() {
+            Debug.Log("Conveyor intent succeed");
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Economics;
+using UnityEngine;
 
 namespace Cells.Object.Node
 {
@@ -40,9 +41,12 @@ namespace Cells.Object.Node
     
             if (Actor.ReserveIntent != null) {
                var mv = Actor.AddItemStack(Actor.ReserveIntent.Reserve);
-               var mv2 = Actor.ReserveIntent.Actor.AddItemStack(mv);
-               if (!mv2.IsEmpty()) {
+               int itemsLeft = Actor.ReserveIntent.Reserve.Count - mv.Count;
+               var mv2 = Actor.ReserveIntent.Actor.AddItemStack(Actor.ReserveIntent.Reserve.OfCount(itemsLeft));
+               itemsLeft -= mv2.Count;
+               if (!Actor.ReserveIntent.Reserve.OfCount(itemsLeft).IsEmpty()) {
                    IInventory cur = Actor;
+                   Debug.Log("Backup!");
                    do {
                        cur.SetItem(cur.Intent.Backup);
                        cur = cur.Intent.Victim;

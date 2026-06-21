@@ -1,3 +1,5 @@
+using System;
+
 namespace Economics
 {
     public struct ItemStack
@@ -16,6 +18,28 @@ namespace Economics
 
         public ItemStack OfCount(int count) {
             return count <= 0 ? EMPTY : new ItemStack(CurrencyType, count);
+        }
+
+        public ItemStack Add(ItemStack addition, int capacity, out ItemStack added) {
+            if (addition.IsEmpty()) {
+                added = EMPTY;
+                return this;
+            }
+            if (IsEmpty()) {
+                int caped = Math.Min(addition.Count, capacity);
+                added = addition.OfCount(caped);
+                return added;
+            }
+
+            if (CurrencyType == addition.CurrencyType) {
+                int newCount = Count + addition.Count;
+                int caped = Math.Min(newCount, capacity);
+                int dif = caped - Count;
+                added = OfCount(dif);
+                return OfCount(caped);
+            }
+            added = EMPTY;
+            return this;
         }
     }
 }

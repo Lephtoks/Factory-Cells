@@ -27,27 +27,14 @@ namespace Cells.Object
         public ItemStack SuggestMoveStack() {
             return _itemStack.OfCount(Math.Min(GetThroughput(), _itemStack.Count));
         }
-
+        
         public ItemStack GetItemStack() {
             return _itemStack;
         }
 
         public ItemStack AddItemStack(ItemStack stack) {
-            if (stack.IsEmpty()) return ItemStack.EMPTY;
-            if (_itemStack.IsEmpty()) {
-                int caped = Math.Min(stack.Count, GetCapacity());
-                SetItem(stack.OfCount(caped));
-                return _itemStack;
-            }
-
-            if (_itemStack.CurrencyType == stack.CurrencyType) {
-                int newCount = _itemStack.Count + stack.Count;
-                int caped = Math.Min(newCount, GetCapacity());
-                int dif = caped - _itemStack.Count;
-                SetItem(_itemStack.OfCount(caped));
-                return _itemStack.OfCount(dif);
-            }
-            return ItemStack.EMPTY;
+            _itemStack.Add(stack, GetCapacity(), out ItemStack added);
+            return added;
         }
 
         public ItemStack RemoveItemStack(ItemStack stack) {
@@ -76,5 +63,6 @@ namespace Cells.Object
         }
 
         public abstract IEnumerable<Direction> OutDirections();
+        public virtual void IntentSucceed() {}
     }
 }

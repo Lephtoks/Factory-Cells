@@ -14,5 +14,7 @@ namespace Cells.Object
             
             Intent = new Intent(this, node, backup: outStack);
         }
+
+        void IntentSucceed();
     }
 }
