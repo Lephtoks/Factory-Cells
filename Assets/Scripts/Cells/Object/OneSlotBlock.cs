@@ -11,7 +11,7 @@ namespace Cells.Object
     {
         private ItemStack _itemStack;
         public Intent Intent { get; set; }
-        public ReserveIntent ReserveIntent { get; set; }
+        public CycleIntent CycleIntent { get; set; }
 
         public OneSlotBlock(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
@@ -33,20 +33,13 @@ namespace Cells.Object
         }
 
         public ItemStack AddItemStack(ItemStack stack) {
-            _itemStack.Add(stack, GetCapacity(), out ItemStack added);
+            SetItem(_itemStack.Add(stack, GetCapacity(), out ItemStack added));
             return added;
         }
 
         public ItemStack RemoveItemStack(ItemStack stack) {
-            if (stack.IsEmpty()) return ItemStack.EMPTY;
-            if (_itemStack.IsEmpty()) return ItemStack.EMPTY;
-
-            if (_itemStack.CurrencyType == stack.CurrencyType) {
-                SetItem(_itemStack.OfCount(_itemStack.Count - stack.Count));
-                return stack;
-            }
-            return ItemStack.EMPTY;
-
+            SetItem(_itemStack.Remove(stack, out ItemStack removed));
+            return removed;
         }
 
         public virtual void SetItem(ItemStack itemStack) {

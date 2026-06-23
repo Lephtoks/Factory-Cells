@@ -11,13 +11,13 @@ namespace Cells.Object
         ItemStack[] GetItems();
         
         Intent Intent {get; set; }
-        ReserveIntent ReserveIntent { get; set; }
+        CycleIntent CycleIntent { get; set; }
         
         void GenerateIntent();
         
         void ResetIntent() {
             Intent = null;
-            ReserveIntent = null;
+            CycleIntent = null;
         }
 
         int GetThroughput();

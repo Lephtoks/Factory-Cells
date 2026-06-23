@@ -1,35 +1,60 @@
 using Economics;
-using UnityEngine;
 
 namespace Cells.Object.Node
 {
     public class Intent
     {
-        public Intent(IInventoryOut actor, IInventory victim, ItemStack backup) {
+        public Intent(IInventoryOut actor, IInventory victim) {
             Actor = actor;
             Victim = victim;
-            Backup = backup;
         }
         
         public IInventoryOut Actor;
         public IInventory Victim;
-        public ItemStack Backup;
         public bool Activated;
         public bool Processed;
 
-        public void Do() {
-            if (Activated) return;
+        // Returns the value depending on whether conveyors are cycling or not
+        public bool Do() {
+            if (Activated) return false;
             Processed = true;
             if (Victim.Intent is { Activated: false }) {
                 if (Victim.Intent.Processed) {
                     var mvr = Actor.SuggestMoveStack();
-                    Victim.ReserveIntent = new ReserveIntent(Actor, Victim, mvr);
-                    Actor.RemoveItemStack(mvr);
+                    Actor.CycleIntent = new CycleIntent(Actor.GetOutStack(), Actor, default);
+                    Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Remove(mvr, out ItemStack removed);
+                    Actor.CycleIntent.CauserStack = removed;
                     Activated = true;
-                    return;
+                    return true;
                 }
 
-                Victim.Intent.Do();
+                if (Victim.Intent.Do()) {
+                    Actor.CycleIntent = new CycleIntent(Actor.GetOutStack(), Victim.CycleIntent.Causer, Victim.CycleIntent.CauserStack);
+                    {
+                        var mv = Actor.SuggestMoveStack();
+                        Victim.CycleIntent.ItemStack = Victim.CycleIntent.ItemStack.Add(mv, Victim.GetCapacity(), out ItemStack added);
+                        Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Remove(added, out _);
+                        Activated = true;
+                    }
+
+                    if (ReferenceEquals(Actor.CycleIntent.Causer.Intent.Victim, Actor)) {
+                        var reserve = Actor.CycleIntent.CauserStack;
+                        Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Add(reserve, Actor.GetCapacity(), out ItemStack mv);
+                        var itemStackLeft = reserve.Remove(mv, out _);
+                        Actor.CycleIntent.Causer.CycleIntent.ItemStack = Actor.CycleIntent.Causer.CycleIntent.ItemStack.Add(itemStackLeft, Actor.CycleIntent.Causer.GetCapacity() ,out ItemStack mv2);
+                        itemStackLeft = itemStackLeft.Remove(mv2, out _);
+                        if (itemStackLeft.IsEmpty()) {
+                            IInventory cur = Actor;
+                            do {
+                                cur.SetItem(cur.CycleIntent.ItemStack);
+                                cur = cur.Intent.Victim;
+                            } while (cur != Actor);
+                        } 
+                        return false;
+                    }  
+                    
+                    return true;
+                }
             }
 
             {
@@ -38,21 +63,8 @@ namespace Cells.Object.Node
                 Actor.RemoveItemStack(realMv);
                 Activated = true;
             }
-    
-            if (Actor.ReserveIntent != null) {
-               var mv = Actor.AddItemStack(Actor.ReserveIntent.Reserve);
-               int itemsLeft = Actor.ReserveIntent.Reserve.Count - mv.Count;
-               var mv2 = Actor.ReserveIntent.Actor.AddItemStack(Actor.ReserveIntent.Reserve.OfCount(itemsLeft));
-               itemsLeft -= mv2.Count;
-               if (!Actor.ReserveIntent.Reserve.OfCount(itemsLeft).IsEmpty()) {
-                   IInventory cur = Actor;
-                   Debug.Log("Backup!");
-                   do {
-                       cur.SetItem(cur.Intent.Backup);
-                       cur = cur.Intent.Victim;
-                   } while (cur != Actor);
-               }
-            }
+
+            return false;
         }
     }
 }

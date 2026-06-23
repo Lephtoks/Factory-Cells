@@ -41,5 +41,19 @@ namespace Economics
             added = EMPTY;
             return this;
         }
+
+        public ItemStack Remove(ItemStack removal, out ItemStack removed) {
+
+            if (removal.IsEmpty() || IsEmpty()) {
+                removed = EMPTY;
+                return this;
+            }
+            if (CurrencyType == removal.CurrencyType) {
+                removed = removal;                
+                return OfCount(Count - removal.Count);
+            }
+            removed = EMPTY;
+            return this;
+        }
     }
 }
