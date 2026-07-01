@@ -7,11 +7,12 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected, IItemDisplayable
     {
         public Direction Direction { get; }
         public ConveyorRepr Representation => AssetProvider.Instance.registry.conveyor;
         public ConveyorRepr LivingRepresentation { get; set; }
+        public DroppedItem DroppedItem { get; set; }
         
         public Conveyor(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
             Direction = direction;
@@ -19,11 +20,6 @@ namespace Cells.Object.Building
 
         public override IEnumerable<Direction> OutDirections() {
             yield return Direction;
-        }
-
-        public override void SetItem(ItemStack itemStack) {
-            base.SetItem(itemStack);
-            LivingRepresentation.UpdateDisplay(this);
         }
         
         public static Conveyor Create(Cell parent, ConveyorRepr repr) {
@@ -33,5 +29,6 @@ namespace Cells.Object.Building
         public override void IntentSucceed() {
             Debug.Log("Conveyor intent succeed");
         }
+
     }
 }

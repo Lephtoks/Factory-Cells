@@ -31,7 +31,7 @@ namespace Cells.Object
         public ItemStack GetItemStack() {
             return _itemStack;
         }
-
+        
         public ItemStack AddItemStack(ItemStack stack) {
             SetItem(_itemStack.Add(stack, GetCapacity(), out ItemStack added));
             return added;

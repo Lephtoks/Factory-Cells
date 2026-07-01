@@ -32,5 +32,8 @@ namespace Core
         public ConveyorRepr conveyor;
         public DrillRepr drill;
         public ItemSourceRepr itemSource;
+
+        public Material ItemDropMaterial;
+        public Mesh ItemDropMesh;
     }
 }

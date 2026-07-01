@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cells.Object;
 using Cells.Object.Node;
+using Core;
 using Data;
 using DG.Tweening;
 using Interactions;
@@ -14,6 +15,8 @@ namespace Cells
     public class Cell : MonoBehaviour, ITouchable
     {
         private readonly Dictionary<Vector2Int, Block> _cellObjects = new();
+        private readonly List<DroppedItem> _tempDroppedItems = new();
+        
         public ICellBehaviour Behaviour;
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
@@ -21,6 +24,8 @@ namespace Cells
         private void Awake() {
             FramePivot = transform.GetChild(0);
             CellPivot = FramePivot.GetChild(0);
+
+            _droppedItemBlock = new();
         }
         private void OnEnable() {
             GameStorage.Instance.AddCell(this);
@@ -100,6 +105,7 @@ namespace Cells
                 }
             }
 
+            _tempDroppedItems.Clear();
             foreach (Intent intent in intents) {
                 intent.Do();
             }
@@ -198,6 +204,45 @@ namespace Cells
             else {
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
             }
+        }
+        
+        private static MaterialPropertyBlock _droppedItemBlock;
+
+        private IEnumerable<DroppedItem> AllItems() {
+            foreach (var item in _cellObjects.Values) {
+                if (item is IItemDisplayable itemDisplayable && itemDisplayable.DroppedItem != null) yield return itemDisplayable.DroppedItem;
+            }
+
+            foreach (var item in _tempDroppedItems) {
+                yield return item;
+            }
+        }
+        
+        private void Update() {
+            DrawDroppedItems();
+        }
+
+        private void DrawDroppedItems() {
+            var rp = new RenderParams(AssetProvider.Instance.registry.ItemDropMaterial) {
+                // layer = gameObject.layer
+            };
+
+            foreach (var item in AllItems()) {
+                var settings = AssetProvider.Instance.GetCurrency(item.ItemStack.CurrencyType);
+                if (settings == null || settings.icon == null) continue;
+
+                _droppedItemBlock.SetTexture("_MainTex", settings.icon.texture);
+                rp.matProps = _droppedItemBlock;
+
+                var worldPos = CellPivot.TransformPoint(item.VisualPosition + new Vector3(0.5f, 0.5f, -0.5f));
+                var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale);
+
+                Graphics.RenderMesh(rp, AssetProvider.Instance.registry.ItemDropMesh, 0, matrix);
+            }
+        }
+
+        public void BindTempDrop(DroppedItem droppedItem) {
+            _tempDroppedItems.Add(droppedItem);
         }
     }
 

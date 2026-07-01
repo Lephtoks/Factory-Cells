@@ -13,5 +13,7 @@ namespace Cells.Object.Node
         public ItemStack ItemStack;
         public IInventoryOut Causer;
         public ItemStack CauserStack;
+        public bool RemoveDrop;
+        public DroppedItem Drop;
     }
 }
