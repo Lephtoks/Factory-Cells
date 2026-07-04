@@ -13,6 +13,23 @@ MonoBehaviour:
   m_Name: AssetRegistry
   m_EditorClassIdentifier: Assembly-CSharp::Core.AssetRegistry
   playerTexture: {fileID: 0}
+  ConveyorRightSprites:
+  - {fileID: 5947340528097819069, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -3341423542357608593, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 5614253027247059554, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -8407877044175718427, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -6811436723304018615, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 7907750563547274701, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 7119941230643960183, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 2017778590345179049, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 4752660867898454339, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 380587465953515643, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -8404534760690000770, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -5441916000295647522, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 531447927692447710, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 4089940906621064677, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: -1645777891355482239, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  - {fileID: 3972262770202869046, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
   air: {fileID: 11400000, guid: 5ba86c6b1d0a37959bbc61928a2be9c4, type: 2}
   copper: {fileID: 11400000, guid: 1916dbbdc73337303bb8904ce9594ee0, type: 2}
   copperOre: {fileID: 0}

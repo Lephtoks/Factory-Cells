@@ -6,7 +6,7 @@ namespace DefaultNamespace
     {
         private SpriteRenderer[] renderers;
 
-        private void Awake()
+        protected void Awake()
         {
             renderers = GetComponentsInChildren<SpriteRenderer>(true);
         }

@@ -21,6 +21,9 @@ namespace Cells
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
 
+        public float SynchronousConveyorTime;
+        
+
         private void Awake() {
             FramePivot = transform.GetChild(0);
             CellPivot = FramePivot.GetChild(0);
@@ -112,7 +115,12 @@ namespace Cells
             foreach (Block cellObject in _cellObjects.Values) {
                 cellObject.UpdateMove();
             }
-        
+
+            SynchronousConveyorTime = 0;
+            DOTween.Kill(this);
+            DOTween.To(() => this.SynchronousConveyorTime, value => SynchronousConveyorTime = value, 1f, 0.25f)
+                .SetEase(Ease.InOutSine)
+                .SetId(this);
         }
     
         [Header("Tilemap")]

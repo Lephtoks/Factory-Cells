@@ -13,6 +13,8 @@ namespace Core
     {
         public Texture2D playerTexture;
         
+        public Sprite[] ConveyorRightSprites;
+        
         private Dictionary<Currency, CurrencySettings> currencies = new();
         
         public CurrencySettings air;
