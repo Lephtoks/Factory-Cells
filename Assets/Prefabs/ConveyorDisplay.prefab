@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3559133192337904660}
   - component: {fileID: 7484282653277836625}
   - component: {fileID: 7415543107196063511}
+  - component: {fileID: 2559013494534441199}
   m_Layer: 0
   m_Name: ConveyorDisplay
   m_TagString: Untagged
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3615109535770239713, guid: acdf14bd6c0c13758b3bdc62dfd10ffe, type: 3}
+  m_Sprite: {fileID: 5947340528097819069, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,4 +106,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureForUI: {fileID: 0}
-  itemOnConveyor: {fileID: 0}
+--- !u!95 &2559013494534441199
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7399557942315081084}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5561d016842b053b2b6529ba3b3c2c5b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
