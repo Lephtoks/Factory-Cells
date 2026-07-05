@@ -30,9 +30,7 @@ namespace Cells.Object
             transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, pos.z);
         }
 
-        public void UseSettings(RepresentationSettings representationSettings) {
-            var vector2Int = representationSettings.Direction.ToVector2Int();
-            transform.localRotation = Quaternion.LookRotation(Vector3.forward, new Vector3(vector2Int.x, vector2Int.y, 0));
+        public virtual void UseSettings(RepresentationSettings representationSettings) {
         }
     }
     public abstract class BlockRepr<T> : BlockRepr where T : Block

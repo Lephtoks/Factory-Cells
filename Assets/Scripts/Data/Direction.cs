@@ -51,17 +51,17 @@ namespace Data
         {
             return direction switch
             {
-                Direction.NORTH => Quaternion.Euler(0, 0, 0),
-                Direction.EAST  => Quaternion.Euler(0, 0, -90),
-                Direction.SOUTH => Quaternion.Euler(0, 0, 180),
-                Direction.WEST  => Quaternion.Euler(0, 0, 90),
+                Direction.NORTH => Quaternion.Euler(0, 0, 90),
+                Direction.EAST  => Quaternion.Euler(0, 0, 0),
+                Direction.SOUTH => Quaternion.Euler(0, 0, -90),
+                Direction.WEST  => Quaternion.Euler(0, 0, 180),
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
 
         public static Direction QuaternionToDirection(Quaternion rotation)
         {
-            Vector2 dir = rotation * Vector2.up;
+            Vector2 dir = rotation * Vector2.right;
             return Vector2Direction(dir);
         }
     }
