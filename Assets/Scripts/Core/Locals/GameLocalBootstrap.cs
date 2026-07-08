@@ -24,7 +24,8 @@ namespace Core.Locals
                 ShowOffer(
                     BlockTypes.ITEM_SOURCE,
                     BlockTypes.DRILL,
-                    BlockTypes.CONVEYOR
+                    BlockTypes.CONVEYOR,
+                    BlockTypes.WIND_GEN
                 );
         }
     }

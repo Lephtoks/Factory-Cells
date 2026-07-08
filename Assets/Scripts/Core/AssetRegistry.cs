@@ -33,6 +33,7 @@ namespace Core
         public Card cardPrefab;
         public ConveyorRepr conveyor;
         public DrillRepr drill;
+        public WindGenRepr windGen;
         public ItemSourceRepr itemSource;
 
         public Material ItemDropMaterial;
