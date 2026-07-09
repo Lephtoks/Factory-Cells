@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cells.Object;
 using Cells.Object.Node;
 using Core;
@@ -22,6 +23,8 @@ namespace Cells
         public Transform CellPivot { get; private set; }
 
         public float SynchronousConveyorTime;
+
+        private Dictionary<Direction, int> _windSides = new();
         
 
         private void Awake() {
@@ -98,6 +101,16 @@ namespace Cells
             return !_cellObjects.ContainsKey(position);
         }
 
+        public void UpdatePreMove() {
+            ResetWind();
+            foreach (Block cellObject in _cellObjects.Values) {
+                if (cellObject is IPreUpdatable node) {
+                    node.UpdatePreMove();
+                }
+            }
+            GameStorage.Instance.CurrencyData.Wind += GetWind();
+        }
+
         public void UpdateMove() {
             var intents = new List<Intent>();
             foreach (Block cellObject in _cellObjects.Values) {
@@ -121,6 +134,18 @@ namespace Cells
             DOTween.To(() => this.SynchronousConveyorTime, value => SynchronousConveyorTime = value, 1f, 0.25f)
                 .SetEase(Ease.InOutSine)
                 .SetId(this);
+        }
+
+        public void BlowWind(Direction direction, int power) {
+            _windSides[direction] = _windSides.TryGetValue(direction, out int windValue) ? (windValue + power) : power;
+        }
+
+        public int GetWind() {
+            return _windSides.Values.Count == 0 ? 0 : _windSides.Values.Max();
+        }
+
+        public void ResetWind() {
+            _windSides.Clear();
         }
     
         [Header("Tilemap")]

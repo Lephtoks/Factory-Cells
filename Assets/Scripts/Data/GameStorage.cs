@@ -27,6 +27,7 @@ namespace Data
         public readonly List<BlockRepr> NodeReprs = new();
         public readonly RepresentationSettings RepresentationSettings = new();
         private readonly Dictionary<System.Type, List<BlockRepr>> _reprCache = new();
+        public CurrencyData CurrencyData = new();
         
         public override void Init() {
             base.Init();
@@ -78,6 +79,10 @@ namespace Data
         public void Update() {
             _time += Time.deltaTime;
             if (_time > 1f) {
+                CurrencyData.Wind = 0;
+                foreach (var cell in _tilemaps) {
+                    cell.UpdatePreMove();
+                }
                 foreach (var cell in _tilemaps) {
                     cell.UpdateMove();
                 }

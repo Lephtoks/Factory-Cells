@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class WindGen : Block, IRepresentable<WindGenRepr, WindGen>, IDirected, IItemDisplayable
+    public class WindGen : Block, IRepresentable<WindGenRepr, WindGen>, IDirected, IItemDisplayable, IPreUpdatable
     {
         public Direction Direction { get; }
         public WindGenRepr Representation => AssetProvider.Instance.registry.windGen;
@@ -20,6 +20,17 @@ namespace Cells.Object.Building
         
         public static WindGen Create(Cell parent, WindGenRepr repr) {
             return ((IRepresentable<WindGenRepr, WindGen>)new WindGen(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
+        }
+
+        public void UpdatePreMove() {
+            var dir = Direction.ToVector2Int();
+            var pos = Position;
+            while (Parent.tilemap.HasTile((Vector3Int) pos)) {
+                pos += dir;
+                if (!Parent.IsTileEmpty(pos)) return;
+            }
+
+            GameStorage.Instance.CurrencyData.Wind += 3;
         }
     }
 }
