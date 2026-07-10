@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Cells.Object;
 using Cells.Object.Node;
@@ -25,6 +26,9 @@ namespace Cells
         public float SynchronousConveyorTime;
 
         private Dictionary<Direction, int> _windSides = new();
+
+        private CellStaticTraits _staticTraits;
+        private Dictionary<Type, object> _dynamicTraits = new();
         
 
         private void Awake() {
@@ -136,6 +140,31 @@ namespace Cells
                 .SetId(this);
         }
 
+        public bool HasTrait(CellStaticTraits trait) {
+            return (_staticTraits & trait) == trait;
+        }
+
+        public bool HasTrait<T>() {
+            return _dynamicTraits.ContainsKey(typeof(T));
+        }
+        
+        public void AddTrait(CellStaticTraits trait) {
+            _staticTraits |= trait;
+        }
+        
+        public void AddTrait([NotNull] object trait) {
+            _dynamicTraits[trait.GetType()] = trait;
+        }
+
+        public void RemoveTrait(CellStaticTraits trait) {
+            _staticTraits &= ~trait;
+        }
+
+        public void RemoveTrait([NotNull] object trait) {
+            _dynamicTraits.Remove(trait.GetType());
+        }
+
+        
         public void BlowWind(Direction direction, int power) {
             _windSides[direction] = _windSides.TryGetValue(direction, out int windValue) ? (windValue + power) : power;
         }
