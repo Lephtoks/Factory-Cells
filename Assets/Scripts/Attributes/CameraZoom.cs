@@ -10,6 +10,7 @@ namespace DefaultNamespace
         [SerializeField] private float zoomMax = 20f;
 
         private Camera _cam;
+        [SerializeField] private Camera uiCam;
 
         private void Awake() {
             _cam = GetComponent<Camera>();
@@ -17,22 +18,21 @@ namespace DefaultNamespace
 
         private void Update() {
             float scroll = Input.mouseScrollDelta.y;
-            if (scroll == 0)
-                return;
-            
-            Vector3 before = _cam.ScreenToWorldPoint(Input.mousePosition);
+            if (scroll != 0) {
+                Vector3 before = _cam.ScreenToWorldPoint(Input.mousePosition);
 
-            float camOrthographicSize = Mathf.Clamp(
-                _cam.orthographicSize - scroll * zoomSpeed, zoomMin, zoomMax);
-            _cam.DOOrthoSize(camOrthographicSize, 0.5f);
+                float camOrthographicSize = Mathf.Clamp(
+                    _cam.orthographicSize - scroll * zoomSpeed, zoomMin, zoomMax);
+                _cam.DOOrthoSize(camOrthographicSize, 0.5f);
 
-            var old = _cam.orthographicSize;
-            _cam.orthographicSize = camOrthographicSize;
-            Vector3 after = _cam.ScreenToWorldPoint(Input.mousePosition);
-            _cam.orthographicSize = old;
+                var old = _cam.orthographicSize;
+                _cam.orthographicSize = camOrthographicSize;
+                Vector3 after = _cam.ScreenToWorldPoint(Input.mousePosition);
+                _cam.orthographicSize = old;
 
-            transform.DOMove(before - after + transform.position, 0.5f);
-            
+                transform.DOMove(before - after + transform.position, 0.5f);
+            }
+            uiCam.orthographicSize = _cam.orthographicSize;
         }
     }
 }

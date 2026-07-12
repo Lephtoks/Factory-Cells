@@ -110,7 +110,7 @@ namespace UI.Cards
                 _rectTransform.DOKill();
                 
                 _rectTransform
-                    .DOAnchorPos(Vector2.zero, duration)
+                    .DOAnchorPos3D(Vector3.zero, duration)
                     .SetEase(Ease.OutCubic);
 
                 _rectTransform
@@ -146,7 +146,7 @@ namespace UI.Cards
             _rectTransform.DOKill();
 
             _rectTransform
-                .DOAnchorPos(targetPos, duration)
+                .DOAnchorPos3D(new Vector3(targetPos.x, targetPos.y, 0), duration)
                 .SetEase(Ease.OutCubic);
 
             _rectTransform
@@ -228,7 +228,7 @@ namespace UI.Cards
                 .SetEase(Ease.OutCubic);
 
             _rectTransform
-                .DOAnchorPos(new Vector2(x, y), 0.3f)
+                .DOAnchorPos3D(new Vector3(x, y, 0), 0.3f)
                 .SetEase(Ease.OutCubic);
         }
         
