@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using Cells.Object;
 using Core.Locals;
 using Data;
 using Data.GameManagement;
+using Data.Offers;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,7 +14,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace UI.Cards
 {
-    public class Card : MonoBehaviour
+    public class Card : MonoBehaviour, IOfferable
     {
         internal RectTransform _rectTransform;
         internal Vector3 _baseScale;
@@ -22,6 +24,8 @@ namespace UI.Cards
         private bool _initialized;
         public BlockType Block;
         [SerializeField] private Image image;
+
+        internal Action UpdateShopPosition;
 
         public static Card Create(Card prefab, BlockType blockType, ICardBehaviour behaviour = null) {
             var card = Instantiate(prefab);
@@ -47,11 +51,6 @@ namespace UI.Cards
             _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             _rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        }
-
-        private IEnumerator ShopGUIFixCoroutine() {
-            yield return null;
-            UpdateShopPosition();
         }
 
         private void Start() {
@@ -167,17 +166,28 @@ namespace UI.Cards
         }
         
         // Shop logic
-        
+
+        public void AddToOffer(int row, int col, int totalRows, int totalCols) {
+            UpdateShopPosition = () => ShopUpdater(row, col, totalRows, totalCols);
+            SetBehaviour(CardBehaviours.SHOP);
+            OnShopAppearance(row, col, totalRows, totalCols);
+        }
+        public void DestroyInOffer() {
+            transform.DOKill();
+            Destroy(gameObject);
+        }
+
+        public void SelectedInOffer() {
+            SetBehaviour(CardBehaviours.HAND);
+            GameStorage.Instance.AddCard(this);
+        }
 
         internal void OnScreenSizeChanged(int width, int height)
         {
             UpdateShopPosition();
         }
-        public void UpdateShopPosition() {
-            // SOLVED IN FUTURE. PLACEHOLDERS
-            var total = 0;
-            var index = 0;
-            
+        public void ShopUpdater(int row, int col, int totalRows, int totalCols)
+        {
             float parentWidth = _parent.rect.width;
             float parentHeight = _parent.rect.height;
 
@@ -202,13 +212,13 @@ namespace UI.Cards
             
             float scaleByWidth;
 
-            if (total <= 1)
+            if (totalCols <= 1)
             {
                 scaleByWidth = availableWidth / cardWidth;
             }
             else
             {
-                float step = availableWidth / (total - 1);
+                float step = availableWidth / (totalCols - 1);
                 scaleByWidth = step / cardWidth;
             }
 
@@ -217,14 +227,14 @@ namespace UI.Cards
             
             float x;
 
-            if (total <= 1)
+            if (totalCols <= 1)
             {
                 x = 0f;
             }
             else
             {
-                float step = availableWidth / (total - 1);
-                x = minX + step * index;
+                float step = availableWidth / (totalCols - 1);
+                x = minX + step * col;
             }
 
             float y = 0f;
@@ -238,11 +248,66 @@ namespace UI.Cards
                 .DOAnchorPos3D(new Vector3(x, y, 0), 0.3f)
                 .SetEase(Ease.OutCubic);
         }
+        public void OnShopAppearance(int row, int col, int totalRows, int totalCols)
+        {
+            float parentWidth = _parent.rect.width;
+            float parentHeight = _parent.rect.height;
+
+            float cardWidth = _rectTransform.rect.width;
+            float cardHeight = _rectTransform.rect.height;
+
+            
+            float minX = -parentWidth * 0.3f;
+            float maxX = parentWidth * 0.3f;
+
+            float minY = -parentHeight * 0.3f;
+            float maxY = parentHeight * 0.3f;
+
+            float availableWidth = maxX - minX;
+            float availableHeight = maxY - minY;
+
+            
+            
+            float scaleByHeight = availableHeight / cardHeight;
+            
+            
+            
+            float scaleByWidth;
+
+            if (totalCols <= 1)
+            {
+                scaleByWidth = availableWidth / cardWidth;
+            }
+            else
+            {
+                float step = availableWidth / (totalCols - 1);
+                scaleByWidth = step / cardWidth;
+            }
+
+            float scale = Mathf.Min(scaleByWidth, scaleByHeight) * 0.9f;
+            
+            
+            float x;
+
+            if (totalCols <= 1)
+            {
+                x = 0f;
+            }
+            else
+            {
+                float step = availableWidth / (totalCols - 1);
+                x = minX + step * col;
+            }
+
+            float y = 0f;
+                
+            _rectTransform.localScale = _baseScale * scale * 1.5f;
+            _rectTransform.anchoredPosition3D = new Vector3(x, y, 0);
+        }
         
 
         public float GetShopScaleFactor() {
-            // SOLVED IN FUTURE
-            var total = 0;
+            var total = GameStorage.Instance.GetOffer().Count;
             
             float parentWidth = _parent.rect.width;
             float parentHeight = _parent.rect.height;
@@ -348,9 +413,7 @@ namespace UI.Cards
     public class ShopCardBehaviour : ICardBehaviour
     {
         public void OnClick(Card card) {
-            card.SetBehaviour(CardBehaviours.HAND);
-            GameStorage.Instance.AddCard(card);
-            MainController.Instance.CloseOffer();
+            GameStorage.Instance.GetOffer().SelectAndClose(card);
         }
 
         public void InitBehaviour(Card card) {

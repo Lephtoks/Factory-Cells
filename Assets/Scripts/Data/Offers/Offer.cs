@@ -1,0 +1,53 @@
+using System.Collections.Generic;
+using Cells;
+using Cells.Object;
+using Core;
+using Core.Locals;
+using UI.Cards;
+using UnityEngine;
+
+namespace Data.Offers
+{
+    public class Offer
+    {
+        private readonly List<IOfferable> _offerableList = new List<IOfferable>();
+        public Offer AddCard(BlockType cardBlockType) {
+            Add(Card.Create(AssetProvider.Instance.registry.cardPrefab, cardBlockType));
+            return this;
+        }
+        private void Add(IOfferable offerable) {
+            _offerableList.Add(offerable);
+        }
+
+        public void Show() {
+            GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(true);
+            int column = 0;
+            int totalCols = _offerableList.Count;
+            foreach (var offerable in _offerableList) {
+                offerable.AddToOffer(0, column, 0, totalCols);
+                column += 1;
+            }
+        }
+        public void Close() {
+            foreach (var offerable in _offerableList) {
+                offerable.DestroyInOffer();
+            }
+            GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(false);
+            _offerableList.Clear();
+        }
+
+        public void SelectAndClose(IOfferable selected) {
+            foreach (var offerable in _offerableList) {
+                if (offerable == selected) {
+                    offerable.SelectedInOffer();
+                }
+                else {
+                    offerable.DestroyInOffer();
+                }
+            }
+            GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(false);
+            _offerableList.Clear();
+        }
+        public int Count => _offerableList.Count;
+    }
+}

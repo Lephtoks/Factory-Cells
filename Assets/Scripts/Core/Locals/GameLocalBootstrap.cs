@@ -21,13 +21,12 @@ namespace Core.Locals
         public CardHolder canvasCardHolder;
 
         public void OpenOffer() {
-            MainController.Instance.
-                ShowOffer(
-                    BlockTypes.ITEM_SOURCE,
-                    BlockTypes.DRILL,
-                    BlockTypes.CONVEYOR,
-                    BlockTypes.WIND_GEN
-                );
+            GameStorage.Instance.AddOffer()
+                .AddCard(BlockTypes.ITEM_SOURCE)
+                .AddCard(BlockTypes.DRILL)
+                .AddCard(BlockTypes.CONVEYOR)
+                .AddCard(BlockTypes.WIND_GEN)
+                .Show();
         }
     }
 }
