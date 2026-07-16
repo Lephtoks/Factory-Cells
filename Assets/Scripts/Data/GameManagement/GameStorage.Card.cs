@@ -12,9 +12,6 @@ namespace Data.GameManagement
         
         public void AddCard(Card card) {
             _cardsInHand.Add(card);
-            for (int i = 0; i < _cardsInHand.Count; i++) {
-                _cardsInHand[i].index = i;
-            }
             GameEvents.InvokeCardHandUpdate();
         }
 
@@ -25,9 +22,6 @@ namespace Data.GameManagement
                 _cardsInHand.Remove(cell);
                 Object.Destroy(cell.gameObject);
                 return;
-            }
-            for (int i = 0; i < _cardsInHand.Count; i++) {
-                _cardsInHand[i].index = i;
             }
             GameEvents.InvokeCardHandUpdate();
         }

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Data;
 using Data.GameManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,15 +34,20 @@ namespace UI.Cards
         }
         private Card GetTopCard(Vector2 screenPos) {
             Card top = null;
-    
-            foreach (Card card in GameStorage.Instance.GetCards()) {
+            int topIndex = 0;
+
+            var list = GameStorage.Instance.GetCards();
+            for (int i = 0; i < list.Count; i++) {
+                Card card = list[i];
+                
                 if (RectTransformUtility.RectangleContainsScreenPoint(card._rectTransform, screenPos)) {
-                    if (top == null || card.index > top.index) {
+                    if (top == null || i > topIndex) {
                         top = card;
+                        topIndex = i;
                     }
                 }
             }
-    
+
             return top;
         }
     }

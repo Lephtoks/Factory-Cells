@@ -34,9 +34,8 @@ public class MainController : Singleton<MainController>, IUpdatable
 
     public void ShowOffer(params BlockType[] types) {
         GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(true);
-        for (int i = 0; i < types.Length; i++) {
-            BlockType type = types[i];
-            _allOfferedCards.Add(type.InstantiateInShop(index: i, total: types.Length));
+        foreach (BlockType type in types) {
+            _allOfferedCards.Add(Card.Create(AssetProvider.Instance.registry.cardPrefab, type, CardBehaviours.SHOP));
         }
     }
 

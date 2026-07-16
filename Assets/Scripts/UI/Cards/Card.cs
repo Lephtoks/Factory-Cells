@@ -20,11 +20,25 @@ namespace UI.Cards
         private RectTransform _parent;
         private ICardBehaviour _behaviour;
         private bool _initialized;
-        public int index;
-        public int total;
         public BlockType Block;
         [SerializeField] private Image image;
 
+        public static Card Create(Card prefab, BlockType blockType, ICardBehaviour behaviour = null) {
+            var card = Instantiate(prefab);
+            card.Init(blockType, behaviour);
+            return card;
+        }
+
+        private void Init(BlockType blockType, ICardBehaviour behaviour = null) {
+            _initialized = true;
+            _behaviour = CardBehaviours.NONE;
+            if (behaviour != null) {
+                SetBehaviour(behaviour);
+            }
+            Block = blockType;
+            OnEnable();
+        }
+        
         // Mono
         
         private void Awake() {
@@ -33,21 +47,6 @@ namespace UI.Cards
             _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             _rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        }
-
-        public void Init(ICardBehaviour behaviour, BlockType blockType, int index, int total) {
-            _initialized = true;
-            _behaviour = behaviour;
-            Block = blockType;
-            this.index = index;
-            this.total = total;
-            OnEnable();
-            
-            // Shop GUI Fix:
-            if (_behaviour == CardBehaviours.SHOP)
-                StartCoroutine(ShopGUIFixCoroutine());
-            
-            _behaviour.InitBehaviour(this);
         }
 
         private IEnumerator ShopGUIFixCoroutine() {
@@ -107,6 +106,10 @@ namespace UI.Cards
             float offset = 0f,
             float lineLength = 400f
         ) {
+            var cards = GameStorage.Instance.GetCards();
+            var index = cards.IndexOf(this);
+            var total = cards.Count;
+            
             if (total <= 1) {
                 _rectTransform.DOKill();
                 
@@ -170,8 +173,11 @@ namespace UI.Cards
         {
             UpdateShopPosition();
         }
-        public void UpdateShopPosition()
-        {
+        public void UpdateShopPosition() {
+            // SOLVED IN FUTURE. PLACEHOLDERS
+            var total = 0;
+            var index = 0;
+            
             float parentWidth = _parent.rect.width;
             float parentHeight = _parent.rect.height;
 
@@ -235,6 +241,9 @@ namespace UI.Cards
         
 
         public float GetShopScaleFactor() {
+            // SOLVED IN FUTURE
+            var total = 0;
+            
             float parentWidth = _parent.rect.width;
             float parentHeight = _parent.rect.height;
 
@@ -276,7 +285,6 @@ namespace UI.Cards
         }
         
         public void OnHandUpdate() {
-            total = GameStorage.Instance.GetCards().Count;
             if (this == GameStorage.Instance.ActiveCard) {
                 ApplyHandTransform(radius: 300, offset: 30f);
             }
@@ -288,19 +296,22 @@ namespace UI.Cards
 
     public interface ICardBehaviour
     {
-        public void OnClick(Card card);
-        public void OnEnable(Card card);
-        public void OnDisable(Card card);
-        public void InitBehaviour(Card card);
-        public void OnPointerEnter(PointerEventData eventData, Card card);
-        public void OnPointerExit(PointerEventData eventData, Card card);
+        public void OnClick(Card card) {}
+        public void OnEnable(Card card) {}
+        public void OnDisable(Card card) {}
+        public void InitBehaviour(Card card) {}
+        public void OnPointerEnter(PointerEventData eventData, Card card) {}
+        public void OnPointerExit(PointerEventData eventData, Card card) {}
     }
 
     public static class CardBehaviours
     {
+        public static readonly EmptyCardBehaviour NONE = new EmptyCardBehaviour();
         public static readonly HandCardBehaviour HAND = new HandCardBehaviour();
         public static readonly ShopCardBehaviour SHOP = new ShopCardBehaviour();
     }
+
+    public class EmptyCardBehaviour : ICardBehaviour { }
 
     public class HandCardBehaviour : ICardBehaviour
     {

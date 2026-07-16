@@ -13,7 +13,7 @@ public class CellInventory
     public void AddCell(Cell cell) {
         if (onTable == cell) { return; }
     
-        cell.Behaviour = CellBehaviours.INVENTORY;
+        cell.SetBehaviour(CellBehaviours.INVENTORY);
         cells.Add(cell);
     }
     public void RemoveCell(Cell cell) {
@@ -35,6 +35,6 @@ public class CellInventory
         }
         cells.Remove(cell);
         onTable = cell;
-        onTable.Behaviour = CellBehaviours.TABLE;
+        onTable.SetBehaviour(CellBehaviours.TABLE);
     }
 }

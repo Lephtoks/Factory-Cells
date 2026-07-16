@@ -20,7 +20,7 @@ namespace Cells
         private readonly Dictionary<Vector2Int, Block> _cellObjects = new();
         private readonly List<DroppedItem> _tempDroppedItems = new();
         
-        public ICellBehaviour Behaviour;
+        private ICellBehaviour _behaviour;
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
 
@@ -51,13 +51,13 @@ namespace Cells
         }
 
         public void OnClickBegin(CellBehaviourArguments args) {
-            Behaviour.OnClickBegin(this, args);
+            _behaviour.OnClickBegin(this, args);
         }
         public void OnClickRelease(CellBehaviourArguments args) {
-            Behaviour.OnClickRelease(this, args);
+            _behaviour.OnClickRelease(this, args);
         }
         public void OnClickMove(CellBehaviourArguments args) {
-            Behaviour.OnClickMove(this, args);
+            _behaviour.OnClickMove(this, args);
         }
 
         private void OnAnyCellSelected(Cell obj) {
@@ -219,7 +219,7 @@ namespace Cells
         }
 
         public bool CapturesClick() {
-            return Behaviour == CellBehaviours.TABLE;
+            return _behaviour == CellBehaviours.TABLE;
         }
 
         public bool IsSelected(Vector3 mousePos, Vector3 worldPos) {
@@ -231,7 +231,7 @@ namespace Cells
             MainController.Instance.CellBehaviourArguments.CapturedButton = capturedButton;
             var cellPos = tilemap.WorldToCell(worldPos);
             
-            if (GameStorage.Instance.ActiveCard && Behaviour == CellBehaviours.TABLE &&
+            if (GameStorage.Instance.ActiveCard && _behaviour == CellBehaviours.TABLE &&
                 ( capturedButton == -1 || 
                   (!Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton) &&
                    !Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)))) {
@@ -307,6 +307,10 @@ namespace Cells
         public void BindTempDrop(DroppedItem droppedItem) {
             _tempDroppedItems.Add(droppedItem);
         }
+
+        public void SetBehaviour(ICellBehaviour behaviour) {
+            _behaviour = behaviour;
+        }
     }
 
     public interface ICellBehaviour
@@ -318,9 +322,12 @@ namespace Cells
 
     public static class CellBehaviours
     {
+        public static readonly EmptyCellBehaviour NONE = new EmptyCellBehaviour();
         public static readonly InventoryBehaviour INVENTORY = new();
         public static readonly TableBehaviour TABLE = new();
     }
+
+    public class EmptyCellBehaviour : ICellBehaviour { }
 
     public class InventoryBehaviour : ICellBehaviour
     {
