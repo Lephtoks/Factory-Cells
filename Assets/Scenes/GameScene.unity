@@ -6701,7 +6701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38dc74c68e7b4f422a48bee2e8f1eec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SynchronousConveyorTime: 0
   tilemap: {fileID: 391030}
   tiles:
   - {fileID: 11400000, guid: 78f525f1a55d89837b43e1931efa2760, type: 2}
@@ -12156,6 +12155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269010801}
+  - component: {fileID: 1269010802}
   m_Layer: 5
   m_Name: ShopScreen
   m_TagString: Untagged
@@ -12183,6 +12183,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1269010802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269010800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e75c30cf94a4d2a8d3fec674a9f3be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Shop.ShopScreen
 --- !u!1 &1440463521
 GameObject:
   m_ObjectHideFlags: 0
