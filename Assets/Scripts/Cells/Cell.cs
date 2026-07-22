@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Data;
 using Data.GameManagement;
 using DG.Tweening;
@@ -13,11 +14,28 @@ namespace Cells
     {
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
+        private Vector3 _baseScale;
+        private bool _initialized;
 
+        public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
+            var cell = Instantiate(prefab);
+            cell.Init(behaviour);
+            return cell;
+        }
 
+        private void Init(ICellBehaviour behaviour = null) {
+            _initialized = true;
+            _behaviour = CellBehaviours.NONE;
+            if (behaviour != null) {
+                SetBehaviour(behaviour);
+            }
+            OnEnable();
+        }
+        
         private void Awake() {
             FramePivot = transform.GetChild(0);
             CellPivot = FramePivot.GetChild(0);
+            _baseScale = transform.localScale;
 
             _droppedItemBlock = new(); // Cell.Drop.cs
         }
@@ -27,18 +45,22 @@ namespace Cells
         }
         
         private void OnEnable() {
-            GameStorage.Instance.AddCell(this);
+            if (!_initialized) return;
+            _behaviour.OnEnable(this);
             MainController.Instance.InteractionManager.Register(this);
-            GameEvents.OnCellSelected += OnAnyCellSelected;
+            GameEvents.OnCellPositionUpdate += OnAnyCellPositionUpdate;
         }
 
         private void OnDisable() {
-            GameStorage.Instance.RemoveCell(this);
+            if (!_initialized) return;
+            _behaviour.OnDisable(this);
             MainController.Instance.InteractionManager.Unregister(this);
-            GameEvents.OnCellSelected -= OnAnyCellSelected;
+            GameEvents.OnCellPositionUpdate -= OnAnyCellPositionUpdate;
         }
 
-        private void OnAnyCellSelected(Cell obj) {
+        private void OnAnyCellPositionUpdate() {
+            if (!transform || !gameObject || !gameObject.activeInHierarchy) return;
+            
             transform.DOKill();
             if (this == GameStorage.Instance.CellInventory.GetTable()) {
                 transform.DOMove(GameStorage.Instance.Table.transform.position, 0.25f).SetEase(Ease.InOutSine);

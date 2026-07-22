@@ -9,7 +9,6 @@ namespace UI.Shop
         public override void Awake() {
             base.Awake();
             rectTransform = GetComponent<RectTransform>();
-            gameObject.SetActive(false);
         }
     }
 }

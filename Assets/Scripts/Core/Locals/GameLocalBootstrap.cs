@@ -18,14 +18,17 @@ namespace Core.Locals
 
         public GameObject table;
         public GameObject shopScreen;
+        public GameObject CellHolder;
         public CardHolder canvasCardHolder;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
-                .AddCard(BlockTypes.ITEM_SOURCE)
-                .AddCard(BlockTypes.DRILL)
+                // .AddCard(BlockTypes.ITEM_SOURCE) 
                 .AddCard(BlockTypes.CONVEYOR)
-                .AddCard(BlockTypes.WIND_GEN)
+                // .AddCard(BlockTypes.WIND_GEN)
+                .AddCell()
+                // .AddCell()
+                .AddCell()
                 .Show();
         }
     }

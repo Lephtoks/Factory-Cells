@@ -15,6 +15,12 @@ namespace Data.Offers
             Add(Card.Create(AssetProvider.Instance.registry.cardPrefab, cardBlockType));
             return this;
         }
+        
+        public Offer AddCell() {
+            Add(Cell.Create(AssetProvider.Instance.registry.cellPrefab));
+            return this;
+        }
+        
         private void Add(IOfferable offerable) {
             _offerableList.Add(offerable);
         }
@@ -39,12 +45,12 @@ namespace Data.Offers
         public void SelectAndClose(IOfferable selected) {
             foreach (var offerable in _offerableList) {
                 if (offerable == selected) {
-                    offerable.SelectedInOffer();
+                    continue;
                 }
-                else {
-                    offerable.DestroyInOffer();
-                }
+
+                offerable.DestroyInOffer();
             }
+            selected.SelectedInOffer();
             GameLocalBootstrap.Instance.shopScreen.gameObject.SetActive(false);
             _offerableList.Clear();
         }

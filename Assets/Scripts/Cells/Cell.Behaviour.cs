@@ -1,5 +1,6 @@
 using System;
 using Cells.Object;
+using Core.Locals;
 using Data;
 using Data.GameManagement;
 using UnityEngine;
@@ -11,7 +12,10 @@ namespace Cells
         private ICellBehaviour _behaviour;
         
         public void SetBehaviour(ICellBehaviour behaviour) {
+            _behaviour.OnDisable(this);
             _behaviour = behaviour;
+            _behaviour.OnEnable(this);
+            _behaviour.InitBehaviour(this);
         }
 
         public void OnClickBegin(CellBehaviourArguments args) {
@@ -30,6 +34,9 @@ namespace Cells
         void OnClickRelease(Cell cell, CellBehaviourArguments args) {}
         void OnClickBegin(Cell cell, CellBehaviourArguments args) {}
         void OnClickMove(Cell cell, CellBehaviourArguments args) {}
+        void InitBehaviour(Cell cell) {}
+        void OnEnable(Cell cell) {}
+        void OnDisable(Cell cell) {}
     }
 
     public static class CellBehaviours
@@ -37,15 +44,45 @@ namespace Cells
         public static readonly EmptyCellBehaviour NONE = new EmptyCellBehaviour();
         public static readonly InventoryBehaviour INVENTORY = new();
         public static readonly TableBehaviour TABLE = new();
+        public static readonly ShopCellBehaviour SHOP = new();
     }
 
     public class EmptyCellBehaviour : ICellBehaviour { }
 
+    public class ShopCellBehaviour : ICellBehaviour
+    {
+        public void OnEnable(Cell cell) {
+            GameEvents.OnScreenSizeChanged += cell.OnScreenSizeChanged;
+        }
+
+        public void OnDisable(Cell cell) {
+            GameStorage.Instance.MoveOnDefaultLayer(cell.gameObject);
+            GameEvents.OnScreenSizeChanged -= cell.OnScreenSizeChanged;
+        }
+
+        public void InitBehaviour(Cell cell) {
+            cell.UpdateShopPosition();
+            GameStorage.Instance.MoveOnOfferLayer(cell.gameObject);
+        }
+
+        public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
+            switch (args.CapturedButton) {
+                case 0:
+                    GameStorage.Instance.GetOffer().SelectAndClose(cell);
+                    break;
+            }
+        }
+    }
+
     public class InventoryBehaviour : ICellBehaviour
     {
+        public void InitBehaviour(Cell cell) {
+            cell.transform.SetParent(GameLocalBootstrap.Instance.CellHolder.transform);
+        }
+        
         public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
             GameStorage.Instance.CellInventory.PlaceOnTable(cell);
-            GameEvents.InvokeCellSelection(cell);
+            GameEvents.InvokeCellPositionUpdate();
         }
     }
     public class TableBehaviour : ICellBehaviour

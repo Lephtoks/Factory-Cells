@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cells;
 using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Economics;
@@ -31,6 +32,7 @@ namespace Core
         public CurrencySettings stoneHull;
         
         public Card cardPrefab;
+        public Cell cellPrefab;
         public ConveyorRepr conveyor;
         public DrillRepr drill;
         public WindGenRepr windGen;

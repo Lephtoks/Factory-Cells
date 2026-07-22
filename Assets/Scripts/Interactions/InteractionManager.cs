@@ -66,7 +66,7 @@ namespace Interactions
         {
             for (int i = 0; i < _pool.Count; i++)
             {
-                if (_pool[i].Touchable == touchable)
+                if (ReferenceEquals(_pool[i].Touchable, touchable))
                 {
                     _pool.RemoveAt(i);
                     return;
