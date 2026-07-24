@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Attributes;
 using Cells.Object;
 using Core.Locals;
 using Data;
@@ -23,6 +24,7 @@ namespace UI.Cards
         private ICardBehaviour _behaviour;
         private bool _initialized;
         public BlockType Block;
+        public UIGlow Glow;
         [SerializeField] private Image image;
 
         internal Action UpdateShopPosition;
@@ -169,15 +171,18 @@ namespace UI.Cards
 
         public void AddToOffer(int row, int col, int totalRows, int totalCols) {
             UpdateShopPosition = () => ShopUpdater(row, col, totalRows, totalCols);
+            Glow.Show();
             SetBehaviour(CardBehaviours.SHOP);
             OnShopAppearance(row, col, totalRows, totalCols);
         }
         public void DestroyInOffer() {
             transform.DOKill();
+            Glow.Hide();
             Destroy(gameObject);
         }
 
         public void SelectedInOffer() {
+            Glow.Hide();
             SetBehaviour(CardBehaviours.HAND);
             GameStorage.Instance.AddCard(this);
         }

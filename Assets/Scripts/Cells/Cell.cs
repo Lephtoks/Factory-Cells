@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Attributes;
 using Core;
 using Data;
 using Data.GameManagement;
@@ -15,6 +16,7 @@ namespace Cells
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
         private Vector3 _baseScale;
+        public UIGlow Glow;
         private bool _initialized;
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {

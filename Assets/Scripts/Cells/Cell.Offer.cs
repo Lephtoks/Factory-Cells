@@ -14,17 +14,20 @@ namespace Cells
         
         public void DestroyInOffer() {
             transform.DOKill();
+            Glow.Hide();
             Destroy(gameObject);
         }
 
         public void SelectedInOffer() {
             GameStorage.Instance.AddCell(this);
+            Glow.Hide();
             SetBehaviour(CellBehaviours.INVENTORY);
             GameEvents.InvokeCellPositionUpdate();
         }
 
         public void AddToOffer(int row, int col, int totalRows, int totalCols) {
             UpdateShopPosition = () => ShopUpdater(row, col, totalRows, totalCols);
+            Glow.Show();
             SetBehaviour(CellBehaviours.SHOP);
         }
         public void ShopUpdater(int row, int col, int totalRows, int totalCols)
