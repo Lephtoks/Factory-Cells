@@ -32,69 +32,54 @@ namespace Cells
         }
         public void ShopUpdater(int row, int col, int totalRows, int totalCols)
         {
-            float parentWidth = ShopScreen.Instance.rectTransform.rect.width;
-            float parentHeight = ShopScreen.Instance.rectTransform.rect.height;
-            
             BoundsInt bounds = tilemap.cellBounds;
-            var cam = GameStorage.Instance.Cam;
-            float cardWidth = bounds.size.x * tilemap.layoutGrid.cellSize.x * Screen.width / (cam.orthographicSize * 2f * cam.aspect);
-            float cardHeight = bounds.size.y * tilemap.layoutGrid.cellSize.y * Screen.height / (cam.orthographicSize * 2f);
-            
-            float minX = -parentWidth * 0.3f;
-            float maxX = parentWidth * 0.3f;
-            
-            float minY = -parentHeight * 0.3f;
-            float maxY = parentHeight * 0.3f;
-            
-            float availableWidth = maxX - minX;
-            float availableHeight = maxY - minY;
-            
-            
-            
-            float scaleByHeight = availableHeight / cardHeight;
-            
-            
-            
-            float scaleByWidth;
-            
-            if (totalCols <= 1)
-            {
-                scaleByWidth = availableWidth / cardWidth;
-            }
-            else
-            {
-                float step = availableWidth / (totalCols - 1);
-                scaleByWidth = step / cardWidth;
-            }
-            
+            Camera cam = GameStorage.Instance.Cam;
+
+            float cellWidth = bounds.size.x * tilemap.layoutGrid.cellSize.x;
+            float cellHeight = bounds.size.y * tilemap.layoutGrid.cellSize.y;
+
+            float worldHeight = cam.orthographicSize * 2f;
+            float worldWidth = worldHeight * cam.aspect;
+
+            float availableWidth = worldWidth * 0.6f;
+            float availableHeight = worldHeight * 0.6f;
+
+            float stepX = totalCols <= 1
+                ? 0
+                : availableWidth / (totalCols - 1);
+
+            float stepY = totalRows <= 1
+                ? 0
+                : availableHeight / (totalRows - 1);
+
+            float scaleByWidth = totalCols <= 1
+                ? availableWidth / cellWidth
+                : stepX / cellWidth;
+
+            float scaleByHeight = totalRows <= 1
+                ? availableHeight / cellHeight
+                : stepY / cellHeight;
+
             float scale = Mathf.Min(scaleByWidth, scaleByHeight) * 0.9f;
-            
-            
-            float x;
-            
-            if (totalCols <= 1)
-            {
-                x = 0f;
-            }
-            else
-            {
-                float step = availableWidth / (totalCols - 1);
-                x = minX + step * col;
-            }
-            
-            float y = 0f;
-            
+
+            float vx = totalCols <= 1
+                ? 0.5f
+                : Mathf.Lerp(0.2f, 0.8f, (float)col / (totalCols - 1));
+
+            float vy = totalRows <= 1
+                ? 0.5f
+                : Mathf.Lerp(0.8f, 0.2f, (float)row / (totalRows - 1));
+
+            Vector3 worldPos = cam.ViewportToWorldPoint(new Vector3(vx, vy, 15f));
+
             transform.DOKill();
+
             transform
                 .DOScale(_baseScale * scale, 0.3f)
                 .SetEase(Ease.OutCubic);
-            Vector3 screenPos = new Vector3(
-                Screen.width * 0.5f + x,
-                Screen.height * 0.5f + y,
-                15
-            );
+
             transform
-                .DOMove(cam.ScreenToWorldPoint(screenPos), 0.3f)
+                .DOMove(worldPos, 0.3f)
                 .SetEase(Ease.OutCubic);
         }
 
