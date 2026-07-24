@@ -53,11 +53,13 @@ namespace Cells
     {
         public void OnEnable(Cell cell) {
             GameEvents.OnScreenSizeChanged += cell.OnScreenSizeChanged;
+            GameEvents.OnCameraUpdate += cell.OnCameraUpdate;
         }
 
         public void OnDisable(Cell cell) {
             GameStorage.Instance.MoveOnDefaultLayer(cell.gameObject);
             GameEvents.OnScreenSizeChanged -= cell.OnScreenSizeChanged;
+            GameEvents.OnCameraUpdate -= cell.OnCameraUpdate;
         }
 
         public void InitBehaviour(Cell cell) {

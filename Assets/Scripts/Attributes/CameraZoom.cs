@@ -1,3 +1,6 @@
+using Core.Locals;
+using Data;
+using Data.GameManagement;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,15 +13,19 @@ namespace DefaultNamespace
         [SerializeField] private float zoomMax = 20f;
 
         private Camera _cam;
+        private float _lastSize;
+        private Vector3 _lastPosition;
         [SerializeField] private Camera uiCam;
 
         private void Awake() {
             _cam = GetComponent<Camera>();
+            _lastSize = _cam.orthographicSize;
+            _lastPosition = transform.position;
         }
 
         private void Update() {
             float scroll = Input.mouseScrollDelta.y;
-            if (scroll != 0) {
+            if (scroll != 0 && !GameLocalBootstrap.Instance.shopScreen.gameObject.activeInHierarchy) {
                 Vector3 before = _cam.ScreenToWorldPoint(Input.mousePosition);
 
                 float camOrthographicSize = Mathf.Clamp(
@@ -33,6 +40,17 @@ namespace DefaultNamespace
                 transform.DOMove(before - after + transform.position, 0.5f);
             }
             uiCam.orthographicSize = _cam.orthographicSize;
+        }
+        private void LateUpdate()
+        {
+            if (!Mathf.Approximately(_cam.orthographicSize, _lastSize) ||
+                transform.position != _lastPosition)
+            {
+                _lastSize = _cam.orthographicSize;
+                _lastPosition = transform.position;
+
+                GameEvents.InvokeCameraUpdate();
+            }
         }
     }
 }

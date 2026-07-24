@@ -87,5 +87,10 @@ namespace Cells
         {
             UpdateShopPosition();
         }
+
+        internal void OnCameraUpdate()
+        {
+            UpdateShopPosition();
+        }
     }
 }
