@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Cells;
 using Economics;
 using ScriptableObjects;
 using UnityEngine;
@@ -10,9 +12,23 @@ namespace Core
         public AssetRegistry registry;
         
         private Dictionary<Currency, CurrencySettings> currencies = new();
+        private Dictionary<Type, TraitSettings> dynamicTraits = new();
+        private Dictionary<CellStaticTraits, TraitSettings> staticTraits = new();
 
         public CurrencySettings GetCurrency(Currency currency) {
             return currencies[currency];
+        }
+
+        public TraitSettings GetTraitInfo(Type trait) {
+            Debug.Log(trait.FullName);
+            foreach (var pair in dynamicTraits.Keys) {
+                Debug.Log(pair);
+            };
+            return dynamicTraits[trait];
+        }
+
+        public TraitSettings GetTraitInfo(CellStaticTraits trait) {
+            return !trait.IsSingleFlag() ? throw new ArgumentException($"Trait {trait} is not a single flag") : staticTraits[trait];
         }
 
         public override void Init() {
@@ -30,6 +46,14 @@ namespace Core
             currencies[Currency.STONE] = registry.stone;
             currencies[Currency.STONE_HULL] = registry.stoneHull;
             currencies[Currency.WOOD] = registry.wood;
+            
+            InitTraits();
+        }
+
+        private void InitTraits() {
+            // staticTraits[CellStaticTraits.NONE]
+
+            dynamicTraits[typeof(AttackTrait)] = registry.attackTrait;
         }
     }
 }

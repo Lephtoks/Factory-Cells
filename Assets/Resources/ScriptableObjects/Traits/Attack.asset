@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8161d066141b442dabf90f8d63635167, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.TraitSettings
+  icon: {fileID: -4207880999935502528, guid: 2fe71d372098d08ca93dd776c54e36de, type: 3}
+  displayName: Attack

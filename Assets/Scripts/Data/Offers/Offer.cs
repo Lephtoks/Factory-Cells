@@ -16,8 +16,13 @@ namespace Data.Offers
             return this;
         }
         
-        public Offer AddCell() {
-            Add(Cell.Create(AssetProvider.Instance.registry.cellPrefab));
+        public Offer AddCell(CellStaticTraits staticTraits, object[] dynamicTraits) {
+            var offerable = Cell.Create(AssetProvider.Instance.registry.cellPrefab);
+            offerable.AddTrait(staticTraits);
+            foreach (var dynamicTrait in dynamicTraits) {
+                offerable.AddTrait(dynamicTrait);
+            }
+            Add(offerable);
             return this;
         }
         

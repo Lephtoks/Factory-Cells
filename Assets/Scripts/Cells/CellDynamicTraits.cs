@@ -1,8 +1,8 @@
 namespace Cells
 {
-    public class CellDynamicTraits
+    public static class CellDynamicTraits
     {
-        public AttackTrait AttackTrait() {
+        public static AttackTrait AttackTrait() {
             return new AttackTrait();
         }
     }

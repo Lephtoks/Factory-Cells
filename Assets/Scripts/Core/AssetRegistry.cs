@@ -40,5 +40,9 @@ namespace Core
 
         public Material ItemDropMaterial;
         public Mesh ItemDropMesh;
+        
+        public TraitSettings attackTrait;
+        
+        public GameObject traitIconPrefab;
     }
 }

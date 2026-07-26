@@ -1,3 +1,4 @@
+using Cells;
 using Cells.Object;
 using Data;
 using Data.GameManagement;
@@ -23,12 +24,11 @@ namespace Core.Locals
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
-                // .AddCard(BlockTypes.ITEM_SOURCE) 
+                .AddCard(BlockTypes.ITEM_SOURCE) 
                 .AddCard(BlockTypes.CONVEYOR)
-                // .AddCard(BlockTypes.WIND_GEN)
-                .AddCell()
+                .AddCard(BlockTypes.WIND_GEN)
                 // .AddCell()
-                .AddCell()
+                .AddCell(CellStaticTraits.NONE, new [] { CellDynamicTraits.AttackTrait() })
                 .Show();
         }
     }
