@@ -4,6 +4,7 @@ using Cells.Object;
 using Cells.Object.Node;
 using Data.GameManagement;
 using DG.Tweening;
+using Entities;
 using UnityEngine;
 
 namespace Cells
@@ -49,6 +50,9 @@ namespace Cells
         }
 
         public void UpdateMove() {
+            // TODO:
+            AddBullet(new Bullet(this, new Vector2(4, 4), 0f, BulletTypes.DEFAULT));
+            
             var intents = new List<Intent>();
             foreach (Block cellObject in _cellObjects.Values) {
                 if (cellObject is IInventory node) {

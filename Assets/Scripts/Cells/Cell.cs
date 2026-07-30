@@ -43,7 +43,9 @@ namespace Cells
         }
         
         private void Update() {
+            UpdateBullets();
             DrawDroppedItems(); // Cell.Drop.cs
+            DrawBullets(); // Cell.Bullet.cs
         }
         
         private void OnEnable() {
