@@ -13,7 +13,7 @@ namespace Entities
             Parent = parent;
             BulletType = bulletType;
             Rotation = rotation;
-            Hitbox = new RectHitbox(() => Position, this, Vector2.zero,Vector2.one * 0.5f);
+            Hitbox = new RectHitbox(() => Position, this, Vector2.zero,Vector2.one * 0.1f);
         }
 
         public bool Dead { get; private set; }
@@ -28,6 +28,7 @@ namespace Entities
 
         public void Kill() {
             Dead = true;
+            Parent.RemoveBullet(this);
         }
 
         public void Update() {

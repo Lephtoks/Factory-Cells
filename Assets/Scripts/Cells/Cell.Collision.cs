@@ -15,8 +15,10 @@ namespace Cells
         private readonly List<ICollider> _colliders = new();
 
         public void CheckCollisions() {
-            foreach (var a in _colliders) {
-                foreach (var b in _colliders) {
+            var array = _colliders.ToArray();
+            foreach (var a in array) {
+                foreach (var b in array) {
+                    if (a == b) continue;
                     Hitbox.Collide(a.Hitbox, b.Hitbox);
                 }
             }

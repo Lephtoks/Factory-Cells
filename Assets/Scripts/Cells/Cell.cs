@@ -44,6 +44,7 @@ namespace Cells
         
         private void Update() {
             UpdateBullets();
+            CheckCollisions();
             DrawDroppedItems(); // Cell.Drop.cs
             DrawBullets(); // Cell.Bullet.cs
         }

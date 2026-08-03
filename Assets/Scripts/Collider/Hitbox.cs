@@ -8,8 +8,9 @@ namespace Collider
     {
         public ICollider Owner { get; }
         private Func<Vector2> _transformProvider;
-        public Hitbox(Func<Vector2> transformProvider, ICollider owner) {
+        public Hitbox(ICollider owner, Func<Vector2> transformProvider) {
             _transformProvider = transformProvider;
+            Owner = owner;
         }
         public static bool Intersects(Hitbox a, Hitbox b) {
             switch (a) {

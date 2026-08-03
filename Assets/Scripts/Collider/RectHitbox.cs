@@ -8,7 +8,7 @@ namespace Collider
     {
         public Vector2 Offset;
         public Vector2 Size;
-        public RectHitbox(Func<Vector2> transformProvider, ICollider owner, Vector2 offset, Vector2 size) : base(transformProvider, owner) {
+        public RectHitbox(Func<Vector2> transformProvider, ICollider owner, Vector2 offset, Vector2 size) : base(owner, transformProvider) {
             Size = size;
             Offset = offset;
         }
