@@ -47,6 +47,7 @@ namespace Cells
             CheckCollisions();
             DrawDroppedItems(); // Cell.Drop.cs
             DrawBullets(); // Cell.Bullet.cs
+            DrawHitboxes(); // Cell.Debug.cs
         }
         
         private void OnEnable() {

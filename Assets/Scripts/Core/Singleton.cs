@@ -7,5 +7,7 @@ namespace Core
         public virtual void Init() {
             Instance = this as T;
         }
+
+        public virtual void Dispose() { }
     }
 }

@@ -44,5 +44,7 @@ namespace Core
         public TraitSettings attackTrait;
         
         public GameObject traitIconPrefab;
+        
+        public Material DebugLineMaterial;
     }
 }

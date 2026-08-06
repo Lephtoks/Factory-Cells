@@ -7,9 +7,9 @@ namespace Collider
     public class Hitbox
     {
         public ICollider Owner { get; }
-        private Func<Vector2> _transformProvider;
+        protected readonly Func<Vector2> TransformProvider;
         public Hitbox(ICollider owner, Func<Vector2> transformProvider) {
-            _transformProvider = transformProvider;
+            TransformProvider = transformProvider;
             Owner = owner;
         }
         public static bool Intersects(Hitbox a, Hitbox b) {
@@ -33,11 +33,13 @@ namespace Collider
             Vector2 halfA = aRect.Size * 0.5f;
             Vector2 halfB = bRect.Size * 0.5f;
 
-            var offsetA = aRect.Offset + aRect._transformProvider();
-            var offsetB = bRect.Offset + bRect._transformProvider();
+            var offsetA = aRect.Offset + aRect.TransformProvider();
+            var offsetB = bRect.Offset + bRect.TransformProvider();
             
             return Mathf.Abs(offsetA.x - offsetB.x) <= halfA.x + halfB.x &&
                    Mathf.Abs(offsetA.y - offsetB.y) <= halfA.y + halfB.y;
         }
+
+        public virtual void Draw() {}
     }
 }

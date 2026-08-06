@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Data;
+using GameDebug;
 using UnityEngine;
+using UnityEngine.Rendering;
+using DebugManager = GameDebug.DebugManager;
 
 namespace Core
 {
@@ -11,7 +14,8 @@ namespace Core
         public static GlobalBootstrap Instance { get; private set; }
         private readonly IBootable[] _globals = {
             new AssetProvider(),
-            new GameDataManager()
+            new GameDataManager(),
+            new DebugManager()
         };
     
         private void Awake() {
@@ -30,6 +34,12 @@ namespace Core
                 if (g is IUpdatable updatable) {
                     updatable.Update();
                 }
+            }
+        }
+
+        private void OnDestroy() {
+            foreach (var g in _globals) {
+                g.Dispose();
             }
         }
     }

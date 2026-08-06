@@ -52,3 +52,4 @@ MonoBehaviour:
   ItemDropMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   attackTrait: {fileID: 11400000, guid: 402bfef199e5b4e389bb7bc33c2279b4, type: 2}
   traitIconPrefab: {fileID: 3977239281025009302, guid: e71b74bd7e517d9fdbb06c5526ad0356, type: 3}
+  DebugLineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
