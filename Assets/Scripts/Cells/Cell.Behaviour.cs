@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cells.Object;
 using Core.Locals;
 using Data;
@@ -98,15 +99,23 @@ namespace Cells
                     if (!currentCard) return;
 
                     var reprs = GameStorage.Instance.NodeReprs;
+                    var added = new List<Block>();
                     while (reprs.Count > 0) {
                         var repr = reprs[^1];
                         reprs.Remove(repr);
-                        if (!cell.TryAddObject(currentCard.Block.Create(cell, repr))) {
+                        Block block = currentCard.Block.Create(cell, repr);
+                        if (!cell.TryAddObject(block)) {
                             UnityEngine.Object.Destroy(repr.gameObject);
+                        }
+                        else {
+                            cell.BlockUpdate(block);
                         }
 
                     }
 
+                    foreach (var block in added) {
+                        cell.BlockUpdate(block);
+                    }
                     GameStorage.Instance.CreatePointerRepr();
                     break;
                 }

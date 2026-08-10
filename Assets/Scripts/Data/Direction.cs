@@ -3,12 +3,29 @@ using UnityEngine;
 
 namespace Data
 {
-    public enum Direction
+    public enum Direction : byte
     {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST
+        NORTH = 1,
+        EAST = 2,
+        SOUTH = 4,
+        WEST = 8
+    }
+
+    public struct DirectionFlag
+    {
+        private byte _value;
+        public static DirectionFlag operator +(DirectionFlag flag, Direction direction) {
+            flag._value |= (byte) direction;
+            return flag;
+        }
+        public static DirectionFlag operator -(DirectionFlag flag, Direction direction) {
+            flag._value &= (byte) ~direction;
+            return flag;
+        }
+
+        public bool Contains(Direction direction) {
+            return (_value & (byte) direction) != 0;
+        }
     }
 
     public static class DirectionHelper
@@ -55,6 +72,18 @@ namespace Data
                 Direction.EAST  => Quaternion.Euler(0, 0, 0),
                 Direction.SOUTH => Quaternion.Euler(0, 0, -90),
                 Direction.WEST  => Quaternion.Euler(0, 0, 180),
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
+        
+        public static Direction Opposite(this Direction direction)
+        {
+            return direction switch
+            {
+                Direction.NORTH => Direction.SOUTH,
+                Direction.EAST  => Direction.WEST,
+                Direction.SOUTH => Direction.NORTH,
+                Direction.WEST  => Direction.EAST,
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }

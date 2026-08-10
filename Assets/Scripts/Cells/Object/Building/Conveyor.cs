@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cells.Object.Building.Mono;
 using Core;
 using Data;
@@ -7,7 +9,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected, IItemDisplayable
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected, IItemDisplayable, IBlockUpdatable
     {
         public Direction Direction { get; }
         public ConveyorRepr Representation => AssetProvider.Instance.registry.conveyor;
@@ -30,5 +32,19 @@ namespace Cells.Object.Building
             Debug.Log("Conveyor intent succeed");
         }
 
+        public void BlockUpdate() {
+            if (!LivingRepresentation) return;
+            LivingRepresentation.Connections = new DirectionFlag();
+            foreach (var dir in (Direction[])Enum.GetValues(typeof(Direction))) {
+                if (((ILookup)this).TryGetNeighbor(dir, out Block block)) {
+                    if (dir == Direction) {
+                        LivingRepresentation.Connections += Direction;
+                    } else if (block is IInventoryOut inventoryOut && inventoryOut.OutDirections().Contains(dir.Opposite())) {
+                        LivingRepresentation.Connections += dir;
+                    }
+                };
+            }
+            LivingRepresentation.UpdateConveyorDisplay();
+        }
     }
 }

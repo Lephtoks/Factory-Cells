@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Cells;
+using Cells.Object.Building;
+using Data;
 using Economics;
 using ScriptableObjects;
 using UnityEngine;
@@ -54,6 +56,22 @@ namespace Core
             // staticTraits[CellStaticTraits.NONE]
 
             dynamicTraits[typeof(AttackTrait)] = registry.attackTrait;
+        }
+
+        public Sprite[] GetConveyorAnimationList(Conveyor conveyor, DirectionFlag connections) {
+            switch (conveyor.Direction)
+            {
+                case Direction.NORTH:
+                    return connections.Contains(Direction.SOUTH) ? registry.ConveyorUpOpenedSprites : registry.ConveyorUpClosedSprites;
+                case Direction.EAST:
+                    return registry.ConveyorRightSprites;
+                case Direction.WEST:
+                    return registry.ConveyorRightSprites;
+                case Direction.SOUTH:
+                    return connections.Contains(Direction.SOUTH) ? registry.ConveyorUpOpenedSprites : registry.ConveyorDownClosedSprites;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

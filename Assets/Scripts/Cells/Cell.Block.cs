@@ -31,6 +31,13 @@ namespace Cells
             block.WhenBeingAddedToCell();
             return true;
         }
+
+        public void BlockUpdate(Block block) {
+            // TODO: Chain updates  
+            if (block is IBlockUpdatable blockUpdatable) {
+                blockUpdatable.BlockUpdate();
+            }
+        }
         public bool TryGetObject(Vector2Int position, out Block block) {
             return _cellObjects.TryGetValue(position, out block);
         }
@@ -71,9 +78,9 @@ namespace Cells
                 cellObject.UpdateMove();
             }
 
-            SynchronousConveyorTime = 0;
+            SynchronousConveyorTime = 1/16f;
             DOTween.Kill(this);
-            DOTween.To(() => this.SynchronousConveyorTime, value => SynchronousConveyorTime = value, 1f, 0.25f)
+            DOTween.To(() => this.SynchronousConveyorTime, value => SynchronousConveyorTime = value, 1f + 1/16f, 0.35f)
                 .SetEase(Ease.InOutSine)
                 .SetId(this);
         }

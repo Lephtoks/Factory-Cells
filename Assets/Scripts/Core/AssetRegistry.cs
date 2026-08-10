@@ -15,6 +15,9 @@ namespace Core
         public Texture2D playerTexture;
         
         public Sprite[] ConveyorRightSprites;
+        public Sprite[] ConveyorUpClosedSprites;
+        public Sprite[] ConveyorDownClosedSprites;
+        public Sprite[] ConveyorUpOpenedSprites;
         
         private Dictionary<Currency, CurrencySettings> currencies = new();
         

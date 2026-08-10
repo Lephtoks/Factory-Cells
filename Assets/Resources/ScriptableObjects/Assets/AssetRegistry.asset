@@ -30,6 +30,57 @@ MonoBehaviour:
   - {fileID: 4089940906621064677, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
   - {fileID: -1645777891355482239, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
   - {fileID: 3972262770202869046, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  ConveyorUpClosedSprites:
+  - {fileID: -6732448019889104900, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1896903919, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 933451103, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1560397467, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -600695726, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -1135378972, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -1246114322, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -2083638334, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1902213143, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 2124138013, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -621778554, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1998076228, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -178856225, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1306377996, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: -275338420, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  - {fileID: 1505092299, guid: 28b466c70eba5c56c8db09c43d5dec3d, type: 3}
+  ConveyorDownClosedSprites:
+  - {fileID: 5410001984098372324, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -9149056576854725299, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -5288644411237762794, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -7144806078779608738, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -8187327361536773791, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 3002978189070189044, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -7417878434925299199, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -1242407248882494272, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 6380392785056024476, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 6550741454930508832, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 4076984453672280007, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -2767282909474609199, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 7230228183088290356, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -4874170673150282199, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: 1956757463158459351, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  - {fileID: -4517820844804072214, guid: ed8785989094d946a854b539b085fa59, type: 3}
+  ConveyorUpOpenedSprites:
+  - {fileID: -1999022991030586714, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -7335440389470326800, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 6029899156293104717, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -7062513535031262575, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -1431715059061742041, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -681085136808999301, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 221232379153634175, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -1221480731478445649, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 1111353279537822982, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 1717300101618659238, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 5467897180408245954, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -8237053645107089927, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: -5006712180383758317, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 5002399245989738642, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 7312690380478212567, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
+  - {fileID: 7977084449751944452, guid: b3d0302ff904ee7a988e2c86e5592eb4, type: 3}
   air: {fileID: 11400000, guid: 5ba86c6b1d0a37959bbc61928a2be9c4, type: 2}
   copper: {fileID: 11400000, guid: 1916dbbdc73337303bb8904ce9594ee0, type: 2}
   copperOre: {fileID: 0}
