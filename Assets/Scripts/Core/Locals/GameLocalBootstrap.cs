@@ -24,7 +24,7 @@ namespace Core.Locals
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
-                .AddCard(BlockTypes.ITEM_SOURCE) 
+                .AddCard(BlockTypes.DRILL) 
                 .AddCard(BlockTypes.CONVEYOR)
                 .AddCard(BlockTypes.WIND_GEN)
                 // .AddCell()

@@ -76,8 +76,8 @@ namespace Cells
 
         public void UpdateMove() {
             // TODO:
-            AddBullet(new Bullet(this, new Vector2(4, 4), 0f, BulletTypes.DEFAULT));
-            AddBullet(new Bullet(this, new Vector2(2, 6), -90f, BulletTypes.DEFAULT));
+            // AddBullet(new Bullet(this, new Vector2(4, 4), 0f, BulletTypes.DEFAULT));
+            // AddBullet(new Bullet(this, new Vector2(2, 6), -90f, BulletTypes.DEFAULT));
             
             var intents = new List<Intent>();
             foreach (Block cellObject in _cellObjects.Values) {

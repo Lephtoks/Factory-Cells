@@ -18,7 +18,7 @@ namespace Cells.Object
 
         public void Animate(Vector3 from) {
             DOTween.Kill(this);
-            DOTween.To(() => this.VisualPosition, x => this.VisualPosition = x, new Vector3(Position.x, Position.y), 0.25f)
+            DOTween.To(() => this.VisualPosition, x => this.VisualPosition = x, new Vector3(Position.x, Position.y), 0.35f)
                 .SetEase(Ease.InOutSine)
                 .SetId(this);
             VisualPosition = from;

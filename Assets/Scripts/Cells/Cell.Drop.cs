@@ -32,8 +32,8 @@ namespace Cells
                 _droppedItemBlock.SetTexture("_MainTex", settings.icon.texture);
                 rp.matProps = _droppedItemBlock;
 
-                var worldPos = CellPivot.TransformPoint(item.VisualPosition + new Vector3(0.5f, 0.5f, -0.5f));
-                var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale);
+                var worldPos = CellPivot.TransformPoint(item.VisualPosition + new Vector3(0.5f + 1/32f, 0.5f + 1/32f, -0.5f));
+                var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale * 0.8f);
 
                 Graphics.RenderMesh(rp, AssetProvider.Instance.registry.ItemDropMesh, 0, matrix);
             }
