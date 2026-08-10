@@ -26,6 +26,10 @@ namespace Data
         public bool Contains(Direction direction) {
             return (_value & (byte) direction) != 0;
         }
+
+        public byte ToByte() {
+            return _value;
+        }
     }
 
     public static class DirectionHelper

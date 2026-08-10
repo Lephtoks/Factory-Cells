@@ -1,55 +1,10 @@
 fileFormatVersion: 2
-guid: 8ec5b7fdf03902154bffa181c339a97f
+guid: 26efd953640f1bc8894e14668c4ee43c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2164540517423491671
-    second: ConveyorUpClosed_0
-  - first:
-      213: 4219723925082220168
-    second: ConveyorUpClosed_1
-  - first:
-      213: 4441400800925403950
-    second: ConveyorUpClosed_2
-  - first:
-      213: 4772811863032723301
-    second: ConveyorUpClosed_3
-  - first:
-      213: 4901583620780369171
-    second: ConveyorUpClosed_4
-  - first:
-      213: 6604638355641909077
-    second: ConveyorUpClosed_5
-  - first:
-      213: 1023348913482601508
-    second: ConveyorUpClosed_6
-  - first:
-      213: 8719938229806650988
-    second: ConveyorUpClosed_7
-  - first:
-      213: -4167510450406149633
-    second: ConveyorUpClosed_8
-  - first:
-      213: -9202315349875574640
-    second: ConveyorUpClosed_9
-  - first:
-      213: -5660664472383096498
-    second: ConveyorUpClosed_10
-  - first:
-      213: -135114689111823511
-    second: ConveyorUpClosed_11
-  - first:
-      213: 4998602331694337651
-    second: ConveyorUpClosed_12
-  - first:
-      213: -8073712148343074032
-    second: ConveyorUpClosed_13
-  - first:
-      213: -2368720919635219514
-    second: ConveyorUpClosed_14
-  - first:
-      213: -7028510307305812925
-    second: ConveyorUpClosed_15
+      213: -5653674586341372186
+    second: ConveyorTurnDownCombineClosed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -145,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ConveyorUpClosed_0
+      name: ConveyorTurnDownCombineClosed_0
       rect:
         serializedVersion: 2
         x: 0
@@ -160,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a5580d1ed106f1e0800000000000000
-      internalID: -2164540517423491671
+      spriteID: 6ee087d0bec1a81b0800000000000000
+      internalID: -5653674586341372186
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_1
+      name: ConveyorTurnDownCombineClosed_1
       rect:
         serializedVersion: 2
         x: 16
@@ -180,16 +135,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8862eb48d887f8a30800000000000000
-      internalID: 4219723925082220168
+      spriteID: 8b01ec3e9d4b66939bc0c4e6424770c4
+      internalID: 589565952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_2
+      name: ConveyorTurnDownCombineClosed_2
       rect:
         serializedVersion: 2
         x: 32
@@ -202,16 +157,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e2b4b443f7603ad30800000000000000
-      internalID: 4441400800925403950
+      spriteID: cc6efdfd2914313dd86b43ddb5f55eaa
+      internalID: 35398244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_3
+      name: ConveyorTurnDownCombineClosed_3
       rect:
         serializedVersion: 2
         x: 48
@@ -224,16 +179,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 567f5db1a1f6c3240800000000000000
-      internalID: 4772811863032723301
+      spriteID: d452c2a8b4afa73c7bcb28bbbd33d1b3
+      internalID: -1200812558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_4
+      name: ConveyorTurnDownCombineClosed_4
       rect:
         serializedVersion: 2
         x: 64
@@ -246,16 +201,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 315ac79555ce50440800000000000000
-      internalID: 4901583620780369171
+      spriteID: 8bf70f0df4f6c44c5b2138a65d772d8b
+      internalID: 519574867
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_5
+      name: ConveyorTurnDownCombineClosed_5
       rect:
         serializedVersion: 2
         x: 80
@@ -268,16 +223,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 55fb4f1779368ab50800000000000000
-      internalID: 6604638355641909077
+      spriteID: 8c2dc8be1eeed1c4dab497e38affe351
+      internalID: 328166544
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_6
+      name: ConveyorTurnDownCombineClosed_6
       rect:
         serializedVersion: 2
         x: 96
@@ -290,16 +245,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 42499653a6aa33e00800000000000000
-      internalID: 1023348913482601508
+      spriteID: 55579a8974ae06b35ace6bfc489879d2
+      internalID: -703365893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_7
+      name: ConveyorTurnDownCombineClosed_7
       rect:
         serializedVersion: 2
         x: 112
@@ -312,16 +267,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c6659faae91730970800000000000000
-      internalID: 8719938229806650988
+      spriteID: eb2574ef3eda942cb84a4eaba71ceab2
+      internalID: -1260554376
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_8
+      name: ConveyorTurnDownCombineClosed_8
       rect:
         serializedVersion: 2
         x: 128
@@ -334,16 +289,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ff130d563570a26c0800000000000000
-      internalID: -4167510450406149633
+      spriteID: 314b8bfe2ba3110678e0a4ff5c5a2b2a
+      internalID: 1092504203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_9
+      name: ConveyorTurnDownCombineClosed_9
       rect:
         serializedVersion: 2
         x: 144
@@ -356,16 +311,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 098ba8bf1feca4080800000000000000
-      internalID: -9202315349875574640
+      spriteID: ca5808884aafda160a8fa3ecf60f199f
+      internalID: 6000087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_10
+      name: ConveyorTurnDownCombineClosed_10
       rect:
         serializedVersion: 2
         x: 160
@@ -378,16 +333,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e497ee267a74171b0800000000000000
-      internalID: -5660664472383096498
+      spriteID: 417a0b57cdb06cb7cb102226f1796441
+      internalID: 685284459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_11
+      name: ConveyorTurnDownCombineClosed_11
       rect:
         serializedVersion: 2
         x: 176
@@ -400,16 +355,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 96b6d87f7e9ff1ef0800000000000000
-      internalID: -135114689111823511
+      spriteID: 48a1e34e4357defa49ea0bdd2542e6df
+      internalID: -363341226
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_12
+      name: ConveyorTurnDownCombineClosed_12
       rect:
         serializedVersion: 2
         x: 192
@@ -422,16 +377,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 37e8412465a9e5540800000000000000
-      internalID: 4998602331694337651
+      spriteID: 14be099e297601d2aa8ac857dfe5c49f
+      internalID: -1463235624
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_13
+      name: ConveyorTurnDownCombineClosed_13
       rect:
         serializedVersion: 2
         x: 208
@@ -444,16 +399,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0135143d39964ff80800000000000000
-      internalID: -8073712148343074032
+      spriteID: 67868e79ee1aa69319793b92cef9392b
+      internalID: -1183863007
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_14
+      name: ConveyorTurnDownCombineClosed_14
       rect:
         serializedVersion: 2
         x: 224
@@ -466,16 +421,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6cb2b15afdc902fd0800000000000000
-      internalID: -2368720919635219514
+      spriteID: 01afce662f245ea00a35f5fb8d7dd119
+      internalID: -198083446
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorUpClosed_15
+      name: ConveyorTurnDownCombineClosed_15
       rect:
         serializedVersion: 2
         x: 240
@@ -488,10 +443,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 34c8dd83d17b57e90800000000000000
-      internalID: -7028510307305812925
+      spriteID: 193802095b1b2f0b8923175f9b89daa8
+      internalID: 2057327401
       vertices: []
       indices: 
       edges: []
@@ -500,7 +455,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 95406aa2605a839969cd2a2bb9bdcc04
+    spriteID: 4ace8c93baee2ef6194d5aed4d108f5d
     internalID: 0
     vertices: []
     indices: 
@@ -508,24 +463,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      ConveyorUpClosed_0: -2164540517423491671
-      ConveyorUpClosed_1: 4219723925082220168
-      ConveyorUpClosed_10: -5660664472383096498
-      ConveyorUpClosed_11: -135114689111823511
-      ConveyorUpClosed_12: 4998602331694337651
-      ConveyorUpClosed_13: -8073712148343074032
-      ConveyorUpClosed_14: -2368720919635219514
-      ConveyorUpClosed_15: -7028510307305812925
-      ConveyorUpClosed_2: 4441400800925403950
-      ConveyorUpClosed_3: 4772811863032723301
-      ConveyorUpClosed_4: 4901583620780369171
-      ConveyorUpClosed_5: 6604638355641909077
-      ConveyorUpClosed_6: 1023348913482601508
-      ConveyorUpClosed_7: 8719938229806650988
-      ConveyorUpClosed_8: -4167510450406149633
-      ConveyorUpClosed_9: -9202315349875574640
+      ConveyorTurnDownCombineClosed_0: -5653674586341372186
+      ConveyorTurnDownCombineClosed_1: 589565952
+      ConveyorTurnDownCombineClosed_10: 685284459
+      ConveyorTurnDownCombineClosed_11: -363341226
+      ConveyorTurnDownCombineClosed_12: -1463235624
+      ConveyorTurnDownCombineClosed_13: -1183863007
+      ConveyorTurnDownCombineClosed_14: -198083446
+      ConveyorTurnDownCombineClosed_15: 2057327401
+      ConveyorTurnDownCombineClosed_2: 35398244
+      ConveyorTurnDownCombineClosed_3: -1200812558
+      ConveyorTurnDownCombineClosed_4: 519574867
+      ConveyorTurnDownCombineClosed_5: 328166544
+      ConveyorTurnDownCombineClosed_6: -703365893
+      ConveyorTurnDownCombineClosed_7: -1260554376
+      ConveyorTurnDownCombineClosed_8: 1092504203
+      ConveyorTurnDownCombineClosed_9: 6000087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

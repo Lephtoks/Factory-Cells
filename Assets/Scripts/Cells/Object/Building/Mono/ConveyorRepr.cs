@@ -37,10 +37,13 @@ namespace Cells.Object.Building.Mono
         public void UpdateConveyorDisplay() {
             if (_originalConveyor == null) return;
             _animationSprites = AssetProvider.Instance.GetConveyorAnimationList(_originalConveyor, _originalConveyor.LivingRepresentation.Connections);
-            if (_originalConveyor.Direction == Direction.WEST) {
+            if (_originalConveyor.Direction == Direction.WEST && (Connections.ToByte() == 8 || Connections.ToByte() == 0 || Connections.ToByte() == 10 ||  Connections.ToByte() == 2)) {
                 transform.localScale = new Vector3(-_originalScale.x, _originalScale.y, _originalScale.z);
-            } else if (_originalConveyor.Direction == Direction.SOUTH && Connections.Contains(Direction.SOUTH)) {
+            } else if (_originalConveyor.Direction == Direction.SOUTH && (Connections.ToByte() == 4 || Connections.ToByte() == 5)) {
                 transform.localScale = new Vector3(_originalScale.x, -_originalScale.y, _originalScale.z);
+            }
+            else {
+                transform.localScale = _originalScale;
             }
         }
 
