@@ -18,10 +18,10 @@ namespace Cells
         
         public void RemoveObject(Vector2Int position) {
             var block = _cellObjects[position];
+            block.Destroyed = true;
             _cellObjects.Remove(position);
             if (block is IRepresentable representable) {
                 Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
-                Debug.Log(block);
             }
         }
 
@@ -34,20 +34,26 @@ namespace Cells
         }
 
         public void BlockUpdate(Block block) {
+            Queue<IBlockUpdatable> queue = new();
+            List<IBlockUpdatable> updated = new();
             if (block is IBlockUpdatable blockUpdatable) {
-                Queue<IBlockUpdatable> queue = new();
-                List<IBlockUpdatable> updated = new();
                 queue.Enqueue(blockUpdatable);
-                while (queue.Count > 0) {
-                    var current = queue.Dequeue();
-                    current.BlockUpdate();
-                    updated.Add(current);
+            } else if (block is IInventoryOut inventoryOut) {
+                if (TryGetObject(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject1) && blockObject1 is IBlockUpdatable newBlockUpdatable1 && !updated.Contains(newBlockUpdatable1)) queue.Enqueue(newBlockUpdatable1);
+                if (TryGetObject(block.Position + Direction.EAST.ToVector2Int(), out var blockObject2) && blockObject2 is IBlockUpdatable newBlockUpdatable2 && !updated.Contains(newBlockUpdatable2)) queue.Enqueue(newBlockUpdatable2);
+                if (TryGetObject(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject3) && blockObject3 is IBlockUpdatable newBlockUpdatable3 && !updated.Contains(newBlockUpdatable3)) queue.Enqueue(newBlockUpdatable3);
+                if (TryGetObject(block.Position + Direction.WEST.ToVector2Int(), out var blockObject4) && blockObject4 is IBlockUpdatable newBlockUpdatable4 && !updated.Contains(newBlockUpdatable4)) queue.Enqueue(newBlockUpdatable4);
+            }
+            while (queue.Count > 0) {
+                var current = queue.Dequeue();
+                var updateNeighbours = current.BlockUpdate();
+                updated.Add(current);
+                if (updateNeighbours) {
                     if (TryGetObject(((Block) current).Position + Direction.NORTH.ToVector2Int(), out var blockObject1) && blockObject1 is IBlockUpdatable newBlockUpdatable1 && !updated.Contains(newBlockUpdatable1)) queue.Enqueue(newBlockUpdatable1);
                     if (TryGetObject(((Block) current).Position + Direction.EAST.ToVector2Int(), out var blockObject2) && blockObject2 is IBlockUpdatable newBlockUpdatable2 && !updated.Contains(newBlockUpdatable2)) queue.Enqueue(newBlockUpdatable2);
                     if (TryGetObject(((Block) current).Position + Direction.SOUTH.ToVector2Int(), out var blockObject3) && blockObject3 is IBlockUpdatable newBlockUpdatable3 && !updated.Contains(newBlockUpdatable3)) queue.Enqueue(newBlockUpdatable3);
                     if (TryGetObject(((Block) current).Position + Direction.WEST.ToVector2Int(), out var blockObject4) && blockObject4 is IBlockUpdatable newBlockUpdatable4 && !updated.Contains(newBlockUpdatable4)) queue.Enqueue(newBlockUpdatable4);
                 }
-                blockUpdatable.BlockUpdate();
             }
         }
         public bool TryGetObject(Vector2Int position, out Block block) {

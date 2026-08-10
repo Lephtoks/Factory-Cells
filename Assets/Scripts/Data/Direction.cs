@@ -22,6 +22,13 @@ namespace Data
             flag._value &= (byte) ~direction;
             return flag;
         }
+        public static bool operator ==(DirectionFlag flag, DirectionFlag flag2) {
+            return flag._value == flag2._value;
+        }
+
+        public static bool operator !=(DirectionFlag flag, DirectionFlag flag2) {
+            return !(flag == flag2);
+        }
 
         public bool Contains(Direction direction) {
             return (_value & (byte) direction) != 0;

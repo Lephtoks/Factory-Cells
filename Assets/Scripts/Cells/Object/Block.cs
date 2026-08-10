@@ -6,6 +6,7 @@ namespace Cells.Object
     {
         public Cell Parent { get; }
         public Vector2Int Position { get; }
+        public bool Destroyed = false;
 
         public Block(Cell parent, Vector2Int pos) {
             Position = pos;

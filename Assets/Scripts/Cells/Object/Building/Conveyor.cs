@@ -32,8 +32,10 @@ namespace Cells.Object.Building
             Debug.Log("Conveyor intent succeed");
         }
 
-        public void BlockUpdate() {
-            if (!LivingRepresentation) return;
+        public bool BlockUpdate() {
+            if (Destroyed) return true;
+            if (!LivingRepresentation) return false;
+            var currentConnections = LivingRepresentation.Connections;
             LivingRepresentation.Connections = new DirectionFlag();
             foreach (var dir in (Direction[])Enum.GetValues(typeof(Direction))) {
                 if (((ILookup)this).TryGetNeighbor(dir, out Block block)) {
@@ -45,6 +47,7 @@ namespace Cells.Object.Building
                 };
             }
             LivingRepresentation.UpdateConveyorDisplay();
+            return currentConnections != LivingRepresentation.Connections;
         }
     }
 }

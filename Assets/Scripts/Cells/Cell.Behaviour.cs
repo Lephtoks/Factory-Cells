@@ -108,7 +108,7 @@ namespace Cells
                             UnityEngine.Object.Destroy(repr.gameObject);
                         }
                         else {
-                            cell.BlockUpdate(block);
+                            added.Add(block);
                         }
 
                     }
@@ -121,7 +121,11 @@ namespace Cells
                 }
                 case 1:
                     var cellMousePoint = cell.tilemap.WorldToCell(args.WorldPos);
-                    cell.RemoveObject((Vector2Int) cellMousePoint);
+                    if (cell.TryGetObject((Vector2Int)cellMousePoint, out Block clickedBlock)) {
+                        cell.RemoveObject((Vector2Int)cellMousePoint);
+                        cell.BlockUpdate(clickedBlock);
+                    }
+
                     break;
             }
         }
