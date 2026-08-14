@@ -28,5 +28,13 @@ namespace Cells
                 entity.Update();
             }
         }
+
+        public void UpdateAliveness() {
+            foreach (var entity in _entityList.ToArray()) {
+                if (entity.Dead) {
+                    RemoveEntity(entity);
+                }
+            }
+        }
     }
 }

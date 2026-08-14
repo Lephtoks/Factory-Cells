@@ -10,6 +10,7 @@ namespace Entities
         public Cell Parent { get; }
         public Vector2 Position { get; }
         public Hitbox Hitbox { get; }
+        public bool Dead = false;
         public void Collision(ICollider other) {
             if (other is Bullet bullet) {
                 BulletCollision(bullet);
@@ -18,6 +19,13 @@ namespace Entities
 
         public void Damage(float amount) {
             Health -= amount;
+            if (Health <= 0) {
+                Kill();
+            }
+        }
+
+        public void Kill() { 
+            Dead = true;
         }
 
         private void BulletCollision(Bullet bullet) {
