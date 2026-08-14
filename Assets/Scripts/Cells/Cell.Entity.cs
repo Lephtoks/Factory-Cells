@@ -13,8 +13,14 @@ namespace Cells
     {
         private readonly List<Entity> _entityList = new();
         
-        public void AddEntity(Entity entity) => _entityList.Add(entity);
-        public void RemoveEntity(Entity entity) => _entityList.Remove(entity);
+        public void AddEntity(Entity entity) {
+            _entityList.Add(entity);
+            _colliders.Add(entity);
+        }
+        public void RemoveEntity(Entity entity) {
+            _entityList.Remove(entity);
+            _colliders.Remove(entity);
+        }
         public List<Entity> GetEntities() => _entityList;
 
         public void UpdateEntities() {
