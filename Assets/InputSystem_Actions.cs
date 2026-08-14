@@ -100,6 +100,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test action"",
+                    ""type"": ""Button"",
+                    ""id"": ""6599763b-fd11-4b55-ba52-35ab98cd29a0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -111,6 +120,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Show hitboxes"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""117b8233-0867-47b6-961c-c3f321bbb03a"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Test action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -183,6 +203,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Showhitboxes = m_Debug.FindAction("Show hitboxes", throwIfNotFound: true);
+        m_Debug_Testaction = m_Debug.FindAction("Test action", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -264,6 +285,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Debug;
     private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
     private readonly InputAction m_Debug_Showhitboxes;
+    private readonly InputAction m_Debug_Testaction;
     /// <summary>
     /// Provides access to input actions defined in input action map "Debug".
     /// </summary>
@@ -279,6 +301,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Debug/Showhitboxes".
         /// </summary>
         public InputAction @Showhitboxes => m_Wrapper.m_Debug_Showhitboxes;
+        /// <summary>
+        /// Provides access to the underlying input action "Debug/Testaction".
+        /// </summary>
+        public InputAction @Testaction => m_Wrapper.m_Debug_Testaction;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -308,6 +334,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Showhitboxes.started += instance.OnShowhitboxes;
             @Showhitboxes.performed += instance.OnShowhitboxes;
             @Showhitboxes.canceled += instance.OnShowhitboxes;
+            @Testaction.started += instance.OnTestaction;
+            @Testaction.performed += instance.OnTestaction;
+            @Testaction.canceled += instance.OnTestaction;
         }
 
         /// <summary>
@@ -322,6 +351,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Showhitboxes.started -= instance.OnShowhitboxes;
             @Showhitboxes.performed -= instance.OnShowhitboxes;
             @Showhitboxes.canceled -= instance.OnShowhitboxes;
+            @Testaction.started -= instance.OnTestaction;
+            @Testaction.performed -= instance.OnTestaction;
+            @Testaction.canceled -= instance.OnTestaction;
         }
 
         /// <summary>
@@ -434,5 +466,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShowhitboxes(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Test action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTestaction(InputAction.CallbackContext context);
     }
 }

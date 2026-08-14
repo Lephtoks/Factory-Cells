@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Test action",
+                    "type": "Button",
+                    "id": "6599763b-fd11-4b55-ba52-35ab98cd29a0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -25,6 +34,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Show hitboxes",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "117b8233-0867-47b6-961c-c3f321bbb03a",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Test action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
