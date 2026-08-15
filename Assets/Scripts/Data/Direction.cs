@@ -14,6 +14,10 @@ namespace Data
     public struct DirectionFlag
     {
         private byte _value;
+
+        public DirectionFlag(byte value = 0) {
+            _value = value;
+        }
         public static DirectionFlag operator +(DirectionFlag flag, Direction direction) {
             flag._value |= (byte) direction;
             return flag;
@@ -36,6 +40,16 @@ namespace Data
 
         public byte ToByte() {
             return _value;
+        }
+
+        public Vector2Int ToVector2Int() {
+            var vector = new Vector2Int();
+            foreach (var dir in (Direction[]) Enum.GetValues(typeof(Direction))) {
+                if (Contains(dir)) {
+                    vector += dir.ToVector2Int();
+                }
+            }
+            return vector;
         }
     }
 

@@ -5,6 +5,7 @@ using Core;
 using Data;
 using Data.GameManagement;
 using DG.Tweening;
+using Entities.Navigation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -28,6 +29,7 @@ namespace Cells
         private void Init(ICellBehaviour behaviour = null) {
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
+            NavTree = new NavTree(this);
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
@@ -50,6 +52,7 @@ namespace Cells
             DrawDroppedItems(); // Cell.Drop.cs
             DrawBullets(); // Cell.Bullet.cs
             DrawHitboxes(); // Cell.Debug.cs
+            DrawNavigation(); // Cell.Debug.cs
         }
         
         private void OnEnable() {

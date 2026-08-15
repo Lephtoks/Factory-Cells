@@ -3,11 +3,12 @@ using Cells.Object.Building.Mono;
 using Core;
 using Data;
 using Economics;
+using Entities.Navigation;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Drill : OneSlotBlock, IRepresentable<DrillRepr, Drill>
+    public class Drill : OneSlotBlock, IRepresentable<DrillRepr, Drill>, INavWall
     {
         public DrillRepr Representation => AssetProvider.Instance.registry.drill;
         public DrillRepr LivingRepresentation { get; set; }

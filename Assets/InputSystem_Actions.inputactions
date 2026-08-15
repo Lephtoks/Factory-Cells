@@ -23,6 +23,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Show navigation",
+                    "type": "Button",
+                    "id": "08d807d0-37a5-4001-be60-d047a67e3023",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -45,6 +54,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Test action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fdcea9ec-58ae-4164-bc19-2b314188da9a",
+                    "path": "<Keyboard>/f4",
+                    "interactions": "Press(behavior=1),Press",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Show navigation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

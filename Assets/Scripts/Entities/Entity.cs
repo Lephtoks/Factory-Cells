@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Cells;
 using Cells.Object;
 using Collider;
+using Entities.Navigation;
 using UnityEngine;
 
 namespace Entities
@@ -8,9 +10,17 @@ namespace Entities
     public class Entity : ICellPlaceable, IFloatPositioned, ICollider, IHealth
     {
         public Cell Parent { get; }
-        public Vector2 Position { get; }
+        public Vector2 Position { get; set; }
         public Hitbox Hitbox { get; }
         public bool Dead = false;
+        public float MaxHealth { get; set; }
+        public float Health { get; set; }
+        
+        
+        private List<NavNode> _path;
+        private int index;
+        private float time;
+        
         public void Collision(ICollider other) {
             if (other is Bullet bullet) {
                 BulletCollision(bullet);
@@ -39,10 +49,23 @@ namespace Entities
         }
         
         public void Update() {
+            if (_path == null) {
+                _path = Parent.
+                    NavTree.
+                    BuildPath(Position, Vector2.zero);
+                index = 0;
+                time = 0;
+            }
+            time += Time.deltaTime;
+            if (time > 1f) {
+                index++;
+                if (index >= _path.Count) {
+                    index = 0;
+                }
+                time = 0;
+                Position = _path[index].Position;
+            }
             
         }
-
-        public float MaxHealth { get; set; }
-        public float Health { get; set; }
     }
 }

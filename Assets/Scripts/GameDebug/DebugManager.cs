@@ -14,25 +14,35 @@ namespace GameDebug
         
         public static bool HITBOXES_VISIBLE;
         
+        public static bool NAVIGATION_VISIBLE;
+        
         public override void Init() {
             base.Init();
             RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
             actions = new InputSystem_Actions();
             actions.Debug.Enable();
             HITBOXES_VISIBLE = false;
+            NAVIGATION_VISIBLE = false;
             actions.Debug.Showhitboxes.performed += ToggleHitboxes;
             actions.Debug.Testaction.performed += DoTestAction;
+            actions.Debug.Shownavigation.performed += ToggleNavigation;
         }
 
         public override void Dispose() {
             RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
             actions.Debug.Showhitboxes.performed -= ToggleHitboxes;
             actions.Debug.Testaction.performed -= DoTestAction;
+            actions.Debug.Shownavigation.performed -= ToggleNavigation;
         }
 
         private void ToggleHitboxes(InputAction.CallbackContext obj) {
             HITBOXES_VISIBLE = !HITBOXES_VISIBLE;
             Debug.Log(HITBOXES_VISIBLE);
+        }
+
+        private void ToggleNavigation(InputAction.CallbackContext obj) {
+            NAVIGATION_VISIBLE = !NAVIGATION_VISIBLE;
+            Debug.Log(NAVIGATION_VISIBLE);
         }
 
         private void DoTestAction(InputAction.CallbackContext obj) {

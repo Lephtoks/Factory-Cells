@@ -20,6 +20,7 @@ namespace Cells
             var block = _cellObjects[position];
             block.Destroyed = true;
             _cellObjects.Remove(position);
+            NavTree.RebuildWithout(block);
             if (block is IRepresentable representable) {
                 Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
             }
@@ -28,6 +29,7 @@ namespace Cells
         public bool TryAddObject(Block block) {
             if (!IsTileEmpty(block.Position)) return false;
             _cellObjects.Add(block.Position, block);
+            NavTree.RebuildWith(block);
 
             block.WhenBeingAddedToCell();
             return true;
