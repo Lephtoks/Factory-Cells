@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cells;
 using Cells.Object;
 using Collider;
+using Data;
 using Entities.Navigation;
 using UnityEngine;
 
@@ -10,15 +11,18 @@ namespace Entities
     public class Entity : ICellPlaceable, IFloatPositioned, ICollider, IHealth
     {
         public Cell Parent { get; }
-        public Vector2 Position { get; set; }
+        public virtual Vector2 Position { get; set; }
         public Hitbox Hitbox { get; }
         public bool Dead = false;
         public float MaxHealth { get; set; }
         public float Health { get; set; }
-        
-        
+
+        public virtual float Angle { get; set; }
+        public float PathAngle;
+        public Vector2 Target;
+        private float _rotationSpeed = 30f;
         private List<NavNode> _path;
-        private int index;
+        private NavNode _currentNode;
         private float time;
         
         public void Collision(ICollider other) {
@@ -46,26 +50,38 @@ namespace Entities
             Parent = parent;
             Position = position;
             Hitbox = new RectHitbox(() => Position, this, Vector2.zero, Vector2.one);
+            time = 0;
         }
         
         public void Update() {
-            if (_path == null) {
-                _path = Parent.
-                    NavTree.
-                    BuildPath(Position, Vector2.zero);
-                index = 0;
-                time = 0;
-            }
+            Target = Parent.tilemap.WorldToLocal(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             time += Time.deltaTime;
-            if (time > 1f) {
-                index++;
-                if (index >= _path.Count) {
-                    index = 0;
-                }
+            if (_path == null || time >= 0.05f) {
+                Pathfind();
                 time = 0;
-                Position = _path[index].Position;
             }
             
+            Angle = RotationHelper.RotateF(Angle, PathAngle, _rotationSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(_currentNode.Position, Position) < 0.1f) {
+                int indexOf = _path.IndexOf(_currentNode);
+                if (_path.Count > indexOf+1) {
+                    _currentNode = _path[indexOf + 1];
+                }
+            }
+            PathAngle = RotationHelper.AngleTo(Position, _currentNode.Position);
+            Position += (_currentNode.Position - Position).normalized * (0.5f * Time.deltaTime);
+            
+            
+        }
+
+        private void Pathfind() {
+            Vector3 worldToLocal = Target;
+            Debug.Log(worldToLocal);
+            _path = Parent.NavTree.BuildPath(Position, worldToLocal);
+            if (_path.Count > 0) {
+                _currentNode = _path[0];
+            }
         }
     }
 }

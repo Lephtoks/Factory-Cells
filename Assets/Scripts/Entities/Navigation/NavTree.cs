@@ -92,64 +92,76 @@ namespace Entities.Navigation
             }
             Nodes.Add(node);
             return node;
-        }
-        public bool AbleToMove(Vector2 a, Vector2 b)
+        }public bool AbleToMove(Vector2 a, Vector2 b)
         {
             Vector2 direction = b - a;
 
-            int x = Mathf.FloorToInt(a.x);
-            int y = Mathf.FloorToInt(a.y);
+            int cellX = Mathf.FloorToInt(a.x);
+            int cellY = Mathf.FloorToInt(a.y);
 
-            int endX = Mathf.FloorToInt(b.x);
-            int endY = Mathf.FloorToInt(b.y);
-
-            if (!Cell.IsTileEmpty(new Vector2Int(x, y)))
+            if (!Cell.IsTileEmpty(new Vector2Int(cellX, cellY)))
                 return false;
 
             if (direction == Vector2.zero)
                 return true;
 
-            int stepX = direction.x > 0 ? 1 : -1;
-            int stepY = direction.y > 0 ? 1 : -1;
+            int xDirection = direction.x > 0f ? 1 : direction.x < 0f ? -1 : 0;
+            int yDirection = direction.y > 0f ? 1 : direction.y < 0f ? -1 : 0;
 
-            float tDeltaX = direction.x == 0
-                ? float.PositiveInfinity
-                : Mathf.Abs(1f / direction.x);
+            float timePerXCell = direction.x != 0f
+                ? Mathf.Abs(1f / direction.x)
+                : float.PositiveInfinity;
 
-            float tDeltaY = direction.y == 0
-                ? float.PositiveInfinity
-                : Mathf.Abs(1f / direction.y);
+            float timePerYCell = direction.y != 0f
+                ? Mathf.Abs(1f / direction.y)
+                : float.PositiveInfinity;
 
-            float nextBoundaryX = direction.x > 0
-                ? x + 1
-                : x;
+            float nextXBoundary = direction.x > 0f
+                ? cellX + 1
+                : cellX;
 
-            float nextBoundaryY = direction.y > 0
-                ? y + 1
-                : y;
+            float nextYBoundary = direction.y > 0f
+                ? cellY + 1
+                : cellY;
 
-            float tMaxX = direction.x == 0
-                ? float.PositiveInfinity
-                : (nextBoundaryX - a.x) / direction.x;
+            float timeToNextXBoundary = direction.x != 0f
+                ? (nextXBoundary - a.x) / direction.x
+                : float.PositiveInfinity;
 
-            float tMaxY = direction.y == 0
-                ? float.PositiveInfinity
-                : (nextBoundaryY - a.y) / direction.y;
+            float timeToNextYBoundary = direction.y != 0f
+                ? (nextYBoundary - a.y) / direction.y
+                : float.PositiveInfinity;
 
-            while (x != endX || y != endY)
+            while (true)
             {
-                if (tMaxX < tMaxY)
+                float timeToNextBoundary =
+                    Mathf.Min(timeToNextXBoundary, timeToNextYBoundary);
+
+                // Конец отрезка достигнут
+                if (timeToNextBoundary > 1f)
+                    break;
+
+                if (timeToNextXBoundary < timeToNextYBoundary)
                 {
-                    x += stepX;
-                    tMaxX += tDeltaX;
+                    cellX += xDirection;
+                    timeToNextXBoundary += timePerXCell;
+                }
+                else if (timeToNextYBoundary < timeToNextXBoundary)
+                {
+                    cellY += yDirection;
+                    timeToNextYBoundary += timePerYCell;
                 }
                 else
                 {
-                    y += stepY;
-                    tMaxY += tDeltaY;
+                    // Ровно через угол клетки
+                    cellX += xDirection;
+                    cellY += yDirection;
+
+                    timeToNextXBoundary += timePerXCell;
+                    timeToNextYBoundary += timePerYCell;
                 }
 
-                if (!Cell.IsTileEmpty(new Vector2Int(x, y)))
+                if (!Cell.IsTileEmpty(new Vector2Int(cellX, cellY)))
                     return false;
             }
 

@@ -2,6 +2,7 @@ using Cells;
 using Core;
 using Data.GameManagement;
 using Entities;
+using Entities.Kinds;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -47,7 +48,7 @@ namespace GameDebug
 
         private void DoTestAction(InputAction.CallbackContext obj) {
             Cell table = GameStorage.Instance.CellInventory.GetTable();
-            table.AddEntity(new Entity(table, new Vector2(4, 6)));
+            table.AddEntity(new PointEntity(table, new Vector2(4, 6)));
             Debug.Log("Entity added");
         }
 

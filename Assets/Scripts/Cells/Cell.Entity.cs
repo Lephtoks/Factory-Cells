@@ -16,6 +16,9 @@ namespace Cells
         public void AddEntity(Entity entity) {
             _entityList.Add(entity);
             _colliders.Add(entity);
+            if (entity is IEntityRepresentable representable) {
+                representable.Represent(entity);
+            }
         }
         public void RemoveEntity(Entity entity) {
             _entityList.Remove(entity);

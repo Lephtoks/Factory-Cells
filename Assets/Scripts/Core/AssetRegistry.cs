@@ -3,6 +3,7 @@ using Cells;
 using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Economics;
+using Entities.Kinds.Mono;
 using ScriptableObjects;
 using UI.Cards;
 using UnityEngine;
@@ -79,6 +80,8 @@ namespace Core
         public DrillRepr drill;
         public WindGenRepr windGen;
         public ItemSourceRepr itemSource;
+
+        public PointRepr pointEntity;
 
         public Material ItemDropMaterial;
         public Mesh ItemDropMesh;

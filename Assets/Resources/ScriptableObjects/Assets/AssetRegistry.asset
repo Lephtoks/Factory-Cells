@@ -609,6 +609,7 @@ MonoBehaviour:
   drill: {fileID: 6073688260768873602, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}
   windGen: {fileID: 5155370108530935259, guid: f85dc5098a8a7a0fa89ad60364e45826, type: 3}
   itemSource: {fileID: 4641244845488463114, guid: ae26dd6e26adfe5c699c8405b48982fe, type: 3}
+  pointEntity: {fileID: 5237991183933707098, guid: d5c0cbbe5454b05038a1f1698ecb8843, type: 3}
   ItemDropMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   ItemDropMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   attackTrait: {fileID: 11400000, guid: 402bfef199e5b4e389bb7bc33c2279b4, type: 2}
