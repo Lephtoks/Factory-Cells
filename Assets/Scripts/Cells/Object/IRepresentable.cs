@@ -4,19 +4,18 @@ namespace Cells.Object
     {
         object LivingRepresentationObj { get; }
     }
-    public interface IRepresentable<T, K> : IRepresentable where T : BlockRepr<K> where K : Block
+    public interface IRepresentable<T> : IRepresentable where T : BlockRepr
     {
-        public T Representation {get; }
         public T LivingRepresentation {get; set;}
 
         object IRepresentable.LivingRepresentationObj => LivingRepresentation;
 
 
-        public K AssignRepresentation(T repr) {
-            this.LivingRepresentation = repr;
-            var cellObject = this as K;
-            repr.Init(cellObject);
-            return cellObject;
+        public Block AssignRepresentation(BlockRepr repr) {
+            var block = (Block)this;
+            LivingRepresentation = (T) repr;
+            LivingRepresentation.Init(block);
+            return block;
         }
     }
 }

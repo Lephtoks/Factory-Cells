@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Drill : OneSlotBlock, IRepresentable<DrillRepr, Drill>, INavWall
+    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall
     {
-        public DrillRepr Representation => AssetProvider.Instance.registry.drill;
-        public DrillRepr LivingRepresentation { get; set; }
+        public override BlockType BlockType => BlockTypes.DRILL;
+        public DefaultRepr LivingRepresentation { get; set; }
         private int _counter;
 
         public Drill(Cell parent, Vector2Int pos) : base(parent, pos) {
@@ -23,7 +23,8 @@ namespace Cells.Object.Building
             yield return Direction.NORTH;
             yield return Direction.SOUTH;
         }
-        
+
+
         public override void UpdateMove() {
             _counter++;
             if (_counter >= 5) {
@@ -34,8 +35,8 @@ namespace Cells.Object.Building
             }
         }
 
-        public static Drill Create(Cell parent, DrillRepr repr) {
-            return ((IRepresentable<DrillRepr, Drill>) new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
+        public static Block Create(Cell parent, BlockRepr repr) {
+            return ((IRepresentable<DefaultRepr>) new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
     }
 }

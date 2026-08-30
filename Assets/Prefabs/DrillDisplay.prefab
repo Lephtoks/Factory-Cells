@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3559133192337904660}
   - component: {fileID: 7484282653277836625}
-  - component: {fileID: 6073688260768873602}
   - component: {fileID: 3156450124054734303}
+  - component: {fileID: 236066166387927499}
   m_Layer: 0
   m_Name: DrillDisplay
   m_TagString: Untagged
@@ -93,19 +93,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &6073688260768873602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7399557942315081084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3adb9a6a7e6b453b940c9ffb34ca8fda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.Bulding.Mono.DrillRepr
-  textureForUI: {fileID: 0}
 --- !u!95 &3156450124054734303
 Animator:
   serializedVersion: 7
@@ -128,3 +115,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &236066166387927499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7399557942315081084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e92e11210d4fa38dfe13e4b2691ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.Building.Mono.DefaultRepr

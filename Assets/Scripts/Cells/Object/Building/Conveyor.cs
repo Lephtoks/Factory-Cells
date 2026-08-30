@@ -9,10 +9,10 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr, Conveyor>, IDirected, IItemDisplayable, IBlockUpdatable
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable
     {
         public Direction Direction { get; }
-        public ConveyorRepr Representation => AssetProvider.Instance.registry.conveyor;
+        public override BlockType BlockType => BlockTypes.CONVEYOR;
         public ConveyorRepr LivingRepresentation { get; set; }
         public DroppedItem DroppedItem { get; set; }
         
@@ -24,8 +24,8 @@ namespace Cells.Object.Building
             yield return Direction;
         }
         
-        public static Conveyor Create(Cell parent, ConveyorRepr repr) {
-            return ((IRepresentable<ConveyorRepr, Conveyor>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
+        public static Block Create(Cell parent, BlockRepr repr) {
+            return ((IRepresentable<ConveyorRepr>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
 
         public override void IntentSucceed() {

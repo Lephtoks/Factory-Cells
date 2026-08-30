@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    public abstract class BlockRepr : TransparencyGroup, IBlockRepr
+    public abstract class BlockRepr : TransparencyGroup
     {
-        public Texture2D textureForUI;
         public void MakePhantom() {
             gameObject.SetActive(true);
             SetAlpha(0.5f);
@@ -32,9 +31,13 @@ namespace Cells.Object
 
         public virtual void UseSettings(RepresentationSettings representationSettings) {
         }
+        public abstract void Init(Block repr);
     }
     public abstract class BlockRepr<T> : BlockRepr where T : Block
     {
+        public sealed override void Init(Block repr) {
+            Init((T) repr);
+        }
         public abstract void Init(T original);
 
     }

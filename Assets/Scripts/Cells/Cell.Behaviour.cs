@@ -166,7 +166,7 @@ namespace Cells
                 GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
             }
         
-            GameStorage.Instance.SetAmountOfRepresentations(currentCard.Block.Representation, reprs);
+            GameStorage.Instance.SetAmountOfRepresentations(currentCard.Block.Def.Representation, reprs);
 
             for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
                 BlockRepr repr = GameStorage.Instance.NodeReprs[i];

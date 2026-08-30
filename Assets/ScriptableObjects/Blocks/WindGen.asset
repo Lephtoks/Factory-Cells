@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dea71470ff4c46940790dfc5883274, type: 3}
+  m_Name: WindGen
+  m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.BlockDefinition
+  Representation: {fileID: 5155370108530935259, guid: f85dc5098a8a7a0fa89ad60364e45826, type: 3}
+  TextureForUI: {fileID: 3913207618164610262, guid: 8bca5c552406e156ca9ca942a0739626, type: 3}
+  Title: Wind generator
+  Description: Windy!

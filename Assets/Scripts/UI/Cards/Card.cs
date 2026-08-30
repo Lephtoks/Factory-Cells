@@ -56,7 +56,7 @@ namespace UI.Cards
         }
 
         private void Start() {
-            image.sprite = Block.TextureForUI;
+            image.sprite = Block.Def.TextureForUI;
         }
 
         internal void SetParent(Transform parent) {

@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class WindGen : Block, IRepresentable<WindGenRepr, WindGen>, IDirected, IItemDisplayable, IPreUpdatable
+    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IItemDisplayable, IPreUpdatable
     {
         public Direction Direction { get; }
-        public WindGenRepr Representation => AssetProvider.Instance.registry.windGen;
+        public override BlockType BlockType => BlockTypes.WIND_GEN;
         public WindGenRepr LivingRepresentation { get; set; }
         public DroppedItem DroppedItem { get; set; }
         
@@ -19,8 +19,8 @@ namespace Cells.Object.Building
             Direction = direction;
         }
         
-        public static WindGen Create(Cell parent, WindGenRepr repr) {
-            return ((IRepresentable<WindGenRepr, WindGen>)new WindGen(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
+        public static Block Create(Cell parent, BlockRepr repr) {
+            return ((IRepresentable<WindGenRepr>)new WindGen(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
 
         public void UpdatePreMove() {

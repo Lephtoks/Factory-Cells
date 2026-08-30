@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cells;
+using Cells.Object;
 using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Economics;
@@ -76,10 +77,10 @@ namespace Core
         
         public Card cardPrefab;
         public Cell cellPrefab;
-        public ConveyorRepr conveyor;
-        public DrillRepr drill;
-        public WindGenRepr windGen;
-        public ItemSourceRepr itemSource;
+        public BlockDefinition conveyor;
+        public BlockDefinition drill;
+        public BlockDefinition windGen;
+        public BlockDefinition itemSource;
 
         public PointRepr pointEntity;
 

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dea71470ff4c46940790dfc5883274, type: 3}
+  m_Name: Conveyor
+  m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.BlockDefinition
+  Representation: {fileID: 7415543107196063511, guid: 417eeab0ef45ddb25a2a6caba951807a, type: 3}
+  TextureForUI: {fileID: 5947340528097819069, guid: 5a0dbe766ddb0d5d7a49a83717687cfb, type: 3}
+  Title: Conveyor
+  Description: Yet another conveyor

@@ -28,7 +28,7 @@ namespace Cells
                 ( capturedButton == -1 || 
                   (!Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton) &&
                    !Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)))) {
-                IBlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
+                BlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
                 instanceNodeRepr.MakePhantom();
                 instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), CellPivot);
             }

@@ -101,7 +101,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7399557942315081084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0e2b8780114b62b597238dd891f2c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 89e92e11210d4fa38dfe13e4b2691ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.Building.Mono.ItemSourceRepr
-  textureForUI: {fileID: 0}

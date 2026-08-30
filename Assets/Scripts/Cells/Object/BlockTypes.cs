@@ -1,3 +1,4 @@
+using System;
 using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Core;
@@ -7,9 +8,16 @@ namespace Cells.Object
 {
     public static class BlockTypes
     {
-        public static readonly BlockType DRILL = new((cell, repr) => Drill.Create(cell, repr as DrillRepr), AssetProvider.Instance.registry.drill, Resources.Load<Sprite>("Textures/Items/Drill"), "Drill", "Just another drill");
-        public static readonly BlockType CONVEYOR = new((cell, repr) => Conveyor.Create(cell, repr as ConveyorRepr), AssetProvider.Instance.registry.conveyor, Resources.Load<Sprite>("Textures/Items/Conveyor"), "Conveyor", "Just another conveyor");
-        public static readonly BlockType WIND_GEN = new((cell, repr) => WindGen.Create(cell, (WindGenRepr) repr), AssetProvider.Instance.registry.windGen, Resources.Load<Sprite>("Textures/Items/Conveyor"), "Wind generator", "Creates wind");
-        public static readonly BlockType ITEM_SOURCE = new((cell, repr) => ItemSource.Create(cell, repr as ItemSourceRepr), AssetProvider.Instance.registry.itemSource, Resources.Load<Sprite>("Textures/Items/Drill"), "ItemSource", "Infinite items!");
+        public static readonly BlockType DRILL = Register(Drill.Create, AssetProvider.Instance.registry.drill);
+        public static readonly BlockType CONVEYOR = Register(Conveyor.Create, AssetProvider.Instance.registry.conveyor);
+        public static readonly BlockType WIND_GEN = Register(WindGen.Create, AssetProvider.Instance.registry.windGen);
+        public static readonly BlockType ITEM_SOURCE = Register(ItemSource.Create, AssetProvider.Instance.registry.itemSource);
+
+        public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {
+            return new BlockType(
+                creator,
+                def
+                );
+        }
     }
 }

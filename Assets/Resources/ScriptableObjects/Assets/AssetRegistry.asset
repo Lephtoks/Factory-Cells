@@ -605,10 +605,10 @@ MonoBehaviour:
   stoneHull: {fileID: 0}
   cardPrefab: {fileID: 6968424386438220057, guid: a93bc5c29264bb7be9b5775cee4644af, type: 3}
   cellPrefab: {fileID: 1831742950847176793, guid: d22dfa9e56ed87303bad9fe3353a58ee, type: 3}
-  conveyor: {fileID: 7415543107196063511, guid: 417eeab0ef45ddb25a2a6caba951807a, type: 3}
-  drill: {fileID: 6073688260768873602, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}
-  windGen: {fileID: 5155370108530935259, guid: f85dc5098a8a7a0fa89ad60364e45826, type: 3}
-  itemSource: {fileID: 4641244845488463114, guid: ae26dd6e26adfe5c699c8405b48982fe, type: 3}
+  conveyor: {fileID: 11400000, guid: 5306b0e36936a6355ac03c05bfaf3a9f, type: 2}
+  drill: {fileID: 11400000, guid: c5309385290a67ed9aafce864194344f, type: 2}
+  windGen: {fileID: 11400000, guid: c38577006c563a5719aa4e95a9fd8055, type: 2}
+  itemSource: {fileID: 11400000, guid: d7297f6adec43d3f3918f52bea402647, type: 2}
   pointEntity: {fileID: 5237991183933707098, guid: d5c0cbbe5454b05038a1f1698ecb8843, type: 3}
   ItemDropMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   ItemDropMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}

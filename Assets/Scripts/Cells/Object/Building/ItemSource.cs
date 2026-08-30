@@ -7,11 +7,10 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class ItemSource: OneSlotBlock, IRepresentable<ItemSourceRepr, ItemSource>
+    public class ItemSource: OneSlotBlock, IRepresentable<DefaultRepr>
     {
-
-        public ItemSourceRepr Representation => AssetProvider.Instance.registry.itemSource;
-        public ItemSourceRepr LivingRepresentation { get; set; }
+        public override BlockType BlockType => BlockTypes.ITEM_SOURCE;
+        public DefaultRepr LivingRepresentation { get; set; }
         
         public ItemSource(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
@@ -28,8 +27,8 @@ namespace Cells.Object.Building
             SetItem(Currency.STONE.OfCount(1));
         }
 
-        public static ItemSource Create(Cell parent, ItemSourceRepr repr) {
-            return ((IRepresentable<ItemSourceRepr, ItemSource>) new ItemSource(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
+        public static Block Create(Cell parent, BlockRepr repr) {
+            return ((IRepresentable<DefaultRepr>) new ItemSource(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
     }
 }
