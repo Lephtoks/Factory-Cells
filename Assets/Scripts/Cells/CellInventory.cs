@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cells;
+using UnityEngine;
 
 public class CellInventory
 {
@@ -29,6 +30,10 @@ public class CellInventory
     }
     public void PlaceOnTable(Cell cell) {
         if (onTable) {
+            if (onTable.locked) {
+                Debug.Log("Table item can't be moved");
+                return;
+            }
             var table = onTable;
             onTable = null;
             AddCell(table);

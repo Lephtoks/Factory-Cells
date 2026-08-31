@@ -11,6 +11,7 @@ namespace Cells
     public partial class Cell : IOfferable
     {
         internal Action UpdateShopPosition;
+        public bool locked;
         
         public void DestroyInOffer() {
             transform.DOKill();
@@ -22,6 +23,7 @@ namespace Cells
             GameStorage.Instance.AddCell(this);
             Glow.Hide();
             GameStorage.Instance.CellInventory.PlaceOnTable(this);
+            locked = true;
             GameEvents.InvokeCellPositionUpdate();
         }
 
