@@ -21,7 +21,7 @@ namespace Cells
         public void SelectedInOffer() {
             GameStorage.Instance.AddCell(this);
             Glow.Hide();
-            SetBehaviour(CellBehaviours.INVENTORY);
+            GameStorage.Instance.CellInventory.PlaceOnTable(this);
             GameEvents.InvokeCellPositionUpdate();
         }
 
