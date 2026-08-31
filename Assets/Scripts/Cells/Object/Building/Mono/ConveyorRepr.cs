@@ -50,7 +50,7 @@ namespace Cells.Object.Building.Mono
         public void Update() {
             if (_originalConveyor == null) return;
             if (_animationSprites.Length == 0) return;
-            _spriteRenderer.sprite = _animationSprites[Mathf.RoundToInt((_originalConveyor.Parent.SynchronousConveyorTime % 1) * (AssetProvider.Instance.registry.ConveyorRightSprites.Length-1))];
+            _spriteRenderer.sprite = _animationSprites[Mathf.RoundToInt((_originalConveyor.Parent.SynchronousConveyorTime % 1) * (_animationSprites.Length-1))];
         }
     }
 }

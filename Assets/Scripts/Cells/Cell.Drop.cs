@@ -21,7 +21,7 @@ namespace Cells
         }
         
         private void DrawDroppedItems() {
-            var rp = new RenderParams(AssetProvider.Instance.registry.ItemDropMaterial) {
+            var rp = new RenderParams(AssetProvider.Instance.registry.render.ItemDropMaterial) {
                 // layer = gameObject.layer
             };
 
@@ -35,7 +35,7 @@ namespace Cells
                 var worldPos = CellPivot.TransformPoint(item.VisualPosition + new Vector3(0.5f + 1/32f, 0.5f + 1/32f, -0.5f));
                 var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale * 0.8f);
 
-                Graphics.RenderMesh(rp, AssetProvider.Instance.registry.ItemDropMesh, 0, matrix);
+                Graphics.RenderMesh(rp, AssetProvider.Instance.registry.render.ItemDropMesh, 0, matrix);
             }
         }
 

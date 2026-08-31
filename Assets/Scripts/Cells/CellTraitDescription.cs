@@ -25,7 +25,7 @@ namespace Cells
         }
         
         public void AddTrait(object trait) {
-            var icon = Instantiate(AssetProvider.Instance.registry.traitIconPrefab, transform);
+            var icon = Instantiate(AssetProvider.Instance.registry.traits.traitIconPrefab, transform);
             var spriteRenderer = icon.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = AssetProvider.Instance.GetTraitInfo(trait.GetType()).icon;
             
@@ -41,7 +41,7 @@ namespace Cells
                 uint bit = remaining & (uint)-(int)remaining;
                 CellStaticTraits flag = (CellStaticTraits)bit;
 
-                var icon = Instantiate(AssetProvider.Instance.registry.traitIconPrefab, transform);
+                var icon = Instantiate(AssetProvider.Instance.registry.traits.traitIconPrefab, transform);
                 var spriteRenderer = icon.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = AssetProvider.Instance.GetTraitInfo(flag).icon;
                 _staticTraits[flag] = spriteRenderer;

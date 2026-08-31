@@ -32,7 +32,7 @@ namespace Entities.Kinds
             }
         }
 
-        public PointRepr Representation => AssetProvider.Instance.registry.pointEntity;
+        public PointRepr Representation => AssetProvider.Instance.registry.entities.pointEntity;
         public PointRepr LivingRepresentation { get; set; }
         public float DeltaPos = 0.05f;
 

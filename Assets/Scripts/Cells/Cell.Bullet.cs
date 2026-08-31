@@ -33,7 +33,7 @@ namespace Cells
         }
 
         public void DrawBullets() {
-            var rp = new RenderParams(AssetProvider.Instance.registry.ItemDropMaterial) {
+            var rp = new RenderParams(AssetProvider.Instance.registry.render.ItemDropMaterial) {
                 // layer = gameObject.layer
             };
         
@@ -47,7 +47,7 @@ namespace Cells
                 var worldPos = CellPivot.TransformPoint(bullet.Position);
                 var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale * 0.25f);
         
-                Graphics.RenderMesh(rp, AssetProvider.Instance.registry.ItemDropMesh, 0, matrix);
+                Graphics.RenderMesh(rp, AssetProvider.Instance.registry.render.ItemDropMesh, 0, matrix);
             }
         }
     }

@@ -12,12 +12,12 @@ namespace Data.Offers
     {
         private readonly List<IOfferable> _offerableList = new List<IOfferable>();
         public Offer AddCard(BlockType cardBlockType) {
-            Add(Card.Create(AssetProvider.Instance.registry.cardPrefab, cardBlockType));
+            Add(Card.Create(AssetProvider.Instance.registry.cards.cardPrefab, cardBlockType));
             return this;
         }
         
         public Offer AddCell(CellStaticTraits staticTraits, object[] dynamicTraits) {
-            var offerable = Cell.Create(AssetProvider.Instance.registry.cellPrefab);
+            var offerable = Cell.Create(AssetProvider.Instance.registry.cells.cellPrefab);
             offerable.AddTrait(staticTraits);
             foreach (var dynamicTrait in dynamicTraits) {
                 offerable.AddTrait(dynamicTrait);

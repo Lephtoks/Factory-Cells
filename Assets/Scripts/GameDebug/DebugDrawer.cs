@@ -13,7 +13,7 @@ namespace GameDebug
         {
             if (lines.Count == 0)
                 return;
-            AssetProvider.Instance.registry.DebugLineMaterial.SetPass(0);
+            AssetProvider.Instance.registry.render.DebugLineMaterial.SetPass(0);
 
             GL.PushMatrix();
 
