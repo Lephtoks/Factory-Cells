@@ -8,6 +8,7 @@ namespace Data.GameManagement
     public partial class GameStorage
     {
         public Card ActiveCard {private set; get;}
+        public BlockBuildOption BuildOption = new();
         private readonly List<Card> _cardsInHand = new();
         
         public void AddCard(Card card) {
@@ -32,7 +33,7 @@ namespace Data.GameManagement
 
         public void SetActiveCard(Card card) {
             ActiveCard = card;
-            UpdatePointerRepr();
+            BuildOption.ActiveCardUpdated();
         }
     }
 }

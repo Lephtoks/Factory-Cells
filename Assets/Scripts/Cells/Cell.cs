@@ -17,6 +17,7 @@ namespace Cells
         public Transform FramePivot { get; private set; }
         public Transform CellPivot { get; private set; }
         private Vector3 _baseScale;
+        public bool locked;
         public UIGlow Glow;
         private bool _initialized;
 

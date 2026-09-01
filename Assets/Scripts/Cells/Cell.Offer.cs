@@ -1,4 +1,5 @@
 using System;
+using Cells.Object;
 using Data;
 using Data.GameManagement;
 using Data.Offers;
@@ -11,7 +12,6 @@ namespace Cells
     public partial class Cell : IOfferable
     {
         internal Action UpdateShopPosition;
-        public bool locked;
         
         public void DestroyInOffer() {
             transform.DOKill();
@@ -24,6 +24,7 @@ namespace Cells
             Glow.Hide();
             GameStorage.Instance.CellInventory.PlaceOnTable(this);
             locked = true;
+            GameStorage.Instance.BuildOption.EnqueueNecessary(BlockTypes.WIND_GEN); // TODO: CELL_ANCHOR
             GameEvents.InvokeCellPositionUpdate();
         }
 

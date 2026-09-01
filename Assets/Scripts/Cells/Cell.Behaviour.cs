@@ -95,15 +95,15 @@ namespace Cells
 
             switch (args.CapturedButton) {
                 case 0: {
-                    var currentCard = GameStorage.Instance.ActiveCard;
-                    if (!currentCard) return;
+                    var blockType = GameStorage.Instance.BuildOption.GetActiveBlock();
+                    if (blockType == null) return;
 
                     var reprs = GameStorage.Instance.NodeReprs;
                     var added = new List<Block>();
                     while (reprs.Count > 0) {
                         var repr = reprs[^1];
                         reprs.Remove(repr);
-                        Block block = currentCard.Block.Create(cell, repr);
+                        Block block = blockType.Create(cell, repr);
                         if (!cell.TryAddObject(block)) {
                             UnityEngine.Object.Destroy(repr.gameObject);
                         }
@@ -115,6 +115,10 @@ namespace Cells
 
                     foreach (var block in added) {
                         cell.BlockUpdate(block);
+                    }
+
+                    if (GameStorage.Instance.BuildOption.HasNecessaryBlocks()) {
+                        GameStorage.Instance.BuildOption.DequeueNecessary();
                     }
                     GameStorage.Instance.CreatePointerRepr();
                     break;
@@ -133,8 +137,8 @@ namespace Cells
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
             if (!args.ObjectCaptured)  return;
             
-            var currentCard = GameStorage.Instance.ActiveCard;
-            if (!currentCard) return;
+            var blockType = GameStorage.Instance.BuildOption.GetActiveBlock();
+            if (blockType == null) return;
         
             if (args.CapturedButton != 0) return;
             
@@ -166,7 +170,7 @@ namespace Cells
                 GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
             }
         
-            GameStorage.Instance.SetAmountOfRepresentations(currentCard.Block.Def.Representation, reprs);
+            GameStorage.Instance.SetAmountOfRepresentations(blockType.Def.Representation, GameStorage.Instance.BuildOption.HasNecessaryBlocks() ? 1 : reprs);
 
             for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
                 BlockRepr repr = GameStorage.Instance.NodeReprs[i];

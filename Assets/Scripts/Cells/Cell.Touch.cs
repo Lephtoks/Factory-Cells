@@ -24,7 +24,7 @@ namespace Cells
             MainController.Instance.CellBehaviourArguments.CapturedButton = capturedButton;
             var cellPos = tilemap.WorldToCell(worldPos);
             
-            if (GameStorage.Instance.ActiveCard && _behaviour == CellBehaviours.TABLE &&
+            if (GameStorage.Instance.BuildOption.GetActiveBlock() != null && _behaviour == CellBehaviours.TABLE &&
                 ( capturedButton == -1 || 
                   (!Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton) &&
                    !Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)))) {

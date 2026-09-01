@@ -20,7 +20,10 @@ namespace Data.GameManagement
         }
 
         public void CreatePointerRepr() {
-            BlockRepr blockRepr = CreateRepresentation(ActiveCard.Block.Def.Representation);
+            BlockType activeBlock = BuildOption.GetActiveBlock();
+            if (activeBlock == null) return;
+            
+            BlockRepr blockRepr = CreateRepresentation(activeBlock.Def.Representation);
             blockRepr.MakeInvisible();
         }
         public void SetAmountOfRepresentations(BlockRepr cellObjectRepresentation, int reprs) {
