@@ -7,15 +7,23 @@ using UnityEngine;
 
 namespace Cells.Object
 {
-    [DefaultExecutionOrder(-1000)]
     public static class BlockTypes
     {
         private static readonly BlockAssets Blocks = AssetProvider.Instance.registry.blocks;
-        public static readonly BlockType DRILL = Register(Drill.Create, Blocks.drill);
-        public static readonly BlockType CONVEYOR = Register(Conveyor.Create, Blocks.conveyor);
-        public static readonly BlockType WIND_GEN = Register(WindGen.Create, Blocks.windGen);
-        public static readonly BlockType ITEM_SOURCE = Register(ItemSource.Create, Blocks.itemSource);
+        public static BlockType DRILL;
+        public static BlockType CONVEYOR;
+        public static BlockType WIND_GEN;
+        public static BlockType ITEM_SOURCE;
+        public static BlockType CELL_ANCHOR;
 
+        public static void Init() {
+            DRILL = Register(Drill.Create, Blocks.drill);
+            CONVEYOR = Register(Conveyor.Create, Blocks.conveyor);
+            WIND_GEN = Register(WindGen.Create, Blocks.windGen);
+            ITEM_SOURCE = Register(ItemSource.Create, Blocks.itemSource);
+            CELL_ANCHOR = Register(CellAnchor.Create, Blocks.cellAnchor);
+        }
+        
         public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {
             return new BlockType(
                 creator,

@@ -1,3 +1,4 @@
+using Cells.Object;
 using Core;
 using Core.Locals;
 using UI.Cloud;
@@ -16,6 +17,8 @@ namespace Data.GameManagement
         
         public override void Init() {
             base.Init();
+            BlockTypes.Init();
+            
             Cam = Camera.main;
             InfoCloud = FindGameObjectWithTag("UICloud").GetComponent<UICloudInfo>();
             Table = GameLocalBootstrap.Instance.table;
