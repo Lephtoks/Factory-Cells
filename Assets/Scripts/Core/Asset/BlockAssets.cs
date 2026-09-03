@@ -10,5 +10,6 @@ namespace Core.Asset
         public BlockDefinition drill;
         public BlockDefinition windGen;
         public BlockDefinition itemSource;
+        public BlockDefinition cellAnchor;
     }
 }

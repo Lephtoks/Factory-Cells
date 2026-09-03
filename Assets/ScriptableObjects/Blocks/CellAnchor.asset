@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69dea71470ff4c46940790dfc5883274, type: 3}
+  m_Name: CellAnchor
+  m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.BlockDefinition
+  Representation: {fileID: 236066166387927499, guid: 3f0a0eafe68c9ec9daebad312d9f1d59, type: 3}
+  TextureForUI: {fileID: -2278566297644842510, guid: b6b3fca028c3791159dc8d6f33e4849d, type: 3}
+  Title: Cell anchor
+  Description: Heart of the cell. If it dies - cell also dies.

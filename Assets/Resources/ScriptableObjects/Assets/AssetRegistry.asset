@@ -17,6 +17,7 @@ MonoBehaviour:
     drill: {fileID: 11400000, guid: c5309385290a67ed9aafce864194344f, type: 2}
     windGen: {fileID: 11400000, guid: c38577006c563a5719aa4e95a9fd8055, type: 2}
     itemSource: {fileID: 11400000, guid: d7297f6adec43d3f3918f52bea402647, type: 2}
+    cellAnchor: {fileID: 11400000, guid: 2cba4f078d3b9c802a935ef5b791c2b1, type: 2}
   conveyorSprites:
     ConveyorUpClosedSprites:
     - {fileID: -2164540517423491671, guid: 8ec5b7fdf03902154bffa181c339a97f, type: 3}

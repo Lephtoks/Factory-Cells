@@ -24,7 +24,7 @@ namespace Cells
             Glow.Hide();
             GameStorage.Instance.CellInventory.PlaceOnTable(this);
             locked = true;
-            GameStorage.Instance.BuildOption.EnqueueNecessary(BlockTypes.WIND_GEN); // TODO: CELL_ANCHOR
+            GameStorage.Instance.BuildOption.EnqueueNecessary(BlockTypes.CELL_ANCHOR);
             GameEvents.InvokeCellPositionUpdate();
         }
 
