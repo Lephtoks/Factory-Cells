@@ -21,6 +21,7 @@ namespace Cells
             block.Destroyed = true;
             _cellObjects.Remove(position);
             NavTree.RebuildWithout(block);
+            block.OnDestroy();
             if (block is IRepresentable representable) {
                 Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
             }

@@ -128,5 +128,10 @@ namespace Cells
                 }
             }
         }
+
+        public void InitiateCellDestruction() {
+            Destroy(gameObject);
+            GameStorage.Instance.RemoveCell(this);
+        }
     }
 }

@@ -20,6 +20,10 @@ namespace Cells.Object.Building
             Parent.locked = false;
         }
 
+        public override void OnDestroy() {
+            Parent.InitiateCellDestruction();
+        }
+
         public static Block Create(Cell parent, BlockRepr repr) {
             return ((IRepresentable<DefaultRepr>) new CellAnchor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }

@@ -17,6 +17,7 @@ namespace Cells.Object
         
         public virtual void WhenBeingAddedToCell() {
         }
+        public virtual void OnDestroy() {}
 
         public Block Duplicate() {
             return (Block)MemberwiseClone();
