@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cells;
+using Data;
 using UnityEngine;
 
 public class CellInventory
@@ -30,7 +31,7 @@ public class CellInventory
     }
     public void PlaceOnTable(Cell cell) {
         if (onTable) {
-            if (onTable.locked) {
+            if (onTable.IsLocked()) {
                 Debug.Log("Table item can't be moved");
                 return;
             }
@@ -41,5 +42,16 @@ public class CellInventory
         cells.Remove(cell);
         onTable = cell;
         onTable.SetBehaviour(CellBehaviours.TABLE);
+    }
+
+    public void UpdateTableLocks() {
+        if (onTable.IsLocked()) return;
+        foreach (var cell in cells) {
+            if (cell.IsLocked()) {
+                PlaceOnTable(cell);
+                GameEvents.InvokeCellPositionUpdate();
+                return;
+            }
+        }
     }
 }

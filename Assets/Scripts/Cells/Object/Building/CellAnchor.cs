@@ -17,7 +17,7 @@ namespace Cells.Object.Building
 
         public override void WhenBeingAddedToCell() {
             base.WhenBeingAddedToCell();
-            Parent.locked = false;
+            Parent.Unlock(new CellAnchorLocker());
         }
 
         public override void OnDestroy() {

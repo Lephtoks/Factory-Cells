@@ -23,7 +23,7 @@ namespace Cells
             GameStorage.Instance.AddCell(this);
             Glow.Hide();
             GameStorage.Instance.CellInventory.PlaceOnTable(this);
-            locked = true;
+            Lock(new CellAnchorLocker());
             GameStorage.Instance.BuildOption.EnqueueNecessary(BlockTypes.CELL_ANCHOR);
             GameEvents.InvokeCellPositionUpdate();
         }
