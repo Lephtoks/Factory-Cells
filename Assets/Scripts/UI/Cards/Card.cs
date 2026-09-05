@@ -7,15 +7,15 @@ using Data;
 using Data.GameManagement;
 using Data.Offers;
 using DG.Tweening;
+using Interactions;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace UI.Cards
 {
-    public class Card : MonoBehaviour, IOfferable
+    public class Card : MonoBehaviour, IOfferable, ITouchable
     {
         internal RectTransform _rectTransform;
         internal Vector3 _baseScale;
@@ -26,6 +26,7 @@ namespace UI.Cards
         public BlockType Block;
         public UIGlow Glow;
         [SerializeField] private Image image;
+        [SerializeField] private RectTransform visibleCard;
 
         internal Action UpdateShopPosition;
 
@@ -44,7 +45,35 @@ namespace UI.Cards
             Block = blockType;
             OnEnable();
         }
-        
+
+        public float GetDepth() {
+            return GameStorage.Instance.ActiveCard == this ? DepthLayers.SELECTED_CARD : DepthLayers.CARDS + _siblingIndex / (float) GameStorage.Instance.GetCards().Count;
+        }
+
+        public bool CapturesClick() {
+            return true;
+        }
+
+        public bool IsSelected(Vector3 mousePos, Vector3 worldPos) {
+            return RectTransformUtility.RectangleContainsScreenPoint(visibleCard, mousePos, GameStorage.Instance.Cam);
+        }
+
+        public void Select(Vector3 mousePos, Vector3 worldPos, int capturedButton, bool captured) {
+            Debug.Log("SELELELELELEL");
+            // throw new NotImplementedException();
+        }
+
+        public void OnHoverEnd(Vector3 mousePos, Vector3 worldPos, int capturedButton) {
+            _behaviour.OnPointerExit(this);
+            MainController.Instance.InteractionManager.UpdateDepth(this);
+        }
+
+        public void OnHoverStart(Vector3 mousePos, Vector3 worldPos, int capturedButton) {
+            _behaviour.OnPointerEnter(this);
+            MainController.Instance.InteractionManager.UpdateDepth(this);
+            
+        }
+
         // Mono
         
         private void Awake() {
@@ -65,11 +94,16 @@ namespace UI.Cards
         }
 
         private void OnEnable() {
-            if (_initialized) _behaviour.OnEnable(this);
+            if (!_initialized) return;
+            _behaviour.OnEnable(this);
+            Debug.Log("REG");
+            MainController.Instance.InteractionManager.Register(this);
         }
 
         private void OnDisable() {
-            if (_initialized) _behaviour.OnDisable(this);
+            if (!_initialized) return;
+            _behaviour.OnDisable(this);
+            MainController.Instance.InteractionManager.Unregister(this);
         }
 
         // Behaviour
@@ -88,14 +122,6 @@ namespace UI.Cards
         
         public void OnClick() {
             _behaviour.OnClick(this);
-        }
-
-        public void OnPointerEnter(PointerEventData eventData) {
-            _behaviour.OnPointerEnter(eventData, this);
-        }
-
-        public void OnPointerExit(PointerEventData eventData) {
-            _behaviour.OnPointerExit(eventData, this);
         }
         
         // Hand logic
@@ -370,8 +396,8 @@ namespace UI.Cards
         public void OnEnable(Card card) {}
         public void OnDisable(Card card) {}
         public void InitBehaviour(Card card) {}
-        public void OnPointerEnter(PointerEventData eventData, Card card) {}
-        public void OnPointerExit(PointerEventData eventData, Card card) {}
+        public void OnPointerEnter(Card card) {}
+        public void OnPointerExit(Card card) {}
     }
 
     public static class CardBehaviours
@@ -403,13 +429,13 @@ namespace UI.Cards
             GameEvents.OnCardHandUpdated -= card.OnHandUpdate;
         }
         
-        public void OnPointerEnter(PointerEventData eventData, Card card) {
+        public void OnPointerEnter(Card card) {
             if (GameStorage.Instance.ActiveCard != card) card.ApplyHandTransform(radius: 300, offset: 15f);
             card._siblingIndex = card.transform.GetSiblingIndex();
             card.transform.SetAsLastSibling();
         }
 
-        public void OnPointerExit(PointerEventData eventData, Card card) {
+        public void OnPointerExit(Card card) {
             if (GameStorage.Instance.ActiveCard != card) card.ApplyHandTransform(radius: 300);
             card.transform.SetSiblingIndex(card._siblingIndex);
         }
@@ -434,13 +460,13 @@ namespace UI.Cards
             GameEvents.OnScreenSizeChanged -= card.OnScreenSizeChanged;
         }
 
-        public void OnPointerEnter(PointerEventData eventData, Card card) {
+        public void OnPointerEnter(Card card) {
             card._rectTransform
                 .DOScale(card._baseScale * card.GetShopScaleFactor() + new Vector3(0.25f, 0.25f, 0), 0.2f)
                 .SetEase(Ease.OutCubic);
         }
 
-        public void OnPointerExit(PointerEventData eventData, Card card) {
+        public void OnPointerExit(Card card) {
             card.UpdateShopPosition();
         }
     }

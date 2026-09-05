@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Cards.Card
   Glow: {fileID: 6616119193145517327}
   image: {fileID: 5338539891612978351}
+  visibleCard: {fileID: 6628488188003602326}
 --- !u!1 &6178655941675279437
 GameObject:
   m_ObjectHideFlags: 0

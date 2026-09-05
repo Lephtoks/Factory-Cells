@@ -5489,7 +5489,7 @@ MonoBehaviour:
   table: {fileID: 518577506}
   shopScreen: {fileID: 1269010800}
   CellHolder: {fileID: 445975336}
-  canvasCardHolder: {fileID: 574447012}
+  canvasCardHolder: {fileID: 574447010}
 --- !u!1 &352497326
 GameObject:
   m_ObjectHideFlags: 0
@@ -5824,7 +5824,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 574447011}
-  - component: {fileID: 574447012}
   m_Layer: 5
   m_Name: CardHolder
   m_TagString: Untagged
@@ -5851,18 +5850,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &574447012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 574447010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2bfc27ad09a4b3595c30506244a0792, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.Cards.CardHolder
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ namespace Core.Locals
         public GameObject table;
         public GameObject shopScreen;
         public GameObject CellHolder;
-        public CardHolder canvasCardHolder;
+        public GameObject canvasCardHolder;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
