@@ -64,7 +64,7 @@ namespace Cells
         }
 
         public bool IsTileEmpty(Vector2Int position) {
-            return !_cellObjects.ContainsKey(position);
+            return 0 <= position.x && position.x < size && 0 <= position.y && position.y < size && !_cellObjects.ContainsKey(position);
         }
 
         public void UpdatePreMove() {
