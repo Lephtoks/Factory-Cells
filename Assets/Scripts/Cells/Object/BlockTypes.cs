@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cells.Object.Building;
 using Cells.Object.Building.Mono;
 using Core;
@@ -25,10 +26,12 @@ namespace Cells.Object
         }
         
         public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {
-            return new BlockType(
+            var blockType = new BlockType(
                 creator,
                 def
-                );
+            );
+            def.Representation.BlockType = blockType;
+            return blockType;
         }
     }
 }

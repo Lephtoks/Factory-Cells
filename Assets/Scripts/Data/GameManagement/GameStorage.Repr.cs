@@ -68,7 +68,7 @@ namespace Data.GameManagement
                 _reprCache[type] = new List<BlockRepr>();
             }
             repr = Object.Instantiate(cellObjectRepresentation);
-            NodeReprs.Add(repr);
+            repr.BlockType = cellObjectRepresentation.BlockType;
             return repr;
         }
 

@@ -6,6 +6,7 @@ namespace Cells.Object
 {
     public abstract class BlockRepr : TransparencyGroup
     {
+        public BlockType BlockType;
         public void MakePhantom() {
             gameObject.SetActive(true);
             SetAlpha(0.5f);
