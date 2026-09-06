@@ -28,9 +28,7 @@ namespace Cells
                 ( capturedButton == -1 || 
                   (!Input.GetMouseButton(MainController.Instance.CellBehaviourArguments.CapturedButton) &&
                    !Input.GetMouseButtonUp(MainController.Instance.CellBehaviourArguments.CapturedButton)))) {
-                BlockRepr instanceNodeRepr = GameStorage.Instance.NodeReprs[0];
-                instanceNodeRepr.MakePhantom();
-                instanceNodeRepr.SetPos(new Vector3Int(cellPos.x, cellPos.y, -1), CellPivot);
+                GameStorage.Instance.Representer.Place(new Vector2Int(cellPos.x, cellPos.y), this);
             }
 
             if (capturedButton != -1) {
@@ -59,6 +57,12 @@ namespace Cells
             }
             else {
                 GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
+            }
+        }
+
+        public void OnHoverEnd(Vector3 mousePos, Vector3 worldPos, int capturedButton) {
+            if (GameStorage.Instance.Representer.CurrentCell == this) {
+                GameStorage.Instance.Representer.Displace();
             }
         }
     }

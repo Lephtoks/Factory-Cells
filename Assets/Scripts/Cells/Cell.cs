@@ -129,6 +129,7 @@ namespace Cells
         }
 
         public void InitiateCellDestruction() {
+            GameStorage.Instance.Representer.Displace();
             Destroy(gameObject);
             GameStorage.Instance.RemoveCell(this);
         }

@@ -11,7 +11,7 @@ namespace Data
 
         public void EnqueueNecessary(BlockType block) {
             _necessaryBlocks.Enqueue(block);
-            GameStorage.Instance.UpdatePointerRepr();
+            GameStorage.Instance.Representer.SetCurrentBlockRepr();
         }
         public void DequeueNecessary() {
             _necessaryBlocks.Dequeue();
@@ -32,7 +32,7 @@ namespace Data
 
         public void ActiveCardUpdated() {
             if (_necessaryBlocks.Count == 0) {
-                GameStorage.Instance.UpdatePointerRepr();
+                GameStorage.Instance.Representer.SetCurrentBlockRepr();
             }
         }
     }

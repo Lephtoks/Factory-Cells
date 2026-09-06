@@ -21,6 +21,7 @@ namespace Core.Locals
         public GameObject shopScreen;
         public GameObject CellHolder;
         public GameObject canvasCardHolder;
+        public GameObject RepresenterStore;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()

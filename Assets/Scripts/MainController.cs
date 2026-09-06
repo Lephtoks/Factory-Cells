@@ -22,10 +22,6 @@ public class MainController : Singleton<MainController>, IUpdatable
         Vector3 mousePos = Input.mousePosition;
         CellBehaviourArguments.WorldPos = GameStorage.Instance.Cam.ScreenToWorldPoint(mousePos);
         if (!InteractionManager.Select(mousePos, CellBehaviourArguments.WorldPos)) {
-            var instanceNodeReprs = GameStorage.Instance.NodeReprs;
-            if (instanceNodeReprs.Count > 0) {
-                GameStorage.Instance.NodeReprs[0].MakeInvisible();
-            }
             GameStorage.Instance.InfoCloud.gameObject.SetActive(false);
         }
     }

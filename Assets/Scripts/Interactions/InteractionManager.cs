@@ -101,7 +101,6 @@ namespace Interactions
                 {
                     _pool.RemoveAt(i);
 
-                    // Если удаляемый объект был в состоянии hover — завершаем его
                     if (ReferenceEquals(_previousHovered, touchable))
                     {
                         _previousHovered.OnHoverEnd(Vector3.zero, Vector3.zero, _capturedButton);

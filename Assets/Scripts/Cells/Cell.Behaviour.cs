@@ -95,24 +95,7 @@ namespace Cells
 
             switch (args.CapturedButton) {
                 case 0: {
-                    var blockType = GameStorage.Instance.BuildOption.GetActiveBlock();
-                    if (blockType == null) return;
-
-                    var reprs = GameStorage.Instance.NodeReprs;
-                    var added = new List<Block>();
-                    while (reprs.Count > 0) {
-                        var repr = reprs[^1];
-                        reprs.Remove(repr);
-                        Block block = blockType.Create(cell, repr);
-                        if (!cell.TryAddObject(block)) {
-                            UnityEngine.Object.Destroy(repr.gameObject);
-                        }
-                        else {
-                            added.Add(block);
-                        }
-
-                    }
-
+                    var added = GameStorage.Instance.Representer.Build();
                     foreach (var block in added) {
                         cell.BlockUpdate(block);
                     }
@@ -120,7 +103,7 @@ namespace Cells
                     if (GameStorage.Instance.BuildOption.HasNecessaryBlocks()) {
                         GameStorage.Instance.BuildOption.DequeueNecessary();
                     }
-                    GameStorage.Instance.CreatePointerRepr();
+                    GameStorage.Instance.Representer.SetCurrentBlockRepr();
                     break;
                 }
                 case 1:
@@ -135,6 +118,7 @@ namespace Cells
         }
 
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
+            if (true) return; // TEMPORARILY
             if (!args.ObjectCaptured)  return;
             
             var blockType = GameStorage.Instance.BuildOption.GetActiveBlock();
@@ -170,12 +154,9 @@ namespace Cells
                 GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
             }
         
-            GameStorage.Instance.SetAmountOfRepresentations(blockType.Def.Representation, GameStorage.Instance.BuildOption.HasNecessaryBlocks() ? 1 : reprs);
+            // GameStorage.Instance.SetAmountOfRepresentations(blockType.Def.Representation, GameStorage.Instance.BuildOption.HasNecessaryBlocks() ? 1 : reprs);
 
-            for (int i = 0; i < GameStorage.Instance.NodeReprs.Count; i++) {
-                BlockRepr repr = GameStorage.Instance.NodeReprs[i];
-                repr.SetPos(new Vector3Int((int)args.LocalMouseBeginPos.x + dx * i, (int)args.LocalMouseBeginPos.y + dy * i,-1), cell.CellPivot);
-            }
+            GameStorage.Instance.Representer.Place(new Vector2Int((int)args.LocalMouseBeginPos.x, (int)args.LocalMouseBeginPos.y), cell); // TODO: MULTIPLE BUILDING
         }
     }
 }
