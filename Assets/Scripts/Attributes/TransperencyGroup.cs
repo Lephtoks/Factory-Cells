@@ -15,9 +15,18 @@ namespace DefaultNamespace
         {
             foreach (var sr in renderers)
             {
-                Color c = sr.color;
+                Color c = Color.white;
                 c.a = alpha;
                 sr.color = c;
+            }
+        }
+        
+
+        public void SetColor(Color color)
+        {
+            foreach (var sr in renderers)
+            {
+                sr.color = color;
             }
         }
     }

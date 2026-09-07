@@ -6,6 +6,7 @@ namespace Cells.Object
 {
     public abstract class BlockRepr : TransparencyGroup
     {
+        private static readonly Color WrongColor = new Color(1, 0, 0, 0.65f);
         public BlockType BlockType;
         public void MakePhantom() {
             gameObject.SetActive(true);
@@ -19,6 +20,10 @@ namespace Cells.Object
 
         public void MakeInvisible() {
             gameObject.SetActive(false);
+        }
+        public void MakeWrong() {
+            gameObject.SetActive(true);
+            SetColor(WrongColor);
         }
 
         public void SetPos(Vector2 pos) {

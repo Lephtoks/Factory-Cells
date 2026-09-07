@@ -16,10 +16,15 @@ namespace Cells.Object
             CurrentCell = cell;
             foreach (var blockRepr in _reprs) {
                 Vector2Int pos = cellPos + blockRepr.Key;
-                if (cell.IsTileEmpty(pos)) {
+                if (cell.IsTileExist(pos)) {
                     blockRepr.Value.transform.SetParent(cell.CellPivot, false);
                     blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
-                    blockRepr.Value.MakePhantom();
+                    if (cell.IsTileOccupied(pos)) {
+                        blockRepr.Value.MakeWrong();
+                    }
+                    else {
+                        blockRepr.Value.MakePhantom();
+                    }
                 }
                 else {
                     blockRepr.Value.transform.SetParent(null, false);
