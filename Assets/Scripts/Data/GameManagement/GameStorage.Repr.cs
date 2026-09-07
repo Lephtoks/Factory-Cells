@@ -10,12 +10,11 @@ namespace Data.GameManagement
     {
         public readonly Representer Representer = new();
         public readonly RepresentationSettings RepresentationSettings = new();
-        private readonly Dictionary<System.Type, List<BlockRepr>> _reprCache = new();
+        private readonly Dictionary<BlockType, List<BlockRepr>> _reprCache = new();
         
         public BlockRepr CreateRepresentationCached(BlockRepr cellObjectRepresentation) {
             BlockRepr repr;
-            Type type = cellObjectRepresentation.GetType();
-            if (_reprCache.TryGetValue(type, out List<BlockRepr> reprs)) {
+            if (_reprCache.TryGetValue(cellObjectRepresentation.BlockType, out List<BlockRepr> reprs)) {
                 if (reprs.Count > 0) {
                     repr = reprs[^1];
                     reprs.RemoveAt(reprs.Count - 1);
@@ -23,7 +22,7 @@ namespace Data.GameManagement
                 }
             }
             else {
-                _reprCache[type] = new List<BlockRepr>();
+                _reprCache[cellObjectRepresentation.BlockType] = new List<BlockRepr>();
             }
             repr = Object.Instantiate(cellObjectRepresentation);
             repr.BlockType = cellObjectRepresentation.BlockType;
@@ -32,9 +31,8 @@ namespace Data.GameManagement
 
         public void RemoveRepresentationCached(BlockRepr cellObjectRepresentation) {
             
-            Type type = cellObjectRepresentation.GetType();
-            if (!_reprCache.TryGetValue(type, out List<BlockRepr> reprs)) {
-                _reprCache[type] = reprs = new List<BlockRepr>();
+            if (!_reprCache.TryGetValue(cellObjectRepresentation.BlockType, out List<BlockRepr> reprs)) {
+                _reprCache[cellObjectRepresentation.BlockType] = reprs = new List<BlockRepr>();
             }
             if (reprs.Count < 5) {
                 reprs.Add(cellObjectRepresentation);
