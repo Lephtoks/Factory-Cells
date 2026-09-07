@@ -64,8 +64,17 @@ namespace Cells
         }
 
         public bool IsTileEmpty(Vector2Int position) {
-            return 0 <= position.x && position.x < size && 0 <= position.y && position.y < size && !_cellObjects.ContainsKey(position);
+            return IsTileExist(position) && !IsTileOccupied(position);
         }
+
+        public bool IsTileOccupied(Vector2Int position) {
+            return _cellObjects.ContainsKey(position);
+        }
+
+        public bool IsTileExist(Vector2Int position) {
+            return 0 <= position.x && position.x < size && 0 <= position.y && position.y < size;
+        }
+
 
         public void UpdatePreMove() {
             ResetWind();
