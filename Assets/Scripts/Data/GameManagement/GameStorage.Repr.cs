@@ -41,6 +41,12 @@ namespace Data.GameManagement
                 cellObjectRepresentation.MakeInvisible();
                 return;
             }
+
+            RemoveRepresentationCacheless(cellObjectRepresentation);
+
+        }
+
+        public void RemoveRepresentationCacheless(BlockRepr cellObjectRepresentation) {
             Object.Destroy(cellObjectRepresentation.gameObject);
             
         }

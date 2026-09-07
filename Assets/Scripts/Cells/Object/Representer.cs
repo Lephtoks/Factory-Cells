@@ -51,10 +51,10 @@ namespace Cells.Object
                 if (!repr.Value.transform.IsChildOf(CurrentCell.CellPivot)) {
                     GameStorage.Instance.RemoveRepresentationCached(repr.Value);
                     continue;
-                };
+                }
                 Block block = blockType.Create(CurrentCell, repr.Value);
                 if (!CurrentCell.TryAddObject(block)) {
-                    GameStorage.Instance.RemoveRepresentationCached(repr.Value);
+                    GameStorage.Instance.RemoveRepresentationCacheless(repr.Value);
                 }
                 else {
                     added.Add(block);
