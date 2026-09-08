@@ -24,6 +24,8 @@ namespace Entities
         private List<NavNode> _path;
         private NavNode _currentNode;
         private float time;
+        public virtual float RepulsionRadius => 0.75f;
+        public virtual float Mass => 2f;
         
         public void Collision(ICollider other) {
             if (other is Bullet bullet) {
@@ -60,28 +62,42 @@ namespace Entities
                 Pathfind();
                 time = 0;
             }
-            
-            Angle = RotationHelper.RotateF(Angle, PathAngle, _rotationSpeed * Time.deltaTime);
 
-            if (Vector2.Distance(_currentNode.Position, Position) < 0.1f) {
-                int indexOf = _path.IndexOf(_currentNode);
-                if (_path.Count > indexOf+1) {
-                    _currentNode = _path[indexOf + 1];
+            if (_path != null) {
+                Angle = RotationHelper.RotateF(Angle, PathAngle, _rotationSpeed * Time.deltaTime);
+
+                if (Vector2.Distance(_currentNode.Position, Position) < 0.1f) {
+                    int indexOf = _path.IndexOf(_currentNode);
+                    if (_path.Count > indexOf+1) {
+                        _currentNode = _path[indexOf + 1];
+                    }
                 }
-            }
-            PathAngle = RotationHelper.AngleTo(Position, _currentNode.Position);
-            Position += (_currentNode.Position - Position).normalized * (0.5f * Time.deltaTime);
+                PathAngle = RotationHelper.AngleTo(Position, _currentNode.Position);
+                Position += (_currentNode.Position - Position).normalized * (0.5f * Time.deltaTime);
+            } 
             
             
         }
 
         private void Pathfind() {
             Vector3 worldToLocal = Target;
-            Debug.Log(worldToLocal);
             _path = Parent.NavTree.BuildPath(Position, worldToLocal);
-            if (_path.Count > 0) {
+            if (_path is { Count: > 0 }) {
                 _currentNode = _path[0];
             }
+        }
+
+        public void Repulse(Entity other) {
+            Vector2 delta = Position - other.Position;
+            float distance = delta.magnitude;
+
+            Vector2 direction = delta / distance;
+            float total = RepulsionRadius + other.RepulsionRadius;
+            float penetration = (total - distance) / total;
+
+            Vector2 force = direction * (penetration * Time.deltaTime / Mass);
+
+            Position += force;
         }
     }
 }

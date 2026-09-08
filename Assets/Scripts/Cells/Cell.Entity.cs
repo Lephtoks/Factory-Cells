@@ -27,6 +27,22 @@ namespace Cells
         public List<Entity> GetEntities() => _entityList;
 
         public void UpdateEntities() {
+            for (int i = 0; i < _entityList.Count; i++)
+            {
+                var entityA = _entityList[i];
+                for (int j = i + 1; j < _entityList.Count; j++)
+                {
+                    var entityB = _entityList[j];
+                    
+                    Vector2 delta = entityA.Position - entityB.Position;
+                    float radius = entityA.RepulsionRadius + entityB.RepulsionRadius;
+
+                    if (delta.sqrMagnitude <= radius * radius) {
+                        entityA.Repulse(entityB);
+                        entityB.Repulse(entityA);
+                    }
+                }
+            }
             foreach (var entity in _entityList) {
                 entity.Update();
             }
