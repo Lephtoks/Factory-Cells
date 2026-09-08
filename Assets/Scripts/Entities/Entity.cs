@@ -73,7 +73,7 @@ namespace Entities
                     }
                 }
                 PathAngle = RotationHelper.AngleTo(Position, _currentNode.Position);
-                Position += (_currentNode.Position - Position).normalized * (0.5f * Time.deltaTime);
+                MoveTo(Position + (_currentNode.Position - Position).normalized * (0.5f * Time.deltaTime));
             } 
             
             
@@ -97,7 +97,35 @@ namespace Entities
 
             Vector2 force = direction * (penetration * Time.deltaTime / Mass);
 
-            Position += force;
+            MoveTo(Position + force);
+        }
+
+        public void MoveTo(Vector2 to) {
+            if (Parent.AbleToMove(Position, to, out Vector2 hit, out Vector2 normal)) {
+                Position = to;
+                return;
+            }
+            const float epsilon = 1e-5f;
+            
+            Vector2 fullMove = to - Position;
+            float t = Vector2.Dot(hit - Position, fullMove) / fullMove.sqrMagnitude;
+            t = Mathf.Clamp01(t);
+
+            Vector2 resolved = Position + fullMove * t + normal * (0.0f + epsilon);
+            Position = resolved;
+
+            Vector2 remaining = to - resolved;
+
+            float rn = Vector2.Dot(remaining, normal);
+            if (rn < 0f)
+                remaining -= normal * rn;
+
+            if (remaining.sqrMagnitude > 1e-8f)
+            {
+                Vector2 slideTarget = resolved + remaining;
+                if (Parent.AbleToMove(resolved, slideTarget, out _, out _))
+                    Position = slideTarget;
+            }
         }
     }
 }
