@@ -3,12 +3,15 @@ using Cells.Object.Building.Mono;
 using Core;
 using Data;
 using Economics;
+using Entities;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class CellAnchor: Block, IRepresentable<DefaultRepr>
+    public class CellAnchor: Block, IRepresentable<DefaultRepr>, IHealth
     {
+        public float MaxHealth { get; set; }
+        public float Health { get; set; }
         public override BlockType BlockType => BlockTypes.CELL_ANCHOR;
         public DefaultRepr LivingRepresentation { get; set; }
         
