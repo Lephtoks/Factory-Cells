@@ -85,5 +85,14 @@ namespace Cells.Object
             }
             _reprs.Clear();            
         }
+        public Representer Clone() {
+            var representer = new Representer();
+            foreach (var pair in _reprs) 
+            {
+                representer._reprs[pair.Key] = GameStorage.Instance.CreateRepresentationCached(pair.Value.BlockType.Def.Representation);
+            }
+
+            return representer;
+        }
     }
 }
