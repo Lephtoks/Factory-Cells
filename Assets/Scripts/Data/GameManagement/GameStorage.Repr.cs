@@ -11,6 +11,53 @@ namespace Data.GameManagement
         public readonly Representer Representer = new();
         public readonly RepresentationSettings RepresentationSettings = new();
         private readonly Dictionary<BlockType, List<BlockRepr>> _reprCache = new();
+        public readonly List<Representer> MultipleBlockBuilderList = new List<Representer>();
+        private readonly List<Representer> _representerCache = new List<Representer>();
+
+        public void DisposeRepresenterCache() {
+            foreach (var  representer in _representerCache) {
+                representer.ClearAndCache();
+            }
+            _representerCache.Clear();
+        }
+
+        public void RemoveRepresenter(Representer representer) {
+            MultipleBlockBuilderList.Remove(representer);
+            if (_representerCache.Count < 5) {
+                _representerCache.Add(representer);
+                representer.Displace();
+                return;
+            }
+            
+            representer.ClearAndCache();
+        }
+
+        public Representer AddRepresenter() {
+            if (_representerCache.Count > 0) {
+                var repr = _representerCache[^1];
+                _representerCache.RemoveAt(_representerCache.Count - 1);
+                MultipleBlockBuilderList.Add(repr);
+                return repr;
+            }
+            var rep = Representer.Clone();
+            MultipleBlockBuilderList.Add(rep);
+            return rep;
+        }
+
+
+        public void SetAmountOfRepresenters(int amount) {
+            if (MultipleBlockBuilderList.Count < amount) {
+                for (int i = 0; i < amount - MultipleBlockBuilderList.Count; i++) {
+                    AddRepresenter();
+                }
+            } else if (MultipleBlockBuilderList.Count > amount) {
+                for (int i = MultipleBlockBuilderList.Count - 1; i >= amount; i--) {
+                    RemoveRepresenter(MultipleBlockBuilderList[i]);
+                }
+            }
+        }
+        
+        
         
         public BlockRepr CreateRepresentationCached(BlockRepr cellObjectRepresentation) {
             BlockRepr repr;

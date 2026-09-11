@@ -12,6 +12,18 @@ namespace Cells.Object
         private readonly Dictionary<Vector2Int, BlockRepr> _reprs = new();
         [CanBeNull] public Cell CurrentCell { get; private set; }
         
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+        private void UpdateScales() {
+            Width = _reprs.Count == 0
+                ? 0
+                : _reprs.Keys.Max(p => p.x) - _reprs.Keys.Min(p => p.x) + 1;
+            Height = _reprs.Count == 0
+                ? 0
+                : _reprs.Keys.Max(p => p.y) - _reprs.Keys.Min(p => p.y) + 1;
+        }
+        
         public void Place(Vector2Int cellPos, Cell cell) {
             CurrentCell = cell;
             foreach (var blockRepr in _reprs) {
@@ -70,6 +82,8 @@ namespace Cells.Object
         public void SetRepresentation(BlockRepr blockReprPrefab) {
             ClearAndCache();
             _reprs[Vector2Int.zero] = GameStorage.Instance.CreateRepresentationCached(blockReprPrefab);
+            GameStorage.Instance.DisposeRepresenterCache();
+            UpdateScales();
         }
 
         public void SetCurrentBlockRepr() {

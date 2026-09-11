@@ -96,10 +96,18 @@ namespace Cells
             switch (args.CapturedButton) {
                 case 0: {
                     var added = GameStorage.Instance.Representer.Build();
+
+                    foreach (var representer in GameStorage.Instance.MultipleBlockBuilderList) {
+                        var added2 = representer.Build();
+                        foreach (var block in added2) {
+                            cell.BlockUpdate(block);
+                        }
+                    }
                     foreach (var block in added) {
                         cell.BlockUpdate(block);
                     }
-
+                    GameStorage.Instance.MultipleBlockBuilderList.Clear();
+                    
                     if (GameStorage.Instance.BuildOption.HasNecessaryBlocks()) {
                         GameStorage.Instance.BuildOption.DequeueNecessary();
                     }
@@ -118,12 +126,8 @@ namespace Cells
         }
 
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
-            if (true) return; // TEMPORARILY
             if (!args.ObjectCaptured)  return;
             
-            var blockType = GameStorage.Instance.BuildOption.GetActiveBlock();
-            if (blockType == null) return;
-        
             if (args.CapturedButton != 0) return;
             
             var localMousePosUnclamped = cell.tilemap.WorldToLocal(args.WorldPos);
@@ -142,21 +146,25 @@ namespace Cells
             if (Math.Abs(dir.x) > Math.Abs(dir.y)) {
                 localEndPoint = new Vector2(localMousePos.x, args.LocalMouseBeginPos.y);
                 reprs = Mathf.CeilToInt(Math.Max(localEndPoint.x, args.LocalMouseBeginPos.x)) - Mathf.FloorToInt(Math.Min(localEndPoint.x, args.LocalMouseBeginPos.x));
-                dx = Math.Sign(dir.x);
+                dx = Math.Sign(dir.x) * GameStorage.Instance.Representer.Width;
             }
             else {
                 localEndPoint = new Vector2(args.LocalMouseBeginPos.x, localMousePos.y);
                 reprs = Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y));
-                dy = Math.Sign(dir.y);
+                dy = Math.Sign(dir.y) * GameStorage.Instance.Representer.Height;
             }
         
             if (reprs >= 2) {
                 GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
             }
         
-            // GameStorage.Instance.SetAmountOfRepresentations(blockType.Def.Representation, GameStorage.Instance.BuildOption.HasNecessaryBlocks() ? 1 : reprs);
-
-            GameStorage.Instance.Representer.Place(new Vector2Int((int)args.LocalMouseBeginPos.x, (int)args.LocalMouseBeginPos.y), cell); // TODO: MULTIPLE BUILDING
+            GameStorage.Instance.SetAmountOfRepresenters((GameStorage.Instance.BuildOption.HasNecessaryBlocks() ? 1 : reprs) - 1);
+            
+            for (int i = 1; i < GameStorage.Instance.MultipleBlockBuilderList.Count + 1; i++) {
+                var representer = GameStorage.Instance.MultipleBlockBuilderList[i-1];
+                representer.Place(new Vector2Int((int)args.LocalMouseBeginPos.x + dx * i, (int)args.LocalMouseBeginPos.y + dy * i), cell);
+            }
+            GameStorage.Instance.Representer.Place(new Vector2Int((int)args.LocalMouseBeginPos.x, (int)args.LocalMouseBeginPos.y), cell);
         }
     }
 }
