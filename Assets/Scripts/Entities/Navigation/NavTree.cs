@@ -69,11 +69,27 @@ namespace Entities.Navigation
                 RemoveNode(GetNavBlock(blockObject4.Position), new DirectionFlag(3));
                 RemoveNode(GetNavBlock(blockObject4.Position), new DirectionFlag(6));
             }
+            if (!Cell.TryGetObject(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
+            else {
+                RemoveNode(GetNavBlock(blockObject5.Position), new DirectionFlag(12));
+            }
+            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
+            else {
+                RemoveNode(GetNavBlock(blockObject6.Position), new DirectionFlag(9));
+            }
+            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
+            else {
+                RemoveNode(GetNavBlock(blockObject7.Position), new DirectionFlag(3));
+            }
+            if (!Cell.TryGetObject(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
+            else {
+                RemoveNode(GetNavBlock(blockObject8.Position), new DirectionFlag(6));
+            }
             
-            if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.EAST)) BuildNode(block.Position, new DirectionFlag(3));
-            if (flag.Contains(Direction.EAST) && flag.Contains(Direction.SOUTH)) BuildNode(block.Position, new DirectionFlag(6));
-            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.NORTH)) BuildNode(block.Position, new DirectionFlag(9));
-            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.SOUTH)) BuildNode(block.Position, new DirectionFlag(12));
+            if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.EAST) && flag.Contains(Direction.NORTH_EAST)) BuildNode(block.Position, new DirectionFlag(3));
+            if (flag.Contains(Direction.EAST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_EAST)) BuildNode(block.Position, new DirectionFlag(6));
+            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_WEST)) BuildNode(block.Position, new DirectionFlag(9));
+            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_WEST)) BuildNode(block.Position, new DirectionFlag(12));
         }
 
         public void RebuildWithout(Block block) {
