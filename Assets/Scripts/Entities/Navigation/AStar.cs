@@ -12,7 +12,7 @@ namespace Entities.Navigation
         {
             var startNode = new NavNode();
             startNode.Position = start;
-            foreach (var child in tree.Nodes) {
+            foreach (var child in tree.GetEnumerable()) {
                 if (tree.Cell.AbleToMove(start, child.Position)) {
                     startNode.Connections.Add(child, Vector2.Distance(start, child.Position));
                 }
@@ -22,10 +22,10 @@ namespace Entities.Navigation
             
             var targetNode = new NavNode();
             targetNode.Position = target;
-            foreach (var child in tree.Nodes.Append(startNode)) {
-                // if (tree.Cell.AbleToMove(target, child.Position)) {
+            foreach (var child in tree.GetEnumerable().Append(startNode)) {
+                if (tree.Cell.AbleToMove(target, child.Position)) {
                     connectedToTarget.Add(child, Vector2.Distance(target, child.Position));
-                // }
+                }
             }
             
             
