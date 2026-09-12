@@ -115,6 +115,46 @@ namespace Entities.Navigation
                     }
                 }
             }
+
+            DirectionFlag flag = new DirectionFlag();
+            
+            if (!Cell.TryGetObject(block.Position + Direction.EAST.ToVector2Int(), out var blockObject1)) flag += Direction.EAST;
+            if (!Cell.TryGetObject(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject2)) flag += Direction.NORTH;
+            if (!Cell.TryGetObject(block.Position + Direction.WEST.ToVector2Int(), out var blockObject3)) flag += Direction.WEST;
+            if (!Cell.TryGetObject(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject4)) flag += Direction.SOUTH;
+            if (!Cell.TryGetObject(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
+            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
+            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
+            if (!Cell.TryGetObject(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
+            
+            if (blockObject1 != null) { 
+                if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_EAST)) BuildNode(blockObject1.Position, Direction.NORTH_WEST);
+                if (flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_EAST)) BuildNode(blockObject1.Position, Direction.SOUTH_WEST);
+            }
+            if (blockObject2 != null) { 
+                if (flag.Contains(Direction.EAST) && flag.Contains(Direction.NORTH_EAST)) BuildNode(blockObject2.Position, Direction.SOUTH_EAST);
+                if (flag.Contains(Direction.WEST) && flag.Contains(Direction.NORTH_WEST)) BuildNode(blockObject2.Position, Direction.SOUTH_WEST);
+            }
+            if (blockObject3 != null) { 
+                if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_WEST)) BuildNode(blockObject3.Position, Direction.NORTH_EAST);
+                if (flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_WEST)) BuildNode(blockObject3.Position, Direction.SOUTH_EAST);
+            }
+            if (blockObject4 != null) { 
+                if (flag.Contains(Direction.EAST) && flag.Contains(Direction.SOUTH_EAST)) BuildNode(blockObject4.Position, Direction.NORTH_EAST);
+                if (flag.Contains(Direction.WEST) && flag.Contains(Direction.SOUTH_WEST)) BuildNode(blockObject4.Position, Direction.NORTH_WEST);
+            }
+            if (blockObject5 != null) { 
+                if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.EAST)) BuildNode(blockObject5.Position, Direction.SOUTH_WEST);
+            }
+            if (blockObject6 != null) { 
+                if (flag.Contains(Direction.SOUTH) && flag.Contains(Direction.EAST)) BuildNode(blockObject6.Position, Direction.NORTH_WEST);
+            }
+            if (blockObject7 != null) { 
+                if (flag.Contains(Direction.SOUTH) && flag.Contains(Direction.WEST)) BuildNode(blockObject7.Position, Direction.NORTH_EAST);
+            }
+            if (blockObject8 != null) { 
+                if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.WEST)) BuildNode(blockObject8.Position, Direction.SOUTH_EAST);
+            }
         }
 
         public List<NavNode> BuildPath(Vector2 a, Vector2 b) {
@@ -206,6 +246,29 @@ namespace Entities.Navigation
                 case Direction.SOUTH_WEST:
                     SouthWest = node;
                     break;
+            }
+        }
+
+        public IEnumerable<NavNode> GetSideNodes(Direction sideDirection) {
+            switch (sideDirection) {
+                case Direction.NORTH:
+                    yield return NorthEast;
+                    yield return NorthWest;
+                    break;
+                case Direction.EAST:
+                    yield return NorthEast;
+                    yield return SouthEast;
+                    break;
+                case Direction.WEST:
+                    yield return SouthWest;
+                    yield return NorthWest;
+                    break;
+                case Direction.SOUTH:
+                    yield return SouthEast;
+                    yield return SouthWest;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid direction");
             }
         }
     }
