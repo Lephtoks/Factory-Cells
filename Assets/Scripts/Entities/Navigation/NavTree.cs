@@ -51,45 +51,45 @@ namespace Entities.Navigation
             DirectionFlag flag = new DirectionFlag();
             if (!Cell.TryGetObject(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject1)) flag += Direction.NORTH;
             else {
-                RemoveNode(GetNavBlock(blockObject1.Position), new DirectionFlag(6));
-                RemoveNode(GetNavBlock(blockObject1.Position), new DirectionFlag(12));
+                RemoveNode(GetNavBlock(blockObject1.Position), Direction.SOUTH_WEST);
+                RemoveNode(GetNavBlock(blockObject1.Position), Direction.SOUTH_EAST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.EAST.ToVector2Int(), out var blockObject2)) flag += Direction.EAST;
             else {
-                RemoveNode(GetNavBlock(blockObject2.Position), new DirectionFlag(9));
-                RemoveNode(GetNavBlock(blockObject2.Position), new DirectionFlag(12));
+                RemoveNode(GetNavBlock(blockObject2.Position), Direction.SOUTH_WEST);
+                RemoveNode(GetNavBlock(blockObject2.Position), Direction.NORTH_WEST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject3)) flag += Direction.SOUTH;
             else {
-                RemoveNode(GetNavBlock(blockObject3.Position), new DirectionFlag(3));
-                RemoveNode(GetNavBlock(blockObject3.Position), new DirectionFlag(9));
+                RemoveNode(GetNavBlock(blockObject3.Position), Direction.NORTH_EAST);
+                RemoveNode(GetNavBlock(blockObject3.Position), Direction.NORTH_WEST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.WEST.ToVector2Int(), out var blockObject4)) flag += Direction.WEST;
             else {
-                RemoveNode(GetNavBlock(blockObject4.Position), new DirectionFlag(3));
-                RemoveNode(GetNavBlock(blockObject4.Position), new DirectionFlag(6));
+                RemoveNode(GetNavBlock(blockObject4.Position), Direction.NORTH_EAST);
+                RemoveNode(GetNavBlock(blockObject4.Position), Direction.SOUTH_EAST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
             else {
-                RemoveNode(GetNavBlock(blockObject5.Position), new DirectionFlag(12));
+                RemoveNode(GetNavBlock(blockObject5.Position), Direction.SOUTH_WEST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
             else {
-                RemoveNode(GetNavBlock(blockObject6.Position), new DirectionFlag(9));
+                RemoveNode(GetNavBlock(blockObject6.Position), Direction.NORTH_WEST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
             else {
-                RemoveNode(GetNavBlock(blockObject7.Position), new DirectionFlag(3));
+                RemoveNode(GetNavBlock(blockObject7.Position), Direction.NORTH_EAST);
             }
             if (!Cell.TryGetObject(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
             else {
-                RemoveNode(GetNavBlock(blockObject8.Position), new DirectionFlag(6));
+                RemoveNode(GetNavBlock(blockObject8.Position), Direction.SOUTH_EAST);
             }
             
-            if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.EAST) && flag.Contains(Direction.NORTH_EAST)) BuildNode(block.Position, new DirectionFlag(3));
-            if (flag.Contains(Direction.EAST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_EAST)) BuildNode(block.Position, new DirectionFlag(6));
-            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_WEST)) BuildNode(block.Position, new DirectionFlag(9));
-            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_WEST)) BuildNode(block.Position, new DirectionFlag(12));
+            if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.EAST) && flag.Contains(Direction.NORTH_EAST)) BuildNode(block.Position, Direction.NORTH_EAST);
+            if (flag.Contains(Direction.EAST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_EAST)) BuildNode(block.Position, Direction.SOUTH_EAST);
+            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_WEST)) BuildNode(block.Position, Direction.NORTH_WEST);
+            if (flag.Contains(Direction.WEST) && flag.Contains(Direction.SOUTH) && flag.Contains(Direction.SOUTH_WEST)) BuildNode(block.Position, Direction.SOUTH_WEST);
         }
 
         public void RebuildWithout(Block block) {
@@ -127,7 +127,7 @@ namespace Entities.Navigation
             b.Connections.Add(a, distance);
         }
 
-        private NavNode BuildNode(Vector2Int position, DirectionFlag direction) {
+        private NavNode BuildNode(Vector2Int position, Direction direction) {
             var node = new NavNode();
             node.IntPosition = position;
             node.Direction = direction;
@@ -141,8 +141,8 @@ namespace Entities.Navigation
             return node;
         }
 
-        private void RemoveNode(NavBlock block, DirectionFlag flag) {
-            var node = block.Remove(flag);
+        private void RemoveNode(NavBlock block, Direction dir) {
+            var node = block.Remove(dir);
             if (node == null) return;
             foreach (var connected in node.Connections.Keys) {
                 connected.Connections.Remove(node);
@@ -166,22 +166,22 @@ namespace Entities.Navigation
         [CanBeNull] public NavNode SouthWest;
         [CanBeNull] public NavNode NorthWest;
 
-        public NavNode Remove(DirectionFlag flag) {
+        public NavNode Remove(Direction dir) {
             NavNode node;
-            switch (flag.ToByte()) {
-                case 3:
+            switch (dir) {
+                case Direction.NORTH_EAST:
                     node = NorthEast;
                     NorthEast = null;
                     break;
-                case 6:
+                case Direction.SOUTH_EAST:
                     node = SouthEast;
                     SouthEast = null;
                     break;
-                case 9:
+                case Direction.NORTH_WEST:
                     node = NorthWest;
                     NorthWest = null;
                     break;
-                case 12:
+                case Direction.SOUTH_WEST:
                     node = SouthWest;
                     SouthWest = null;
                     break;
@@ -193,17 +193,17 @@ namespace Entities.Navigation
         }
 
         public void Set(NavNode node) {
-            switch (node.Direction.ToByte()) {
-                case 3:
+            switch (node.Direction) {
+                case Direction.NORTH_EAST:
                     NorthEast = node;
                     break;
-                case 6:
+                case Direction.SOUTH_EAST:
                     SouthEast = node;
                     break;
-                case 9:
+                case Direction.NORTH_WEST:
                     NorthWest = node;
                     break;
-                case 12:
+                case Direction.SOUTH_WEST:
                     SouthWest = node;
                     break;
             }

@@ -8,7 +8,7 @@ namespace Entities.Navigation
     {
         public Vector2Int IntPosition;
         public Vector2 Position;
-        public DirectionFlag Direction;
+        public Direction Direction;
         public Dictionary<NavNode, float> Connections = new Dictionary<NavNode, float>();
     }
 }
