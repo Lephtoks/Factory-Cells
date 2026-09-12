@@ -8,7 +8,11 @@ namespace Data
         NORTH = 1,
         EAST = 2,
         SOUTH = 4,
-        WEST = 8
+        WEST = 8,
+        NORTH_EAST = 16,
+        SOUTH_EAST = 32,
+        SOUTH_WEST = 64,
+        NORTH_WEST = 128
     }
 
     public struct DirectionFlag
@@ -61,6 +65,10 @@ namespace Data
                 Direction.EAST => new Vector2Int(1, 0),
                 Direction.SOUTH => new Vector2Int(0, -1),
                 Direction.WEST => new Vector2Int(-1, 0),
+                Direction.NORTH_EAST => new Vector2Int(1, 1),
+                Direction.SOUTH_EAST => new Vector2Int(1, -1),
+                Direction.SOUTH_WEST => new Vector2Int(-1, -1),
+                Direction.NORTH_WEST => new Vector2Int(-1, 1),
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
@@ -97,6 +105,10 @@ namespace Data
                 Direction.EAST  => Quaternion.Euler(0, 0, 0),
                 Direction.SOUTH => Quaternion.Euler(0, 0, -90),
                 Direction.WEST  => Quaternion.Euler(0, 0, 180),
+                Direction.NORTH_EAST => Quaternion.Euler(0, 0, 45),
+                Direction.SOUTH_EAST => Quaternion.Euler(0, 0, 135),
+                Direction.SOUTH_WEST => Quaternion.Euler(0, 0, -135),
+                Direction.NORTH_WEST => Quaternion.Euler(0, 0, -45),
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
@@ -109,6 +121,10 @@ namespace Data
                 Direction.EAST  => Direction.WEST,
                 Direction.SOUTH => Direction.NORTH,
                 Direction.WEST  => Direction.EAST,
+                Direction.NORTH_EAST => Direction.SOUTH_WEST,
+                Direction.SOUTH_EAST => Direction.NORTH_WEST,
+                Direction.SOUTH_WEST => Direction.NORTH_EAST,
+                Direction.NORTH_WEST => Direction.SOUTH_EAST,
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
