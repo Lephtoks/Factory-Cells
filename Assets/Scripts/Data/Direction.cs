@@ -59,6 +59,18 @@ namespace Data
 
     public static class DirectionHelper
     {
+        public static Vector2Int Rotate(this Vector2Int vector, Direction direction)
+        {
+            return direction switch
+            {
+                Direction.EAST => vector,
+                Direction.NORTH => new Vector2Int(-vector.y, vector.x),
+                Direction.WEST => new Vector2Int(-vector.x, -vector.y),
+                Direction.SOUTH => new Vector2Int(vector.y, -vector.x),
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction,
+                    "Only cardinal directions are supported: NORTH, EAST, SOUTH, WEST.")
+            };
+        }
         public static Vector2Int ToVector2Int(this Direction direction) {
             return direction switch {
                 Direction.NORTH => new Vector2Int(0, 1),

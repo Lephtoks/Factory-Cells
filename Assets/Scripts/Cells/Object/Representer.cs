@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using Data.GameManagement;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -27,10 +28,11 @@ namespace Cells.Object
         public void Place(Vector2Int cellPos, Cell cell) {
             CurrentCell = cell;
             foreach (var blockRepr in _reprs) {
-                Vector2Int pos = cellPos + blockRepr.Key;
+                Vector2Int pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
                 if (cell.IsTileExist(pos)) {
                     blockRepr.Value.transform.SetParent(cell.CellPivot, false);
                     blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
+                    blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
                     if (cell.IsTileOccupied(pos)) {
                         blockRepr.Value.MakeWrong();
                     }
