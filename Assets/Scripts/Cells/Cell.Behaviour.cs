@@ -4,6 +4,7 @@ using Cells.Object;
 using Core.Locals;
 using Data;
 using Data.GameManagement;
+using UI;
 using UnityEngine;
 
 namespace Cells
@@ -122,12 +123,22 @@ namespace Cells
                     }
 
                     break;
+                case 2:
+                    var cellMousePoint2 = cell.tilemap.WorldToCell(args.WorldPos);
+                    SelectionZone zone = GameLocalBootstrap.Instance.SelectionZone;
+                    zone.SetStartPos(cell, (Vector2Int) cellMousePoint2);
+                    break;
             }
         }
 
         public void OnClickMove(Cell cell, CellBehaviourArguments args) {
             if (!args.ObjectCaptured)  return;
-            
+            if (args.CapturedButton == 2) {
+                var cellMousePoint = cell.tilemap.WorldToCell(args.WorldPos);
+                SelectionZone zone = GameLocalBootstrap.Instance.SelectionZone;
+                zone.Extend((Vector2Int) cellMousePoint);
+                return;
+            }
             if (args.CapturedButton != 0) return;
             
             var localMousePosUnclamped = cell.tilemap.WorldToLocal(args.WorldPos);

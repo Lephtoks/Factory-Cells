@@ -118,6 +118,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""65553330-7592-4a1c-9723-7bdde383ba9e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -151,6 +160,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Show navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f92967d8-44d0-44d6-9dfc-21daa11d5772"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -225,6 +245,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Debug_Showhitboxes = m_Debug.FindAction("Show hitboxes", throwIfNotFound: true);
         m_Debug_Testaction = m_Debug.FindAction("Test action", throwIfNotFound: true);
         m_Debug_Shownavigation = m_Debug.FindAction("Show navigation", throwIfNotFound: true);
+        m_Debug_Select = m_Debug.FindAction("Select", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -308,6 +329,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Showhitboxes;
     private readonly InputAction m_Debug_Testaction;
     private readonly InputAction m_Debug_Shownavigation;
+    private readonly InputAction m_Debug_Select;
     /// <summary>
     /// Provides access to input actions defined in input action map "Debug".
     /// </summary>
@@ -331,6 +353,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Debug/Shownavigation".
         /// </summary>
         public InputAction @Shownavigation => m_Wrapper.m_Debug_Shownavigation;
+        /// <summary>
+        /// Provides access to the underlying input action "Debug/Select".
+        /// </summary>
+        public InputAction @Select => m_Wrapper.m_Debug_Select;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -366,6 +392,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Shownavigation.started += instance.OnShownavigation;
             @Shownavigation.performed += instance.OnShownavigation;
             @Shownavigation.canceled += instance.OnShownavigation;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         /// <summary>
@@ -386,6 +415,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Shownavigation.started -= instance.OnShownavigation;
             @Shownavigation.performed -= instance.OnShownavigation;
             @Shownavigation.canceled -= instance.OnShownavigation;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         /// <summary>
@@ -512,5 +544,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShownavigation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

@@ -40,6 +40,12 @@ namespace Interactions
                         if (element.Touchable.CapturesClick())
                             _captured = element.Touchable;
                     }
+                    else if (Input.GetMouseButtonDown(2))
+                    {
+                        _capturedButton = 2;
+                        if (element.Touchable.CapturesClick())
+                            _captured = element.Touchable;
+                    }
 
                     currentHovered = element.Touchable;
                     break;

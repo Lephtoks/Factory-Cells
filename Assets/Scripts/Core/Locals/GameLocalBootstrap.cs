@@ -2,6 +2,7 @@ using Cells;
 using Cells.Object;
 using Data;
 using Data.GameManagement;
+using UI;
 using UI.Cards;
 using UI.Cloud;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Core.Locals
         public GameObject CellHolder;
         public GameObject canvasCardHolder;
         public GameObject RepresenterStore;
+        public SelectionZone SelectionZone;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
