@@ -178,7 +178,7 @@ namespace Cells
                 dy = Math.Sign(dir.y) * GameStorage.Instance.Representer.Height;
             }
         
-            if (reprs >= 2) {
+            if (reprs >= 2 && GameStorage.Instance.Representer.IsSmall()) {
                 GameStorage.Instance.RepresentationSettings.Direction = DirectionHelper.Vector2Direction(new Vector2(dx, dy));
             }
         

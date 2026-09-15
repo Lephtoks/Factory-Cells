@@ -16,6 +16,10 @@ namespace Cells.Object
         public int Width { get; private set; }
         public int Height { get; private set; }
 
+        public bool IsSmall() {
+            return _reprs.Count == 1;
+        }
+
         private void UpdateScales() {
             Width = _reprs.Count == 0
                 ? 0
