@@ -91,6 +91,19 @@ namespace Cells
     }
     public class TableBehaviour : ICellBehaviour
     {
+        public void OnClickBegin(Cell cell, CellBehaviourArguments args) {
+            if (!args.ObjectCaptured) return;
+
+            switch (args.CapturedButton) {
+                case 2:
+                    var cellMousePoint2 = cell.tilemap.WorldToCell(args.WorldPos);
+                    SelectionZone zone = GameLocalBootstrap.Instance.SelectionZone;
+                    zone.SetStartPos(cell, (Vector2Int) cellMousePoint2);
+                    break;
+            }
+            
+        }
+
         public void OnClickRelease(Cell cell, CellBehaviourArguments args) {
             if (!args.ObjectCaptured) return;
 
@@ -122,11 +135,6 @@ namespace Cells
                         cell.BlockUpdate(clickedBlock);
                     }
 
-                    break;
-                case 2:
-                    var cellMousePoint2 = cell.tilemap.WorldToCell(args.WorldPos);
-                    SelectionZone zone = GameLocalBootstrap.Instance.SelectionZone;
-                    zone.SetStartPos(cell, (Vector2Int) cellMousePoint2);
                     break;
             }
         }

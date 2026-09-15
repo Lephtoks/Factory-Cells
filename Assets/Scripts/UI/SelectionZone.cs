@@ -7,29 +7,52 @@ namespace UI
     public class SelectionZone : MonoBehaviour
     {
         public RectTransform RectTransform;
+        public Canvas Canvas;               // assign the parent Canvas
         public Cell Cell { get; private set; }
         public Vector2Int StartPos { get; private set; }
         public Vector2Int EndPos { get; private set; }
 
-        public void SetStartPos(Cell cell, Vector2Int startPos) {
+        public void SetStartPos(Cell cell, Vector2Int startPos)
+        {
             Cell = cell;
             StartPos = startPos;
         }
-        public void Extend(Vector2Int endPos) {
+
+        public void Extend(Vector2Int endPos)
+        {
             EndPos = endPos;
             UpdateDisplay();
         }
 
-        public void UpdateDisplay() {
-            if (!Cell) return;
-            
-            var cam = GameStorage.Instance.Cam;
+        public void UpdateDisplay()
+        {
+            if (Cell == null || Canvas == null) return;
 
-            var sp = cam.WorldToScreenPoint(Cell.tilemap.GetCellCenterWorld((Vector3Int)StartPos));
-            var ep = cam.WorldToScreenPoint(Cell.tilemap.GetCellCenterWorld((Vector3Int)EndPos));
+            Vector2Int min = Vector2Int.Min(StartPos, EndPos);
+            Vector2Int max = Vector2Int.Max(StartPos, EndPos);
 
-            RectTransform.localPosition = sp;
-            RectTransform.sizeDelta = new Vector2(ep.x - sp.x, ep.y - sp.y);
+            Vector3 worldMin = Cell.tilemap.CellToWorld((Vector3Int)min);
+            Vector3 worldMax = Cell.tilemap.CellToWorld((Vector3Int)(max) + Vector3Int.one);
+
+            Camera cam = GameStorage.Instance.Cam;
+
+            Vector2 screenMin = RectTransformUtility.WorldToScreenPoint(cam, worldMin);
+            Vector2 screenMax = RectTransformUtility.WorldToScreenPoint(cam, worldMax);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                Canvas.transform as RectTransform,
+                screenMin,
+                Canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : cam,
+                out Vector2 localMin);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                Canvas.transform as RectTransform,
+                screenMax,
+                Canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : cam,
+                out Vector2 localMax);
+
+            RectTransform.anchoredPosition = localMin;
+            RectTransform.sizeDelta = localMax - localMin;
         }
     }
 }
