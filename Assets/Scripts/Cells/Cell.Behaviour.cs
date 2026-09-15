@@ -96,6 +96,7 @@ namespace Cells
 
             switch (args.CapturedButton) {
                 case 2:
+                    GameLocalBootstrap.Instance.SelectionZone.gameObject.SetActive(true);
                     var cellMousePoint2 = cell.tilemap.WorldToCell(args.WorldPos);
                     SelectionZone zone = GameLocalBootstrap.Instance.SelectionZone;
                     zone.SetStartPos(cell, (Vector2Int) cellMousePoint2);
@@ -135,6 +136,10 @@ namespace Cells
                         cell.BlockUpdate(clickedBlock);
                     }
 
+                    break;
+                case 2:
+                    GameStorage.Instance.Representer.SetRepresentationOfZone(cell, GameLocalBootstrap.Instance.SelectionZone.StartPos, GameLocalBootstrap.Instance.SelectionZone.EndPos);
+                    GameLocalBootstrap.Instance.SelectionZone.gameObject.SetActive(false);
                     break;
             }
         }

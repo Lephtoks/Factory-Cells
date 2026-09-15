@@ -88,6 +88,25 @@ namespace Cells.Object
             UpdateScales();
         }
 
+        public void SetRepresentationOfZone(Cell cell, Vector2Int start, Vector2Int end) {
+            ClearAndCache();
+            var min = Vector2Int.Min(start, end);
+            var max = Vector2Int.Max(start, end);
+            var anchor = (min + max) / 2;
+            for (int x = min.x; x <= max.x; x++) {
+                for (int y = min.y; y <= max.y; y++) {
+                    var pos = new Vector2Int(x, y);
+                    if (cell.TryGetObject(pos, out Block block)) {
+                        _reprs[pos - anchor] = GameStorage.Instance.CreateRepresentationCached(block.BlockType.Def.Representation);
+                    }
+                }
+            }
+
+            GameStorage.Instance.RepresentationSettings.Direction = Direction.EAST;
+            GameStorage.Instance.DisposeRepresenterCache();
+            UpdateScales();
+        }
+
         public void SetCurrentBlockRepr() {
             BlockType activeBlock = GameStorage.Instance.BuildOption.GetActiveBlock();
             if (activeBlock == null) return;
