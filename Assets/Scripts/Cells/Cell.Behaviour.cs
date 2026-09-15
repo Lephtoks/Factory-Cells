@@ -169,12 +169,12 @@ namespace Cells
         
             if (Math.Abs(dir.x) > Math.Abs(dir.y)) {
                 localEndPoint = new Vector2(localMousePos.x, args.LocalMouseBeginPos.y);
-                reprs = Mathf.CeilToInt(Math.Max(localEndPoint.x, args.LocalMouseBeginPos.x)) - Mathf.FloorToInt(Math.Min(localEndPoint.x, args.LocalMouseBeginPos.x));
+                reprs = Mathf.CeilToInt((Mathf.CeilToInt(Math.Max(localEndPoint.x, args.LocalMouseBeginPos.x)) - Mathf.FloorToInt(Math.Min(localEndPoint.x, args.LocalMouseBeginPos.x))) / (float) GameStorage.Instance.Representer.Width);
                 dx = Math.Sign(dir.x) * GameStorage.Instance.Representer.Width;
             }
             else {
                 localEndPoint = new Vector2(args.LocalMouseBeginPos.x, localMousePos.y);
-                reprs = Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y));
+                reprs = Mathf.CeilToInt((Mathf.CeilToInt(Math.Max(localEndPoint.y, args.LocalMouseBeginPos.y)) - Mathf.FloorToInt(Math.Min(localEndPoint.y, args.LocalMouseBeginPos.y))) / (float) GameStorage.Instance.Representer.Height);
                 dy = Math.Sign(dir.y) * GameStorage.Instance.Representer.Height;
             }
         
