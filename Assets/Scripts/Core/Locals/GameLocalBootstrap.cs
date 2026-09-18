@@ -24,6 +24,7 @@ namespace Core.Locals
         public GameObject canvasCardHolder;
         public GameObject RepresenterStore;
         public SelectionZone SelectionZone;
+        public MoveEye MoveEye;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
