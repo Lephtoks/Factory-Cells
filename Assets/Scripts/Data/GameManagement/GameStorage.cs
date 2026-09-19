@@ -29,12 +29,13 @@ namespace Data.GameManagement
         public void Update() {
             _time += Time.deltaTime;
             var t =  _time / _moveRate;
-            if (t >= _moveRate * 0.85) {
-                var l = (t - 0.85f) / 0.15f;
-                GameLocalBootstrap.Instance.MoveEye.SetEyelidCloseState(l);
-            } else if (t <= _moveRate * 0.15) {
-                var l = (0.15f - t) / 0.15f;
-                GameLocalBootstrap.Instance.MoveEye.SetEyelidCloseState(l);
+            switch (GameLocalBootstrap.Instance.MoveEye.IsClosing) {
+                case false when t >= _moveRate * 0.85:
+                    GameLocalBootstrap.Instance.MoveEye.Close();
+                    break;
+                case true when t <= _moveRate * 0.15:
+                    GameLocalBootstrap.Instance.MoveEye.Open();
+                    break;
             }
             if (_time > _moveRate) {
                 CurrencyData.Wind = 0;
