@@ -14,9 +14,8 @@ namespace Data.GameManagement
         public Camera Cam;
         public GameObject Table;
         public UICloudInfo InfoCloud;
-        private float _time;
-        private float _moveRate = 1;
         public CurrencyData CurrencyData = new();
+        public readonly GameStorageTime Time = new();
         
         public override void Init() {
             base.Init();
@@ -27,17 +26,23 @@ namespace Data.GameManagement
             Table = GameLocalBootstrap.Instance.table;
         }
         public void Update() {
-            _time += Time.deltaTime;
-            var t =  _time / _moveRate;
+            Time.MoveTime += UnityEngine.Time.deltaTime;
+            var t =  Time.MoveTime / Time.MoveRate;
             switch (GameLocalBootstrap.Instance.MoveEye.IsClosing) {
-                case false when t >= _moveRate * 0.85:
+                case false when t >= Time.MoveRate * 0.85:
                     GameLocalBootstrap.Instance.MoveEye.Close();
                     break;
-                case true when t <= _moveRate * 0.15:
+                case true when t <= Time.MoveRate * 0.15:
                     GameLocalBootstrap.Instance.MoveEye.Open();
                     break;
             }
-            if (_time > _moveRate) {
+            if (Time.MoveTime > Time.MoveRate) {
+                Time.DayTime += 1;
+                GameLocalBootstrap.Instance.DayClock.UpdatePointer();
+                if (Time.DayTime >= Time.HoursInDay) {
+                    Time.DayTime = 0;
+                    Time.Day++;
+                }
                 CurrencyData.Wind = 0;
                 foreach (var cell in _tilemaps) {
                     cell.UpdatePreMove();
@@ -45,8 +50,17 @@ namespace Data.GameManagement
                 foreach (var cell in _tilemaps) {
                     cell.UpdateMove();
                 }
-                _time = 0;
+                Time.MoveTime = 0;
             }
         }
+    }
+
+    public class GameStorageTime
+    {
+        public float MoveTime;
+        public float MoveRate = 1;
+        public int DayTime;
+        public int HoursInDay = 24;
+        public int Day;
     }
 }

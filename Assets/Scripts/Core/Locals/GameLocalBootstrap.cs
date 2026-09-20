@@ -25,6 +25,7 @@ namespace Core.Locals
         public GameObject RepresenterStore;
         public SelectionZone SelectionZone;
         public MoveEye MoveEye;
+        public DayClock DayClock;
 
         public void OpenOffer() {
             GameStorage.Instance.AddOffer()
