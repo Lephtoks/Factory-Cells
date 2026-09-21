@@ -10,6 +10,7 @@ namespace Cells.Object.Building
 {
     public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall
     {
+        public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.DRILL;
         public DefaultRepr LivingRepresentation { get; set; }
         private int _counter;

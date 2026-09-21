@@ -11,6 +11,10 @@ namespace Cells.Object.Building
 {
     public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable
     {
+        public override int GetCapacity() {
+            return 1;
+        }
+
         public Direction Direction { get; }
         public override BlockType BlockType => BlockTypes.CONVEYOR;
         public ConveyorRepr LivingRepresentation { get; set; }

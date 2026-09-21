@@ -9,6 +9,7 @@ namespace Cells.Object
 {
     public abstract class OneSlotBlock : Block, IInventoryOut
     {
+        public virtual bool CanReceive => true;
         private ItemStack _itemStack;
         public Intent Intent { get; set; }
         public CycleIntent CycleIntent { get; set; }

@@ -15,6 +15,16 @@ namespace Cells.Object
             neighbor = null;
             return false;
         }
+        bool TryGetReceiver(out IInventory inventory) {
+            inventory = null;
+            foreach (var direction in ChooseDirection()) {
+                if (TryGetNeighbor(direction, out Block neighbor) && neighbor is IInventory { CanReceive: true } node) {
+                    inventory = node;
+                    return true;
+                }
+            }
+            return false;
+        }
         bool TryGetNeighbor(Vector2Int direction, out Block neighbor) {
             return Parent.TryGetObject(Position + direction, out neighbor);
         }

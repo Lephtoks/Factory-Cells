@@ -9,6 +9,7 @@ namespace Cells.Object.Building
 {
     public class ItemSource: OneSlotBlock, IRepresentable<DefaultRepr>
     {
+        public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.ITEM_SOURCE;
         public DefaultRepr LivingRepresentation { get; set; }
         
