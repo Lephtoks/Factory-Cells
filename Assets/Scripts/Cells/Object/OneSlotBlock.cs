@@ -14,6 +14,7 @@ namespace Cells.Object
         public CycleIntent CycleIntent { get; set; }
 
         public OneSlotBlock(Cell parent, Vector2Int pos) : base(parent, pos) {
+            _directionGenerator = DirectionGenerator().GetEnumerator();
         }
 
         public ItemStack[] GetItems() {
@@ -55,7 +56,32 @@ namespace Cells.Object
             return 1;
         }
 
-        public abstract IEnumerable<Direction> OutDirections();
+        private readonly IEnumerator<Direction> _directionGenerator;        
+        public virtual IEnumerable<Direction> OutDirections() {
+            yield return Direction.EAST;
+            yield return Direction.WEST;
+            yield return Direction.NORTH;
+            yield return Direction.SOUTH;
+        }
+
+        private IEnumerable<Direction> DirectionGenerator() {
+            while (true) {
+                foreach (var direction in OutDirections()) {
+                    yield return direction;
+                }
+            }
+        }
+        public IEnumerable<Direction> ChooseDirection() {
+            _directionGenerator.MoveNext();
+            yield return _directionGenerator.Current;
+            _directionGenerator.MoveNext();
+            yield return _directionGenerator.Current;
+            _directionGenerator.MoveNext();
+            yield return _directionGenerator.Current;
+            _directionGenerator.MoveNext();
+            yield return _directionGenerator.Current;
+            
+        }
         public virtual void IntentSucceed() {}
     }
 }

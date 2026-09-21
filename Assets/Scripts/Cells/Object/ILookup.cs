@@ -7,8 +7,9 @@ namespace Cells.Object
     public interface ILookup : IPositioned, ICellPlaceable
     {
         IEnumerable<Direction> OutDirections();
+        IEnumerable<Direction> ChooseDirection();
         bool TryGetNeighbor(out Block neighbor) {
-            foreach (var direction in OutDirections()) {
+            foreach (var direction in ChooseDirection()) {
                 if (TryGetNeighbor(direction, out neighbor)) return true;
             }
             neighbor = null;

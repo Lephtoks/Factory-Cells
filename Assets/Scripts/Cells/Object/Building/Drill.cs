@@ -16,13 +16,7 @@ namespace Cells.Object.Building
 
         public Drill(Cell parent, Vector2Int pos) : base(parent, pos) {
         }
-        
-        public override IEnumerable<Direction> OutDirections() {
-            yield return Direction.EAST;
-            yield return Direction.WEST;
-            yield return Direction.NORTH;
-            yield return Direction.SOUTH;
-        }
+
 
 
         public override void UpdateMove() {
