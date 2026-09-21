@@ -13,7 +13,6 @@ namespace Attributes
             _rectTransform = GetComponent<RectTransform>();
             _initialScale = _rectTransform ? _rectTransform.localScale : transform.localScale;
             gameObject.SetActive(false);
-            Debug.Log(_initialScale);
         }
 
         public void Show() {

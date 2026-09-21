@@ -32,10 +32,6 @@ namespace Cells.Object.Building
             return ((IRepresentable<ConveyorRepr>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
 
-        public override void IntentSucceed() {
-            Debug.Log("Conveyor intent succeed");
-        }
-
         public bool BlockUpdate() {
             if (Destroyed) return true;
             if (!LivingRepresentation) return false;

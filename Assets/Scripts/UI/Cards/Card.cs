@@ -59,7 +59,6 @@ namespace UI.Cards
         }
 
         public void Select(Vector3 mousePos, Vector3 worldPos, int capturedButton, bool captured) {
-            Debug.Log("SELELELELELEL");
             // throw new NotImplementedException();
         }
 
@@ -96,7 +95,6 @@ namespace UI.Cards
         private void OnEnable() {
             if (!_initialized) return;
             _behaviour.OnEnable(this);
-            Debug.Log("REG");
             MainController.Instance.InteractionManager.Register(this);
         }
 

@@ -11,7 +11,6 @@ namespace Data
             get => _wind;
             set {
                 _wind = value;
-                Debug.Log("Wind: " + _wind);
             }
         }
     }

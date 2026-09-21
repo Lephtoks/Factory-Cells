@@ -25,8 +25,6 @@ namespace Cells.Object.Building
             if (_counter >= 5) {
                 _counter = 0;
                 AddItemStack(Currency.COPPER.OfCount(1));
-                Debug.Log(GetItemStack().Count);
-                Debug.Log(GetItemStack().CurrencyType);
             }
         }
 
