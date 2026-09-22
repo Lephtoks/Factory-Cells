@@ -22,8 +22,6 @@ namespace Cells.Object
             CycleIntent = null;
         }
 
-        int GetThroughput();
-
         int GetCapacity();
     }
 }

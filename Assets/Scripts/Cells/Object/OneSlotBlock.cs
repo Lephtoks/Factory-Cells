@@ -27,7 +27,7 @@ namespace Cells.Object
         }
 
         public ItemStack SuggestMoveStack() {
-            return _itemStack.OfCount(Math.Min(GetThroughput(), _itemStack.Count));
+            return _itemStack.OfCount(_itemStack.Count);
         }
         
         public ItemStack GetItemStack() {
@@ -51,10 +51,6 @@ namespace Cells.Object
 
         public virtual int GetCapacity() {
             return 999999;
-        }
-
-        public virtual int GetThroughput() {
-            return 1;
         }
 
         private readonly IEnumerator<Direction> _directionGenerator;        
@@ -83,6 +79,5 @@ namespace Cells.Object
             yield return _directionGenerator.Current;
             
         }
-        public virtual void IntentSucceed() {}
     }
 }
