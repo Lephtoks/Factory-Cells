@@ -57,13 +57,31 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EnableExternalAlpha: 0
+    - _QueueControl: -1
+    - _QueueOffset: 0
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _ZTest: 4
     - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
+    - _AtlasSize: {r: 192, g: 73, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Direction: {r: 0, g: 0.5, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ReplaceColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ReplaceColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+    - _SecondDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _StartPos: {r: 0.5, g: 0, b: 0, a: 0}
     - _TargetColor: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
