@@ -29,7 +29,7 @@ namespace Cells.Object.Building
         }
         
         public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<ConveyorRepr>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
+            return ((IRepresentable<ConveyorRepr>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), ((ConveyorRepr) repr).Direction)).AssignRepresentation(repr);
         }
 
         public bool BlockUpdate() {
@@ -46,7 +46,7 @@ namespace Cells.Object.Building
                     }
                 };
             }
-            LivingRepresentation.UpdateConveyorDisplay();
+            LivingRepresentation.UpdateConveyorDisplay(LivingRepresentation.OriginalConveyor.Direction);
             return currentConnections != LivingRepresentation.Connections;
         }
     }

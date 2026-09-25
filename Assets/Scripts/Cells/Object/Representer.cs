@@ -35,6 +35,7 @@ namespace Cells.Object
                 Vector2Int pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
                 if (cell.IsTileExist(pos)) {
                     blockRepr.Value.transform.SetParent(cell.CellPivot, false);
+                    blockRepr.Value.Cell = cell;
                     blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
                     blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
                     if (cell.IsTileOccupied(pos)) {
@@ -46,6 +47,7 @@ namespace Cells.Object
                 }
                 else {
                     blockRepr.Value.transform.SetParent(null, false);
+                    blockRepr.Value.Cell = null;
                     blockRepr.Value.MakeInvisible();
                 }
             }
@@ -55,6 +57,7 @@ namespace Cells.Object
         public void Displace() {
             foreach (var blockRepr in _reprs) {
                 blockRepr.Value.transform.SetParent(null, false);
+                blockRepr.Value.Cell = null;
                 blockRepr.Value.MakeInvisible();
             }
 

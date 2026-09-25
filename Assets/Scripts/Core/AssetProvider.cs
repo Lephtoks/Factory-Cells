@@ -50,8 +50,8 @@ namespace Core
             dynamicTraits[typeof(AttackTrait)] = registry.traits.attackTrait;
         }
 
-        public Sprite[] GetConveyorAnimationList(Conveyor conveyor, DirectionFlag connections) {
-            switch (conveyor.Direction)
+        public Sprite[] GetConveyorAnimationList(Direction conveyorDirection, DirectionFlag connections) {
+            switch (conveyorDirection)
             {
                 case Direction.NORTH:
                     return connections.ToByte() switch {
