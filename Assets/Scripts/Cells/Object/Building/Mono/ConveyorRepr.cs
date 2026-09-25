@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Core;
 using Data;
 using UnityEngine;
@@ -24,6 +25,16 @@ namespace Cells.Object.Building.Mono
         public override void UseSettings(RepresentationSettings representationSettings) {
             base.UseSettings(representationSettings);
             UpdateConveyorDisplay(representationSettings.Direction);
+            Connections = new DirectionFlag();
+            foreach (var dir in (Direction[])Enum.GetValues(typeof(Direction))) {
+                if (Cell && Cell.TryGetObject(new Vector2Int((int) transform.localPosition.x, (int) transform.localPosition.y) + dir.ToVector2Int(), out Block block)) {
+                    if (dir == Direction) {
+                        Connections += Direction;
+                    } else if (block is IInventoryOut inventoryOut && inventoryOut.OutDirections().Contains(dir.Opposite())) {
+                        Connections += dir;
+                    }
+                };
+            }
         }
 
         public override void Init(Conveyor original) {
