@@ -161,6 +161,10 @@ namespace Entities.Navigation
             return AStar.FindPath(this, a, b);
         }
 
+        public List<NavNode> BuildApproachPath(Vector2 a, Vector2 b, float radius, bool beOnBorder) {
+            return AStar.FindApproachPath(this, a, b, radius, beOnBorder);
+        }
+
         private void Connect(NavNode a, NavNode b) {
             float distance = Vector2.Distance(a.Position, b.Position);
             a.Connections.Add(b, distance);

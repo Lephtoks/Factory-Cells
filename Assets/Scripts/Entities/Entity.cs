@@ -81,7 +81,7 @@ namespace Entities
 
         private void Pathfind() {
             Vector3 worldToLocal = Target;
-            _path = Parent.NavTree.BuildPath(Position, worldToLocal);
+            _path = Parent.NavTree.BuildApproachPath(Position, worldToLocal, 2, false);
             if (_path is { Count: > 0 }) {
                 _currentNode = _path[0];
             }
