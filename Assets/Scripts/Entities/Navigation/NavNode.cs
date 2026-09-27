@@ -10,5 +10,6 @@ namespace Entities.Navigation
         public Vector2 Position;
         public Direction Direction;
         public Dictionary<NavNode, float> Connections = new Dictionary<NavNode, float>();
+        public readonly Dictionary<NavNode, float> BreakingConnections = new Dictionary<NavNode, float>();
     }
 }

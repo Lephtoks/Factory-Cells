@@ -45,6 +45,11 @@ namespace Entities.Navigation
                             second.Connections.Remove(node);
                         }
                     }
+
+                    if (!node.BreakingConnections.ContainsKey(second)) {
+                        ConnectBreaking(node, second);
+                    }
+
                 }
             }
 
@@ -165,10 +170,20 @@ namespace Entities.Navigation
             return AStar.FindApproachPath(this, a, b, radius, beOnBorder);
         }
 
+        public List<NavNode> BuildBreakingApproachPath(Vector2 a, Vector2 b, float radius, bool beOnBorder) {
+            return AStar.FindBreakingApproachPath(this, a, b, radius, beOnBorder);
+        }
+
         private void Connect(NavNode a, NavNode b) {
             float distance = Vector2.Distance(a.Position, b.Position);
             a.Connections.Add(b, distance);
             b.Connections.Add(a, distance);
+        }
+
+        private void ConnectBreaking(NavNode a, NavNode b) {
+            float distance = Vector2.Distance(a.Position, b.Position) + Cell.CheckForObstacles(a.Position, b.Position) * 20;
+            a.BreakingConnections.Add(b, distance);
+            b.BreakingConnections.Add(a, distance);
         }
 
         private NavNode BuildNode(Vector2Int position, Direction direction) {
@@ -180,6 +195,7 @@ namespace Entities.Navigation
                 if (Cell.AbleToMove(node.Position, child.Position)) {
                     Connect(node, child);
                 }
+                ConnectBreaking(node, child);
             }
             GetNavBlock(position).Set(node);
             return node;
@@ -188,10 +204,14 @@ namespace Entities.Navigation
         private void RemoveNode(NavBlock block, Direction dir) {
             var node = block.Remove(dir);
             if (node == null) return;
-            foreach (var connected in node.Connections.Keys) {
-                connected.Connections.Remove(node);
+            foreach (var other in GetEnumerable()) {
+                if (node.Connections.ContainsKey(other)) {
+                    other.Connections.Remove(node);
+                }
+                other.BreakingConnections.Remove(node);
             }
             node.Connections.Clear();
+            node.BreakingConnections.Clear();
         }
 
         private NavBlock GetNavBlock(Vector2Int position) {
