@@ -16,6 +16,9 @@ namespace Entities.Navigation
         private readonly Dictionary<Vector2Int, NavBlock> _navDictionary = new();
         public Cell Cell;
         private float radius = 0.2f;
+        public event Action NavTreeRebuildEvent;
+        
+        public void InvokeNavTreeRebuildEvent() => NavTreeRebuildEvent?.Invoke();
 
         public NavTree(Cell cell) {
             this.Cell = cell;
