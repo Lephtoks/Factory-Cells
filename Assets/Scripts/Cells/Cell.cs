@@ -6,6 +6,7 @@ using Data;
 using Data.GameManagement;
 using DG.Tweening;
 using Entities.Navigation;
+using GameRenderer;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -19,6 +20,7 @@ namespace Cells
         private Vector3 _baseScale;
         public UIGlow Glow;
         private bool _initialized;
+        private IndirectRenderer<Vector3> _healthBarRenderer; 
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -30,9 +32,18 @@ namespace Cells
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
             NavTree = new NavTree(this);
+            _healthBarRenderer = new IndirectRenderer<Vector3>(gameObject,
+                AssetProvider.Instance.registry.render.HealthBarMesh,
+                AssetProvider.Instance.registry.render.HealthBarMaterial);
+            _healthBarRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
+
+            _healthBarRenderer.Add(new Vector3(0, 0, 0.5f));
+            _healthBarRenderer.Add(new Vector3(0, 5, 0.5f));
+            _healthBarRenderer.Add(new Vector3(0, -5, 0.25f));
+            _healthBarRenderer.Add(new Vector3(5, 0, 0.15f));
             OnEnable();
         }
         
@@ -45,6 +56,7 @@ namespace Cells
         }
         
         private void Update() {
+            _healthBarRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();
@@ -54,7 +66,7 @@ namespace Cells
             DrawHitboxes(); // Cell.Debug.cs
             DrawNavigation(); // Cell.Debug.cs
         }
-        
+
         private void OnEnable() {
             if (!_initialized) return;
             _behaviour.OnEnable(this);
@@ -67,6 +79,10 @@ namespace Cells
             _behaviour.OnDisable(this);
             MainController.Instance.InteractionManager.Unregister(this);
             GameEvents.OnCellPositionUpdate -= OnAnyCellPositionUpdate;
+        }
+
+        private void OnDestroy() {
+            _healthBarRenderer.Release();
         }
 
         private void OnAnyCellPositionUpdate() {

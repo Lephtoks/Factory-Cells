@@ -616,5 +616,7 @@ MonoBehaviour:
     traitIconPrefab: {fileID: 3977239281025009302, guid: e71b74bd7e517d9fdbb06c5526ad0356, type: 3}
   render:
     ItemDropMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    HealthBarMaterial: {fileID: 2100000, guid: 2c95244eea637abf7aa42efc361b5462, type: 2}
     ItemDropMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    HealthBarMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
     DebugLineMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}

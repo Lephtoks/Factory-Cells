@@ -8,6 +8,7 @@ namespace GameRenderer
     public class IndirectRenderer
     {
         internal static readonly int INSTANCE_DATA_ID = Shader.PropertyToID("_InstanceData");
+        internal static readonly int OBJECT_TO_WORLD = Shader.PropertyToID("_ObjectToWorld");
     }
 
     public class IndirectRenderer<T> : IndirectRenderer where T : struct
@@ -96,6 +97,13 @@ namespace GameRenderer
             };
         }
 
+        protected void UpdateTransform() {
+            var tr = GameObject.transform;
+            var matrix = tr.localToWorldMatrix;
+
+            _properties.SetMatrix(IndirectRenderer.OBJECT_TO_WORLD, matrix);
+        }
+
         protected void CPU2GPU() {
             _instanceBuffer.SetData(
                 _cpuData,
@@ -112,6 +120,7 @@ namespace GameRenderer
         public void Render() {
             if (Count == 0) return;
             
+            UpdateTransform();
             CPU2GPU();
 
             Graphics.RenderMeshIndirect(

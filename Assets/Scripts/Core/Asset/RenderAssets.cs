@@ -7,7 +7,9 @@ namespace Core.Asset
     public class RenderAssets
     {
         public Material ItemDropMaterial;
+        public Material HealthBarMaterial;
         public Mesh ItemDropMesh;
+        public Mesh HealthBarMesh;
         public Material DebugLineMaterial;
     }
 }
