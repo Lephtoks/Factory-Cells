@@ -1,3 +1,4 @@
+using Data;
 using UnityEngine;
 
 namespace Cells.Object
@@ -9,10 +10,12 @@ namespace Cells.Object
 
         public void Damage(float damage) {
             Health -= damage;
+            GameEvents.InvokeDamageDealt(this, damage);
         }
 
         public void Heal(float heal) {
             Health = Mathf.Min(heal + Health, MaxHealth);
+            GameEvents.InvokeHealthHealed(this, heal);
         }
     }
 }

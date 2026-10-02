@@ -60,8 +60,8 @@ Shader "Custom/HealthBar"
                 float3 barData = _InstanceData[instanceID];
                 // barData.xy — offset
                 // barData.z  — fill amount (0..1)
-
-                float3 localPos = v.vertex.xyz + float3(barData.xy, 0.0);
+                v.vertex.y /= 8;
+                float3 localPos = v.vertex.xyz + float3(barData.xy, 0.0) + float3(0.5f, -0.2, 0);
 
                 float4 worldPos = mul(_ObjectToWorld, float4(localPos, 1.0));
 

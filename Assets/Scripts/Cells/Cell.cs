@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Attributes;
+using Cells.Object;
 using Core;
 using Data;
 using Data.GameManagement;
@@ -20,7 +21,7 @@ namespace Cells
         private Vector3 _baseScale;
         public UIGlow Glow;
         private bool _initialized;
-        private IndirectRenderer<Vector3> _healthBarRenderer; 
+        private IndirectRenderer<Block, Vector3> _healthBarRenderer; 
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -32,7 +33,7 @@ namespace Cells
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
             NavTree = new NavTree(this);
-            _healthBarRenderer = new IndirectRenderer<Vector3>(gameObject,
+            _healthBarRenderer = new IndirectRenderer<Block, Vector3>(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.HealthBarMesh,
                 AssetProvider.Instance.registry.render.HealthBarMaterial);
             _healthBarRenderer.Init();
@@ -40,10 +41,6 @@ namespace Cells
                 SetBehaviour(behaviour);
             }
 
-            _healthBarRenderer.Add(new Vector3(0, 0, 0.5f));
-            _healthBarRenderer.Add(new Vector3(0, 5, 0.5f));
-            _healthBarRenderer.Add(new Vector3(0, -5, 0.25f));
-            _healthBarRenderer.Add(new Vector3(5, 0, 0.15f));
             OnEnable();
         }
         
@@ -72,6 +69,8 @@ namespace Cells
             _behaviour.OnEnable(this);
             MainController.Instance.InteractionManager.Register(this);
             GameEvents.OnCellPositionUpdate += OnAnyCellPositionUpdate;
+            GameEvents.DamageDealt += DamagedBlockHealthBar;
+            GameEvents.HealthHealed += DamagedBlockHealthBar;
         }
 
         private void OnDisable() {
@@ -79,6 +78,8 @@ namespace Cells
             _behaviour.OnDisable(this);
             MainController.Instance.InteractionManager.Unregister(this);
             GameEvents.OnCellPositionUpdate -= OnAnyCellPositionUpdate;
+            GameEvents.DamageDealt -= DamagedBlockHealthBar;
+            GameEvents.HealthHealed -= DamagedBlockHealthBar;
         }
 
         private void OnDestroy() {

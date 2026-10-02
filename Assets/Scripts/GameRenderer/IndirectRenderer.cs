@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Cells.Object;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -11,7 +12,7 @@ namespace GameRenderer
         internal static readonly int OBJECT_TO_WORLD = Shader.PropertyToID("_ObjectToWorld");
     }
 
-    public class IndirectRenderer<T> : IndirectRenderer where T : struct
+    public class IndirectRenderer<K, T> : IndirectRenderer where T : struct
     {
         protected readonly int Capacity;
         protected readonly Material Material;
@@ -34,8 +35,7 @@ namespace GameRenderer
         protected GraphicsBuffer ArgsBuffer;
         
         private T[] _cpuData;
-        private int _ids = 0;
-        private readonly BidirectionalDictionary<int, int> _id2Index = new BidirectionalDictionary<int, int>();
+        private readonly BidirectionalDictionary<K, int> _id2Index = new BidirectionalDictionary<K, int>();
         
         public void Init()
         {
@@ -140,18 +140,20 @@ namespace GameRenderer
             _args = null;
             _id2Index.Clear();
         }
-        
-        public int Add(T value) {
+
+        public void Add(K key, T value) {
+            if (_id2Index.TryGetValue(key, out int index)) {
+                _cpuData[index] = value;
+                return;
+            }
             if (Count >= Capacity)
-                return -1;
+                return;
             _cpuData[Count] = value;
-            _id2Index.Add(_ids, Count++);
-            return _ids++;
+            _id2Index.Add(key, Count++);
         }
 
-        public void Remove(int id) {
-            var index = _id2Index[id];
-            _id2Index.Remove(id);
+        public void Remove(K key) {
+            if (!_id2Index.Remove(key, out int index)) return;
 
             Count--;
             if (index != Count) {

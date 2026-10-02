@@ -16,6 +16,13 @@ namespace Cells.Object.Building
         public DefaultRepr LivingRepresentation { get; set; }
         
         public CellAnchor(Cell parent, Vector2Int pos) : base(parent, pos) {
+            MaxHealth = 1000;
+            Health = 1000;
+        }
+
+        public override void UpdateMove() {
+            base.UpdateMove();
+            ((IHealth) this).Damage(25);
         }
 
         public override void WhenBeingAddedToCell() {
