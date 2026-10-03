@@ -8,10 +8,11 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class CellAnchor: Block, IRepresentable<DefaultRepr>, IHealth
+    public class CellAnchor: Block, IRepresentable<DefaultRepr>, IKillable
     {
         public float MaxHealth { get; set; }
         public float Health { get; set; }
+        public bool Dead { get; set; }
         public override BlockType BlockType => BlockTypes.CELL_ANCHOR;
         public DefaultRepr LivingRepresentation { get; set; }
         

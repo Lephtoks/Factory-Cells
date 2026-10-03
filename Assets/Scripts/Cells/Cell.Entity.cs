@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cells.Object;
 using Cells.Object.Node;
 using Data.GameManagement;
@@ -52,6 +53,11 @@ namespace Cells
             foreach (var entity in _entityList.ToArray()) {
                 if (entity.Dead) {
                     RemoveEntity(entity);
+                }
+            }
+            foreach (var block in _cellObjects.Values.ToArray()) {
+                if (block is IKillable { Dead: true }) {
+                    RemoveObject(block.Position);
                 }
             }
         }
