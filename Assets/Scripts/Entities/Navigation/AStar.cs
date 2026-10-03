@@ -264,10 +264,8 @@ namespace Entities.Navigation
 
                 IEnumerable<KeyValuePair<NavNode, float>> neighbours = current.BreakingConnections;
                 if (connectedToTarget.TryGetValue(current, out float value)) neighbours = neighbours.Append(new KeyValuePair<NavNode, float>(targetNode, value));
-                if (tree.Cell.AbleToMove(current.Position, circleNode.Position)) {
-                    circles.Add(circleNode);
-                    neighbours = neighbours.Append(new KeyValuePair<NavNode, float>(circleNode, Vector2.Distance(current.Position, circleNode.Position)));
-                }
+                circles.Add(circleNode);
+                neighbours = neighbours.Append(new KeyValuePair<NavNode, float>(circleNode, Vector2.Distance(current.Position, circleNode.Position) + tree.Cell.CheckForObstacles(current.Position, circleNode.Position)*20));
                 
                 foreach ((NavNode neighbour, float cost) in neighbours)
                 {
