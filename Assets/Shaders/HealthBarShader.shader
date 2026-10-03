@@ -11,7 +11,7 @@ Shader "Custom/HealthBar"
         Tags
         {
             "RenderPipeline" = "UniversalPipeline"
-            "Queue" = "Transparent"
+            "Queue" = "Overlay"
             "RenderType" = "Transparent"
         }
 
@@ -21,7 +21,7 @@ Shader "Custom/HealthBar"
 
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest LEqual
+            ZTest Always
             Cull Off
 
             HLSLPROGRAM
@@ -64,6 +64,7 @@ Shader "Custom/HealthBar"
                 float3 localPos = v.vertex.xyz + float3(barData.xy, 0.0) + float3(0.5f, -0.2, 0);
 
                 float4 worldPos = mul(_ObjectToWorld, float4(localPos, 1.0));
+                worldPos.z = -1;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv         = v.texcoord.xy;
