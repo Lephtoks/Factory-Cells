@@ -57,39 +57,39 @@ namespace Entities.Navigation
             }
 
             DirectionFlag flag = new DirectionFlag();
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject1)) flag += Direction.NORTH;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject1)) flag += Direction.NORTH;
             else {
                 RemoveNode(GetNavBlock(blockObject1.Position), Direction.SOUTH_WEST);
                 RemoveNode(GetNavBlock(blockObject1.Position), Direction.SOUTH_EAST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.EAST.ToVector2Int(), out var blockObject2)) flag += Direction.EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.EAST.ToVector2Int(), out var blockObject2)) flag += Direction.EAST;
             else {
                 RemoveNode(GetNavBlock(blockObject2.Position), Direction.SOUTH_WEST);
                 RemoveNode(GetNavBlock(blockObject2.Position), Direction.NORTH_WEST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject3)) flag += Direction.SOUTH;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject3)) flag += Direction.SOUTH;
             else {
                 RemoveNode(GetNavBlock(blockObject3.Position), Direction.NORTH_EAST);
                 RemoveNode(GetNavBlock(blockObject3.Position), Direction.NORTH_WEST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.WEST.ToVector2Int(), out var blockObject4)) flag += Direction.WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.WEST.ToVector2Int(), out var blockObject4)) flag += Direction.WEST;
             else {
                 RemoveNode(GetNavBlock(blockObject4.Position), Direction.NORTH_EAST);
                 RemoveNode(GetNavBlock(blockObject4.Position), Direction.SOUTH_EAST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
             else {
                 RemoveNode(GetNavBlock(blockObject5.Position), Direction.SOUTH_WEST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
             else {
                 RemoveNode(GetNavBlock(blockObject6.Position), Direction.NORTH_WEST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
             else {
                 RemoveNode(GetNavBlock(blockObject7.Position), Direction.NORTH_EAST);
             }
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
             else {
                 RemoveNode(GetNavBlock(blockObject8.Position), Direction.SOUTH_EAST);
             }
@@ -126,14 +126,14 @@ namespace Entities.Navigation
 
             DirectionFlag flag = new DirectionFlag();
             
-            if (!Cell.TryGetObject(block.Position + Direction.EAST.ToVector2Int(), out var blockObject1)) flag += Direction.EAST;
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject2)) flag += Direction.NORTH;
-            if (!Cell.TryGetObject(block.Position + Direction.WEST.ToVector2Int(), out var blockObject3)) flag += Direction.WEST;
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject4)) flag += Direction.SOUTH;
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
-            if (!Cell.TryGetObject(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
-            if (!Cell.TryGetObject(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.EAST.ToVector2Int(), out var blockObject1)) flag += Direction.EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH.ToVector2Int(), out var blockObject2)) flag += Direction.NORTH;
+            if (!Cell.TryGetNavWall(block.Position + Direction.WEST.ToVector2Int(), out var blockObject3)) flag += Direction.WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH.ToVector2Int(), out var blockObject4)) flag += Direction.SOUTH;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH_EAST.ToVector2Int(), out var blockObject5)) flag += Direction.NORTH_EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH_EAST.ToVector2Int(), out var blockObject6)) flag += Direction.SOUTH_EAST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.SOUTH_WEST.ToVector2Int(), out var blockObject7)) flag += Direction.SOUTH_WEST;
+            if (!Cell.TryGetNavWall(block.Position + Direction.NORTH_WEST.ToVector2Int(), out var blockObject8)) flag += Direction.NORTH_WEST;
             
             if (blockObject1 != null) { 
                 if (flag.Contains(Direction.NORTH) && flag.Contains(Direction.NORTH_EAST)) BuildNode(blockObject1.Position, Direction.NORTH_WEST);

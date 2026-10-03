@@ -6,6 +6,7 @@ using Data;
 using Data.GameManagement;
 using DG.Tweening;
 using Entities;
+using Entities.Navigation;
 using UnityEngine;
 
 namespace Cells
@@ -62,6 +63,15 @@ namespace Cells
         public bool TryGetObject(Vector2Int position, out Block block) {
             return _cellObjects.TryGetValue(position, out block);
         }
+        public bool TryGetNavWall(Vector2Int position, out Block wall) {
+            if (_cellObjects.TryGetValue(position, out Block block) && block is INavWall) {
+                wall = block;
+                return true;
+            }
+
+            wall = null;
+            return false;
+        }
 
         public bool IsTileEmpty(Vector2Int position) {
             return IsTileExist(position) && !IsTileOccupied(position);
@@ -73,6 +83,10 @@ namespace Cells
 
         public bool IsTileExist(Vector2Int position) {
             return 0 <= position.x && position.x < size && 0 <= position.y && position.y < size;
+        }
+
+        public bool IsTileBlocksMovement(Vector2Int position) {
+            return !IsTileEmpty(position) && TryGetObject(position, out Block block) && block is INavWall;
         }
 
 

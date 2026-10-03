@@ -20,7 +20,7 @@ namespace Cells
             int cellX = Mathf.FloorToInt(a.x);
             int cellY = Mathf.FloorToInt(a.y);
 
-            if (!IsTileEmpty(new Vector2Int(cellX, cellY))) {
+            if (IsTileBlocksMovement(new Vector2Int(cellX, cellY))) {
                 hit = a;
                 return false;
                 
@@ -88,7 +88,7 @@ namespace Cells
                     norm = new Vector2(-xDirection, -yDirection).normalized;
                 }
 
-                if (!IsTileEmpty(new Vector2Int(cellX, cellY))) {
+                if (IsTileBlocksMovement(new Vector2Int(cellX, cellY))) {
                     hit = a + direction * timeToNextBoundary;
                     normal = norm;
                     return false;
@@ -103,7 +103,7 @@ namespace Cells
             int cellX = Mathf.FloorToInt(a.x);
             int cellY = Mathf.FloorToInt(a.y);
 
-            if (!IsTileEmpty(new Vector2Int(cellX, cellY))) {
+            if (IsTileBlocksMovement(new Vector2Int(cellX, cellY))) {
                 result++;
             }
 
@@ -146,18 +146,15 @@ namespace Cells
                 if (timeToNextBoundary > 1f)
                     break;
 
-                Vector2 norm;
                 if (timeToNextXBoundary < timeToNextYBoundary)
                 {
                     cellX += xDirection;
                     timeToNextXBoundary += timePerXCell;
-                    norm = new Vector2(-xDirection, 0);
                 }
                 else if (timeToNextYBoundary < timeToNextXBoundary)
                 {
                     cellY += yDirection;
                     timeToNextYBoundary += timePerYCell;
-                    norm = new Vector2(0, -yDirection);
                 }
                 else
                 {
@@ -166,10 +163,9 @@ namespace Cells
 
                     timeToNextXBoundary += timePerXCell;
                     timeToNextYBoundary += timePerYCell;
-                    norm = new Vector2(-xDirection, -yDirection).normalized;
                 }
 
-                if (!IsTileEmpty(new Vector2Int(cellX, cellY))) {
+                if (IsTileBlocksMovement(new Vector2Int(cellX, cellY))) {
                     result++;
                 }
             }
