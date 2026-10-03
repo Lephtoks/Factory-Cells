@@ -8,6 +8,7 @@ using DG.Tweening;
 using Entities;
 using Entities.Navigation;
 using UnityEngine;
+using IHealth = Cells.Object.IHealth;
 
 namespace Cells
 {
@@ -25,6 +26,10 @@ namespace Cells
             block.OnDestroy();
             if (block is IRepresentable representable) {
                 Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
+            }
+
+            if (block is IHealth health) {
+                _healthBarRenderer.Remove(block);
             }
         }
 
