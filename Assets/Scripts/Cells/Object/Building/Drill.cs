@@ -8,14 +8,19 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall
+    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall, IKillable
     {
+        public float MaxHealth { get; }
+        public float Health { get; set; }
+        public bool Dead { get; set; }
         public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.DRILL;
         public DefaultRepr LivingRepresentation { get; set; }
         private int _counter;
 
         public Drill(Cell parent, Vector2Int pos) : base(parent, pos) {
+            MaxHealth = 200f;
+            Health = MaxHealth;
         }
 
 

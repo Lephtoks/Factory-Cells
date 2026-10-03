@@ -9,8 +9,11 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable, IKillable
     {
+        public float MaxHealth { get; }
+        public float Health { get; set; }
+        public bool Dead { get; set; }
         public override int GetCapacity() {
             return 1;
         }
@@ -22,6 +25,8 @@ namespace Cells.Object.Building
         
         public Conveyor(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
             Direction = direction;
+            MaxHealth = 100f;
+            Health = MaxHealth;
         }
 
         public override IEnumerable<Direction> OutDirections() {

@@ -8,8 +8,11 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IItemDisplayable, IPreUpdatable
+    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IItemDisplayable, IPreUpdatable, IKillable
     {
+        public float MaxHealth { get; }
+        public float Health { get; set; }
+        public bool Dead { get; set; }
         public Direction Direction { get; }
         public override BlockType BlockType => BlockTypes.WIND_GEN;
         public WindGenRepr LivingRepresentation { get; set; }
@@ -17,6 +20,8 @@ namespace Cells.Object.Building
         
         public WindGen(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
             Direction = direction;
+            MaxHealth = 200f;
+            Health = MaxHealth;
         }
         
         public static Block Create(Cell parent, BlockRepr repr) {
