@@ -8,6 +8,8 @@ namespace Entities.Kinds.Mono
     {
         public GameObject LeftArm;
         public GameObject RightArm;
+        public GameObject LeftArmAttackPoint;
+        public GameObject RightArmAttackPoint;
         public GameObject LeftLeg;
         public GameObject RightLeg;
         public GameObject Legs;

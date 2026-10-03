@@ -55,7 +55,7 @@ namespace Entities
             time = 0;
         }
         
-        public void Update() {
+        public virtual void Update() {
             Target = Parent.tilemap.WorldToLocal(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             time += Time.deltaTime;
             if (_path == null || time >= 0.05f) {

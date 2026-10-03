@@ -214,6 +214,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &2684342166044477936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2613369229568181391}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2613369229568181391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684342166044477936}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.010380349, w: 0.9999462}
+  m_LocalPosition: {x: 0, y: -0.222222, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2728491541790491890}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3915587661239193750
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +277,37 @@ Transform:
   - {fileID: 3604976858626795880}
   m_Father: {fileID: 6726391798454878249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3966092381630459338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7092847437077038122}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7092847437077038122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966092381630459338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.222222, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3604976858626795880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5114267485775436462
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +337,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.125, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2613369229568181391}
   m_Father: {fileID: 6685955209692490687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.19}
 --- !u!212 &7736813663599289382
@@ -548,7 +611,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.125, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7092847437077038122}
   m_Father: {fileID: 5060845714043064923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9004799947180138437
@@ -754,6 +818,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entities.Kinds.Mono.PointRepr
   LeftArm: {fileID: 3915587661239193750}
   RightArm: {fileID: 2215243829549314270}
+  LeftArmAttackPoint: {fileID: 3966092381630459338}
+  RightArmAttackPoint: {fileID: 2684342166044477936}
   LeftLeg: {fileID: 232380049322990848}
   RightLeg: {fileID: 2608979021525100063}
   Legs: {fileID: 8220890742320806682}

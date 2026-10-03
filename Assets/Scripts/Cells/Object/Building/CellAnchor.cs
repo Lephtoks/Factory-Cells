@@ -22,7 +22,6 @@ namespace Cells.Object.Building
 
         public override void UpdateMove() {
             base.UpdateMove();
-            ((IHealth) this).Damage(25);
         }
 
         public override void WhenBeingAddedToCell() {
