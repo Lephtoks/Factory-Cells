@@ -21,7 +21,8 @@ namespace Cells
         private Vector3 _baseScale;
         public UIGlow Glow;
         private bool _initialized;
-        private IndirectRenderer<Block, Vector3> _healthBarRenderer; 
+        private ObjectIndirectRenderer<Block, Vector3> _healthBarRenderer; 
+        private FragmentRenderer _fragmentRenderer; 
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -33,10 +34,14 @@ namespace Cells
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
             NavTree = new NavTree(this);
-            _healthBarRenderer = new IndirectRenderer<Block, Vector3>(CellPivot.gameObject,
+            _healthBarRenderer = new ObjectIndirectRenderer<Block, Vector3>(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.HealthBarMesh,
                 AssetProvider.Instance.registry.render.HealthBarMaterial);
             _healthBarRenderer.Init();
+            _fragmentRenderer = new FragmentRenderer(CellPivot.gameObject,
+                AssetProvider.Instance.registry.render.FragmentMesh,
+                AssetProvider.Instance.registry.render.FragmentMaterial);
+            _fragmentRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
@@ -53,7 +58,9 @@ namespace Cells
         }
         
         private void Update() {
+            _fragmentRenderer.Add(new Vector2(0, 0));
             _healthBarRenderer.Render();
+            _fragmentRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();

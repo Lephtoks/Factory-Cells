@@ -617,6 +617,9 @@ MonoBehaviour:
   render:
     ItemDropMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     HealthBarMaterial: {fileID: 2100000, guid: 2c95244eea637abf7aa42efc361b5462, type: 2}
+    FragmentMaterial: {fileID: 2100000, guid: 14163389e3464980f8cdb355ffbcb5a4, type: 2}
     ItemDropMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
     HealthBarMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    FragmentTexture: {fileID: 2800000, guid: 4fb36504929976caaad65726baca85aa, type: 3}
+    FragmentMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
     DebugLineMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}

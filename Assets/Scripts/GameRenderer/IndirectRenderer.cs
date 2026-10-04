@@ -12,7 +12,7 @@ namespace GameRenderer
         internal static readonly int OBJECT_TO_WORLD = Shader.PropertyToID("_ObjectToWorld");
     }
 
-    public class IndirectRenderer<K, T> : IndirectRenderer where T : struct
+    public class IndirectRenderer<T> : IndirectRenderer where T : struct
     {
         protected readonly int Capacity;
         protected readonly Material Material;
@@ -27,28 +27,27 @@ namespace GameRenderer
         
         private GraphicsBuffer _instanceBuffer;
         private GraphicsBuffer.IndirectDrawIndexedArgs[] _args;
-        private MaterialPropertyBlock _properties;
+        protected MaterialPropertyBlock Properties;
         
-        public int Count { get; private set; }
+        public int Count { get; protected set; }
         
         protected RenderParams RenderParams;
         protected GraphicsBuffer ArgsBuffer;
         
-        private T[] _cpuData;
-        private readonly BidirectionalDictionary<K, int> _id2Index = new BidirectionalDictionary<K, int>();
+        protected T[] CPUData;
         
-        public void Init()
+        public virtual void Init()
         {
-            _cpuData = new T[Capacity];
+            CPUData = new T[Capacity];
 
             _instanceBuffer = new GraphicsBuffer(
                 GraphicsBuffer.Target.Structured,
                 Capacity,
                 Marshal.SizeOf<T>());
 
-            _properties = new MaterialPropertyBlock();
+            Properties = new MaterialPropertyBlock();
 
-            _properties.SetBuffer(
+            Properties.SetBuffer(
                 INSTANCE_DATA_ID,
                 _instanceBuffer);
             
@@ -86,7 +85,7 @@ namespace GameRenderer
                     Vector3.zero,
                     Vector3.one * 10000f),
 
-                matProps = _properties,
+                matProps = Properties,
 
                 shadowCastingMode =
                     ShadowCastingMode.Off,
@@ -101,12 +100,12 @@ namespace GameRenderer
             var tr = GameObject.transform;
             var matrix = tr.localToWorldMatrix;
 
-            _properties.SetMatrix(IndirectRenderer.OBJECT_TO_WORLD, matrix);
+            Properties.SetMatrix(IndirectRenderer.OBJECT_TO_WORLD, matrix);
         }
 
         protected void CPU2GPU() {
             _instanceBuffer.SetData(
-                _cpuData,
+                CPUData,
                 0,
                 0,
                 Count);
@@ -117,7 +116,7 @@ namespace GameRenderer
             ArgsBuffer.SetData(_args);
         }
 
-        public void Render() {
+        public virtual void Render() {
             if (Count == 0) return;
             
             UpdateTransform();
@@ -130,7 +129,7 @@ namespace GameRenderer
                 1);
         }
 
-        public void Release() {
+        public virtual void Release() {
             _instanceBuffer?.Release();
             ArgsBuffer?.Release();
 
@@ -138,30 +137,6 @@ namespace GameRenderer
             ArgsBuffer = null;
             
             _args = null;
-            _id2Index.Clear();
-        }
-
-        public void Add(K key, T value) {
-            if (_id2Index.TryGetValue(key, out int index)) {
-                _cpuData[index] = value;
-                return;
-            }
-            if (Count >= Capacity)
-                return;
-            _cpuData[Count] = value;
-            _id2Index.Add(key, Count++);
-        }
-
-        public void Remove(K key) {
-            if (!_id2Index.Remove(key, out int index)) return;
-
-            Count--;
-            if (index != Count) {
-                _cpuData[index] = _cpuData[Count];
-                var swapId = _id2Index.Inverse[Count];
-                _id2Index[swapId] = index;
-            }
-            
         }
     }
 }

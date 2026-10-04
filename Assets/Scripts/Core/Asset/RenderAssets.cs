@@ -8,8 +8,11 @@ namespace Core.Asset
     {
         public Material ItemDropMaterial;
         public Material HealthBarMaterial;
+        public Material FragmentMaterial;
         public Mesh ItemDropMesh;
         public Mesh HealthBarMesh;
+        public Texture FragmentTexture;
+        public Mesh FragmentMesh;
         public Material DebugLineMaterial;
     }
 }

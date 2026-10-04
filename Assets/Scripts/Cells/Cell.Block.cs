@@ -31,6 +31,7 @@ namespace Cells
             if (block is IHealth health) {
                 _healthBarRenderer.Remove(block);
             }
+            _fragmentRenderer.Add(position);
         }
 
         public bool TryAddObject(Block block) {
