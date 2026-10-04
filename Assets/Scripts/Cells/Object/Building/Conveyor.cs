@@ -41,7 +41,6 @@ namespace Cells.Object.Building
             if (Destroyed) return true;
             if (!LivingRepresentation) return false;
             var currentConnections = LivingRepresentation.Connections;
-            Debug.Log(currentConnections.ToByte());
             LivingRepresentation.Connections = new DirectionFlag();
             foreach (var dir in new[] { Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH}) {
                 if (((ILookup)this).TryGetNeighbor(dir, out Block block)) {
@@ -52,7 +51,6 @@ namespace Cells.Object.Building
                     }
                 };
             }
-            Debug.Log(LivingRepresentation.Connections.ToByte());
             LivingRepresentation.UpdateConveyorDisplay(LivingRepresentation.OriginalConveyor.Direction);
             return currentConnections != LivingRepresentation.Connections;
         }
