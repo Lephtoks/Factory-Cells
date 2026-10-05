@@ -58,7 +58,6 @@ namespace Cells
         }
         
         private void Update() {
-            _fragmentRenderer.Add(new Vector2(0, 0));
             _healthBarRenderer.Render();
             _fragmentRenderer.Render();
             UpdateBullets();

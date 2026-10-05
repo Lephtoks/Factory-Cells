@@ -9,7 +9,7 @@ Shader "Custom/DestroyedBlocks"
         Tags
         {
             "RenderPipeline" = "UniversalPipeline"
-            "Queue" = "Overlay"
+            "Queue" = "Transparent"
             "RenderType" = "Transparent"
         }
 
@@ -68,7 +68,9 @@ Shader "Custom/DestroyedBlocks"
 
                 if (age < 0.0)
                     age += 4.0;
-
+                
+                v.vertex.xy *= 1.5f;
+                
                 // Последние 2 секунды жизни — fade out.
                 //
                 // age = 0..2 -> alpha = 1
@@ -77,7 +79,8 @@ Shader "Custom/DestroyedBlocks"
                 
                 float3 localPos =
                     v.vertex.xyz +
-                    float3(blockData.xy, 0.0);
+                    float3(blockData.xy, 0.0) + 
+                        float3(0.5f, 0.5f, 0.25f);
 
                 float4 worldPos = mul(
                     _ObjectToWorld,
@@ -99,7 +102,8 @@ Shader "Custom/DestroyedBlocks"
                     _DestroyedBlockSprite,
                     input.uv
                 );
-
+                color.rgb /= 2.5;
+                
                 color.a *= input.alpha;
 
                 clip(color.a - 0.001);
