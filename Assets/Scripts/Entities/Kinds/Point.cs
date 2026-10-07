@@ -1,3 +1,4 @@
+using System;
 using Cells;
 using Cells.Object;
 using Cells.Object.Building;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Entities.Kinds
 {
-    public class PointEntity : Entity, IEntityRepresentable<PointRepr, PointEntity>
+    public class PointEntity : Entity, IEntityRepresentable<PointRepr, PointEntity>, IDisposable
     {
         private Vector2 _position;
         private float _attackTime;
@@ -38,7 +39,7 @@ namespace Entities.Kinds
         public float DeltaPos = 0.05f;
 
         public PointEntity(Cell parent, Vector2 position) : base(parent, position) {
-            
+            Parent.NavTree.NavTreeRebuildEvent += PathChanged;
         }
 
         public override void Update() {
@@ -57,6 +58,19 @@ namespace Entities.Kinds
                 }
                 _attackTime = 0;
             }
+        }
+
+        public void Dispose() {
+            Parent.NavTree.NavTreeRebuildEvent -= PathChanged;
+        }
+
+        public void PathChanged() {
+            // Target = Parent.tilemap.WorldToLocal(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            // time += Time.deltaTime;
+            // if (_path == null || time >= 0.05f) {
+            //     Pathfind();
+            //     time = 0;
+            // }
         }
     }
 }

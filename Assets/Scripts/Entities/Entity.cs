@@ -56,13 +56,6 @@ namespace Entities
         }
         
         public virtual void Update() {
-            Target = Parent.tilemap.WorldToLocal(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            time += Time.deltaTime;
-            if (_path == null || time >= 0.05f) {
-                Pathfind();
-                time = 0;
-            }
-
             if (_path != null) {
                 Angle = RotationHelper.RotateF(Angle, PathAngle, _rotationSpeed * Time.deltaTime);
 
