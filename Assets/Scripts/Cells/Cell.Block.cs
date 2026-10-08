@@ -137,7 +137,7 @@ namespace Cells
         }
 
         public Block NearestBlock(Vector2 pos) {
-            // return _cellObjects.Values.Min((block) => Vector2.Distance(block.Position, pos));
+            return _cellObjects.Values.OrderBy((block) => Vector2.Distance(block.Position, pos)).First();
         }
     }
 }
