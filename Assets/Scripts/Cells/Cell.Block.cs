@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cells.Object;
 using Cells.Object.Node;
 using Data;
@@ -133,6 +134,10 @@ namespace Cells
             DOTween.To(() => this.SynchronousConveyorTime, value => SynchronousConveyorTime = value, 1f + 1/16f, 0.35f)
                 .SetEase(Ease.InOutSine)
                 .SetId(this);
+        }
+
+        public Block NearestBlock(Vector2 pos) {
+            // return _cellObjects.Values.Min((block) => Vector2.Distance(block.Position, pos));
         }
     }
 }
