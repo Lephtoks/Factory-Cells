@@ -68,6 +68,7 @@ namespace Cells
             DrawBullets(); // Cell.Bullet.cs
             DrawHitboxes(); // Cell.Debug.cs
             DrawNavigation(); // Cell.Debug.cs
+            NavTree.NavTreeRebuildEvent.Invoke();
         }
 
         private void OnEnable() {

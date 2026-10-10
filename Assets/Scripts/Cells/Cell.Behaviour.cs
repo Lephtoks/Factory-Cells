@@ -127,7 +127,6 @@ namespace Cells
                         GameStorage.Instance.BuildOption.DequeueNecessary();
                     }
                     GameStorage.Instance.Representer.SetCurrentBlockRepr();
-                    cell.NavTree.InvokeNavTreeRebuildEvent();
                     break;
                 }
                 case 1:
@@ -135,7 +134,6 @@ namespace Cells
                     if (cell.TryGetObject((Vector2Int)cellMousePoint, out Block clickedBlock)) {
                         cell.RemoveObject((Vector2Int)cellMousePoint);
                         cell.BlockUpdate(clickedBlock);
-                        cell.NavTree.InvokeNavTreeRebuildEvent();
                     }
 
                     break;

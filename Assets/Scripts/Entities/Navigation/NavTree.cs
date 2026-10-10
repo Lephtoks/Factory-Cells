@@ -16,9 +16,7 @@ namespace Entities.Navigation
         private readonly Dictionary<Vector2Int, NavBlock> _navDictionary = new();
         public Cell Cell;
         private float radius = 0.2f;
-        public event Action NavTreeRebuildEvent;
-        
-        public void InvokeNavTreeRebuildEvent() => NavTreeRebuildEvent?.Invoke();
+        public MarkedAction NavTreeRebuildEvent = new();
 
         public NavTree(Cell cell) {
             this.Cell = cell;
@@ -35,6 +33,7 @@ namespace Entities.Navigation
 
         public void RebuildWith(Block block) {
             if (block is not INavWall) return;
+            NavTreeRebuildEvent.Mark();
             foreach (var node in GetEnumerable()) {
                 foreach (var second in GetEnumerable()) {
                     if (ReferenceEquals(node, second)) continue;
@@ -102,6 +101,7 @@ namespace Entities.Navigation
 
         public void RebuildWithout(Block block) {
             if (block is not INavWall) return;
+            NavTreeRebuildEvent.Mark();
             foreach (var node in GetEnumerable().ToArray()) {
                 if (node.IntPosition == block.Position) {
                     RemoveNode(GetNavBlock(node.IntPosition), node.Direction);
