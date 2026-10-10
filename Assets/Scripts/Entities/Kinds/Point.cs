@@ -40,6 +40,7 @@ namespace Entities.Kinds
 
         public PointEntity(Cell parent, Vector2 position) : base(parent, position) {
             Parent.NavTree.NavTreeRebuildEvent += PathChanged;
+            PathChanged();
         }
 
         public override void Update() {
@@ -65,12 +66,8 @@ namespace Entities.Kinds
         }
 
         public void PathChanged() {
-            // Target = Parent.tilemap.WorldToLocal(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            // time += Time.deltaTime;
-            // if (_path == null || time >= 0.05f) {
-            //     Pathfind();
-            //     time = 0;
-            // }
+            Target = Parent.NearestBlock(Position).Position + Vector2.one * 0.5f;
+            Pathfind();
         }
     }
 }

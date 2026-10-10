@@ -72,9 +72,9 @@ namespace Entities
             
         }
 
-        private void Pathfind() {
+        protected void Pathfind() {
             Vector3 worldToLocal = Target;
-            _path = Parent.NavTree.BuildBreakingApproachPath(Position, worldToLocal, 1, false);
+            _path = Parent.NavTree.BuildBreakingApproachPath(Position, worldToLocal, 0.25f, false);
             if (_path is { Count: > 0 }) {
                 _currentNode = _path[0];
             }
