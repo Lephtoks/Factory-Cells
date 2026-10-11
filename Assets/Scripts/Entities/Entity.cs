@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace Entities
 {
-    public class Entity : ICellPlaceable, IFloatPositioned, ICollider, IHealth
+    public class Entity : ICellPlaceable, IFloatPositioned, ICollider, IKillable
     {
         public Cell Parent { get; }
         public virtual Vector2 Position { get; set; }
         public Hitbox Hitbox { get; }
-        public bool Dead = false;
+        public bool Dead { get; set; }
         public float MaxHealth { get; set; }
         public float Health { get; set; }
 

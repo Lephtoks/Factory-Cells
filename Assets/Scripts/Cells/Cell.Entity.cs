@@ -24,6 +24,9 @@ namespace Cells
         public void RemoveEntity(Entity entity) {
             _entityList.Remove(entity);
             _colliders.Remove(entity);
+            if (entity is IEntityRepresentable representable) {
+                Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
+            }
         }
         public List<Entity> GetEntities() => _entityList;
 

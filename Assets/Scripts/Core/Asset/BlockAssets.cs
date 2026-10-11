@@ -11,5 +11,6 @@ namespace Core.Asset
         public BlockDefinition windGen;
         public BlockDefinition itemSource;
         public BlockDefinition cellAnchor;
+        public BlockDefinition turret;
     }
 }

@@ -32,6 +32,7 @@ namespace Core.Locals
                 .AddCard(BlockTypes.DRILL) 
                 .AddCard(BlockTypes.CONVEYOR)
                 .AddCard(BlockTypes.WIND_GEN)
+                .AddCard(BlockTypes.TURRET)
                 // .AddCell()
                 .AddCell(CellStaticTraits.NONE, new [] { CellDynamicTraits.AttackTrait() })
                 .Show();

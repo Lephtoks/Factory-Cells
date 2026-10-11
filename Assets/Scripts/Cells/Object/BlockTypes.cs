@@ -16,6 +16,7 @@ namespace Cells.Object
         public static BlockType WIND_GEN;
         public static BlockType ITEM_SOURCE;
         public static BlockType CELL_ANCHOR;
+        public static BlockType TURRET;
 
         public static void Init() {
             DRILL = Register(Drill.Create, Blocks.drill);
@@ -23,6 +24,7 @@ namespace Cells.Object
             WIND_GEN = Register(WindGen.Create, Blocks.windGen);
             ITEM_SOURCE = Register(ItemSource.Create, Blocks.itemSource);
             CELL_ANCHOR = Register(CellAnchor.Create, Blocks.cellAnchor);
+            TURRET = Register(Turret.Create, Blocks.turret);
         }
         
         public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {

@@ -41,6 +41,7 @@ namespace Entities.Kinds
         public PointEntity(Cell parent, Vector2 position) : base(parent, position) {
             Parent.NavTree.NavTreeRebuildEvent += PathChanged;
             PathChanged();
+            Health = MaxHealth = 100;
         }
 
         public override void Update() {
