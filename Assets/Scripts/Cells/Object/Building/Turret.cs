@@ -8,13 +8,14 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Turret: Block, IRepresentable<DefaultRepr>, IKillable
+    public class Turret: Block, IRepresentable<TurretRepr>, IKillable
     {
         public float MaxHealth { get; set; }
         public float Health { get; set; }
         public bool Dead { get; set; }
         public override BlockType BlockType => BlockTypes.TURRET;
-        public DefaultRepr LivingRepresentation { get; set; }
+        public TurretRepr LivingRepresentation { get; set; }
+        public Vector2 TargetPosition { get; set; }
         
         public Turret(Cell parent, Vector2Int pos) : base(parent, pos) {
             MaxHealth = 500;
@@ -23,11 +24,13 @@ namespace Cells.Object.Building
 
         public override void UpdateMove() {
             base.UpdateMove();
-            Parent.AddBullet(new Bullet(Parent, Position, 0, BulletTypes.DEFAULT));
+            Parent.AddBullet(new Bullet(Parent, Parent.CellPivot.InverseTransformPoint(LivingRepresentation.BulletCreatorTransform.position), LivingRepresentation.TowerTransform.localRotation.eulerAngles.z + 180, BulletTypes.DEFAULT));
+            LivingRepresentation.Shot();
         }
+        
 
         public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<DefaultRepr>) new Turret(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
+            return ((IRepresentable<TurretRepr>) new Turret(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
     }
 }

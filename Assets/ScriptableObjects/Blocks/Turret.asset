@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69dea71470ff4c46940790dfc5883274, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: Assembly-CSharp::Cells.Object.BlockDefinition
-  Representation: {fileID: 236066166387927499, guid: 1afe0a7fa67d25ca2a70eef8bcdbea66, type: 3}
+  Representation: {fileID: -3912245497051791081, guid: 22489d6be0b8813e8953493f53a72258, type: 3}
   TextureForUI: {fileID: -3010401151903113755, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
   Title: Turret
   Description: Yet another turret
