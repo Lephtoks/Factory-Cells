@@ -28,6 +28,8 @@ namespace Cells.Object.Building.Mono
         private void Update() {
             if (Original == null) return;
             
+            if (Cell) Original.TargetPosition = Cell.NearestEntity(Original.Position + Vector2.one * 0.5f).Position;
+            
             TowerTransform.localRotation = RotationHelper.RotateQ(
                 TowerTransform.localRotation.eulerAngles.z,
                 RotationHelper.AngleTo(Original.Position + Vector2.one * 0.5f, Original.TargetPosition),
