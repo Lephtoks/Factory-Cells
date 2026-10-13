@@ -14,6 +14,7 @@ namespace Entities
             BulletType = bulletType;
             Rotation = rotation;
             Hitbox = new RectHitbox(() => Position, this, Vector2.zero,Vector2.one * 0.5f);
+            LifeTime = 5f;
         }
 
         public bool Dead { get; private set; }
@@ -22,16 +23,21 @@ namespace Entities
         public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public Hitbox Hitbox { get; }
+        private float _livingTime;
+        public float LifeTime { get; set; }
         public void Collision(ICollider other) {
             Kill();
         }
 
         public void Kill() {
             Dead = true;
-            Parent.RemoveBullet(this);
         }
 
         public void Update() {
+            _livingTime += Time.deltaTime;
+            if (_livingTime > LifeTime) {
+                Kill();
+            }
             Position += (Vector2.up * (Time.deltaTime * 2f)).Rotate(Rotation);
         }
 

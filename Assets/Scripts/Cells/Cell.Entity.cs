@@ -63,6 +63,9 @@ namespace Cells
                     RemoveObject(block.Position);
                 }
             }
+            foreach (var bullet in _bullets.ToArray()) {
+                if (bullet.Dead) RemoveBullet(bullet);
+            }
         }
 
         public Entity NearestEntity(Vector2 pos) {
