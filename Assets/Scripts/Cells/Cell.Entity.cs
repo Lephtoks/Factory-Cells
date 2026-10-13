@@ -66,7 +66,7 @@ namespace Cells
         }
 
         public Entity NearestEntity(Vector2 pos) {
-            return _entityList.OrderBy((entity) => Vector2.Distance(entity.Position, pos)).First();
+            return _entityList.Count <= 0 ? null : _entityList.OrderBy((entity) => Vector2.Distance(entity.Position, pos)).First();
         }
     }
 }

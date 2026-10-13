@@ -1,6 +1,7 @@
 using System;
 using Data;
 using DG.Tweening;
+using Entities;
 using UnityEngine;
 
 namespace Cells.Object.Building.Mono
@@ -27,14 +28,26 @@ namespace Cells.Object.Building.Mono
 
         private void Update() {
             if (Original == null) return;
-            
-            if (Cell) Original.TargetPosition = Cell.NearestEntity(Original.Position + Vector2.one * 0.5f).Position;
-            
-            TowerTransform.localRotation = RotationHelper.RotateQ(
-                TowerTransform.localRotation.eulerAngles.z,
-                RotationHelper.AngleTo(Original.Position + Vector2.one * 0.5f, Original.TargetPosition),
-                30 * Time.deltaTime
-            );
+            if (Cell) {
+                Entity nearestEntity = Cell.NearestEntity(Original.Position + Vector2.one * 0.5f);
+                if (nearestEntity != null) {
+                    Original.TargetPosition = nearestEntity.Position;
+                    float eulerAnglesZ = TowerTransform.localRotation.eulerAngles.z;
+                    float targetAngle = RotationHelper.AngleTo(Original.Position + Vector2.one * 0.5f, Original.TargetPosition);
+
+                    TowerTransform.localRotation = RotationHelper.RotateQ(
+                        eulerAnglesZ,
+                        targetAngle,
+                        60 * Time.deltaTime
+                    );
+                    float deltaAngle = Mathf.DeltaAngle(eulerAnglesZ, targetAngle);
+                    Original.Targeted = deltaAngle is <= 5 and >= -5;
+                    Debug.Log($"{eulerAnglesZ}, {targetAngle}: {deltaAngle} ");
+                }
+                else {
+                    Original.Targeted = false;
+                }
+            }
         }
     }
 }

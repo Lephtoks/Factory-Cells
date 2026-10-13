@@ -16,6 +16,7 @@ namespace Cells.Object.Building
         public override BlockType BlockType => BlockTypes.TURRET;
         public TurretRepr LivingRepresentation { get; set; }
         public Vector2 TargetPosition { get; set; }
+        public bool Targeted;
         
         public Turret(Cell parent, Vector2Int pos) : base(parent, pos) {
             MaxHealth = 500;
@@ -24,10 +25,14 @@ namespace Cells.Object.Building
 
         public override void UpdateMove() {
             base.UpdateMove();
-            Parent.AddBullet(new Bullet(Parent, Parent.CellPivot.InverseTransformPoint(LivingRepresentation.BulletCreatorTransform.position), LivingRepresentation.TowerTransform.localRotation.eulerAngles.z + 180, BulletTypes.DEFAULT));
-            LivingRepresentation.Shot();
+            if (Targeted) {
+                Parent.AddBullet(new Bullet(Parent,
+                    Parent.CellPivot.InverseTransformPoint(LivingRepresentation.BulletCreatorTransform.position),
+                    LivingRepresentation.TowerTransform.localRotation.eulerAngles.z + 180, BulletTypes.DEFAULT));
+                LivingRepresentation.Shot();
+            }
         }
-        
+
 
         public static Block Create(Cell parent, BlockRepr repr) {
             return ((IRepresentable<TurretRepr>) new Turret(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
