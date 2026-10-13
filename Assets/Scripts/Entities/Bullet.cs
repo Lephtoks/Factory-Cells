@@ -41,5 +41,8 @@ namespace Entities
             Position += (Vector2.up * (Time.deltaTime * 2f)).Rotate(Rotation);
         }
 
+        public bool CanCollide(ICollider other) {
+            return other is not Bullet;
+        }
     }
 }

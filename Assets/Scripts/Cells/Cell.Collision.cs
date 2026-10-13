@@ -20,7 +20,7 @@ namespace Cells
                 var colliderA = _colliders[i];
                 for (int j = i + 1; j < _colliders.Count; j++) {
                     var colliderB = _colliders[j];
-                    Hitbox.Collide(colliderA.Hitbox, colliderB.Hitbox);
+                    if (colliderA.CanCollide(colliderB) && colliderB.CanCollide(colliderA)) Hitbox.Collide(colliderA.Hitbox, colliderB.Hitbox);
                 }
             }
         }
