@@ -42,7 +42,6 @@ namespace Cells.Object.Building.Mono
                     );
                     float deltaAngle = Mathf.DeltaAngle(eulerAnglesZ, targetAngle);
                     Original.Targeted = deltaAngle is <= 5 and >= -5;
-                    Debug.Log($"{eulerAnglesZ}, {targetAngle}: {deltaAngle} ");
                 }
                 else {
                     Original.Targeted = false;
