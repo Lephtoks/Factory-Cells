@@ -14,5 +14,7 @@ namespace Core.Asset
         public Texture FragmentTexture;
         public Mesh FragmentMesh;
         public Material DebugLineMaterial;
+        public Mesh ShadowRectMesh;
+        public Material ShadowRectMaterial;
     }
 }

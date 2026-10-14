@@ -23,6 +23,7 @@ namespace Cells
         private bool _initialized;
         private ObjectIndirectRenderer<Block, Vector3> _healthBarRenderer; 
         private FragmentRenderer _fragmentRenderer; 
+        private ObjectIndirectRenderer<int, ShadowRect> _shadowRectRenderer; 
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -42,9 +43,22 @@ namespace Cells
                 AssetProvider.Instance.registry.render.FragmentMesh,
                 AssetProvider.Instance.registry.render.FragmentMaterial);
             _fragmentRenderer.Init();
+            _shadowRectRenderer = new ObjectIndirectRenderer<int, ShadowRect>(CellPivot.gameObject,
+                AssetProvider.Instance.registry.render.ShadowRectMesh,
+                AssetProvider.Instance.registry.render.ShadowRectMaterial);
+            _shadowRectRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
+            _shadowRectRenderer.Add(1, new ShadowRect(Vector2.zero, Vector2.one, 0.25f));
+            _shadowRectRenderer.Add(2, new ShadowRect(Vector2.one * 4, Vector2.one, 0.25f));
+            _shadowRectRenderer.Add(4, new ShadowRect(Vector2.one * 4 + Vector2.right, Vector2.one, 0.25f));
+            _shadowRectRenderer.Add(5, new ShadowRect(Vector2.one * 4 + Vector2.right * 2, Vector2.one, 0.25f));
+            _shadowRectRenderer.Add(3, new ShadowRect(Vector2.one * 6, new Vector2(1, 0.5f), 0.25f));
+            _shadowRectRenderer.Add(6, new ShadowRect(Vector2.one * 6, new Vector2(2/16f, 2/16f), 0.6f));
+            _shadowRectRenderer.Add(7, new ShadowRect(Vector2.one * 6 + Vector2.right * 14/16f, new Vector2(2/16f, 2/16f), 0.6f));
+            _shadowRectRenderer.Add(8, new ShadowRect(Vector2.one * 6 + new Vector2(3/16f, 6/16f), new Vector2(2/16f, 2/16f), 0.6f));
+            _shadowRectRenderer.Add(9, new ShadowRect(Vector2.one * 6 + new Vector2(11/16f, 6/16f), new Vector2(2/16f, 2/16f), 0.6f));
 
             OnEnable();
         }
@@ -60,6 +74,7 @@ namespace Cells
         private void Update() {
             _healthBarRenderer.Render();
             _fragmentRenderer.Render();
+            _shadowRectRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();
@@ -91,6 +106,8 @@ namespace Cells
 
         private void OnDestroy() {
             _healthBarRenderer.Release();
+            _shadowRectRenderer.Release();
+            // TODO: Release fragment
         }
 
         private void OnAnyCellPositionUpdate() {
