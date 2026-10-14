@@ -107,7 +107,7 @@ namespace Cells
         private void OnDestroy() {
             _healthBarRenderer.Release();
             _shadowRectRenderer.Release();
-            // TODO: Release fragment
+            _fragmentRenderer.Release();
         }
 
         private void OnAnyCellPositionUpdate() {
