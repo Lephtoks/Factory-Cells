@@ -60,7 +60,7 @@ namespace Cells
             }
             foreach (var block in _cellObjects.Values.ToArray()) {
                 if (block is IKillable { Dead: true }) {
-                    RemoveObject(block.Position);
+                    RemoveObject(block.Position, BlockRemovalType.DESTRUCTION);
                 }
             }
             foreach (var bullet in _bullets.ToArray()) {

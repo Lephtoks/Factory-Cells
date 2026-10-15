@@ -18,8 +18,8 @@ namespace Cells
         private readonly Dictionary<Vector2Int, Block> _cellObjects = new();
 
         [NonSerialized] public float SynchronousConveyorTime;
-        
-        public void RemoveObject(Vector2Int position) {
+
+        public void RemoveObject(Vector2Int position, BlockRemovalType blockRemovalType = BlockRemovalType.DECONSTRUCTION) {
             var block = _cellObjects[position];
             block.Destroyed = true;
             _cellObjects.Remove(position);
@@ -32,7 +32,10 @@ namespace Cells
             if (block is IHealth health) {
                 _healthBarRenderer.Remove(block);
             }
-            _fragmentRenderer.Add(position);
+
+            if (blockRemovalType == BlockRemovalType.DESTRUCTION) { 
+                _fragmentRenderer.Add(position);
+            }
         }
 
         public bool TryAddObject(Block block) {
