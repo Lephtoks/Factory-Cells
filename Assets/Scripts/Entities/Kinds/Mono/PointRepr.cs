@@ -48,7 +48,7 @@ namespace Entities.Kinds.Mono
                             Head.transform.eulerAngles[2],
                             RotationHelper.AngleTo(
                                 Parent.Parent.CellPivot.InverseTransformPoint(Head.transform.position),
-                                Parent.Target
+                                Parent.TargetPos
                                 ), 
                             90 * Time.deltaTime
                             ),  
@@ -60,7 +60,7 @@ namespace Entities.Kinds.Mono
                     LeftArm.transform.eulerAngles[2],
                     RotationHelper.AngleTo(
                         Parent.Parent.CellPivot.InverseTransformPoint(LeftArm.transform.position),
-                        Parent.Target
+                        Parent.TargetPos
                     ),
                     60 * Time.deltaTime
                 );
@@ -69,7 +69,7 @@ namespace Entities.Kinds.Mono
                     RightArm.transform.eulerAngles[2],
                     RotationHelper.AngleTo(
                         Parent.Parent.CellPivot.InverseTransformPoint(RightArm.transform.position),
-                        Parent.Target
+                        Parent.TargetPos
                     ),
                     60 * Time.deltaTime
                 );

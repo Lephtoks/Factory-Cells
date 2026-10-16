@@ -19,7 +19,8 @@ namespace Entities
 
         public virtual float Angle { get; set; }
         public float PathAngle;
-        public Vector2 Target;
+        public Vector2 TargetPos { get; private set; }
+        public IKillable Target { get; private set; }
         private float _rotationSpeed = 30f;
         private List<NavNode> _path;
         private NavNode _currentNode;
@@ -73,7 +74,7 @@ namespace Entities
         }
 
         protected void Pathfind() {
-            Vector3 worldToLocal = Target;
+            Vector3 worldToLocal = TargetPos;
             _path = Parent.NavTree.BuildBreakingApproachPath(Position, worldToLocal, 0.25f, false);
             if (_path is { Count: > 0 }) {
                 _currentNode = _path[0];
@@ -118,6 +119,19 @@ namespace Entities
                 Vector2 slideTarget = resolved + remaining;
                 if (Parent.AbleToMove(resolved, slideTarget, out _, out _))
                     Position = slideTarget;
+            }
+        }
+
+        public void SetTarget(IKillable target) {
+            switch (target) {
+                case IPositioned positioned:
+                    TargetPos = positioned.Position + Vector2.one * 0.5f;
+                    Target = target;
+                    break;
+                case IFloatPositioned floatPositioned:
+                    Position = floatPositioned.Position + Vector2.one * 0.5f;
+                    Target = target;
+                    break;
             }
         }
     }

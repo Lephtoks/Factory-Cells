@@ -139,8 +139,8 @@ namespace Cells
                 .SetId(this);
         }
 
-        public Block NearestBlock(Vector2 pos) {
-            return _cellObjects.Values.OrderBy((block) => Vector2.Distance(block.Position, pos)).First();
+        public Block NearestKillableBlock(Vector2 pos) {
+            return _cellObjects.Values.SkipWhile((block) => block is not IKillable).OrderBy((block) => Vector2.Distance(block.Position, pos)).First();
         }
     }
 }

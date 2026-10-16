@@ -47,6 +47,9 @@ namespace Entities.Kinds
         public override void Update() {
             base.Update();
             if (!LivingRepresentation) return;
+            if (Target.Dead) {
+                PathChanged();
+            }
             _attackTime += Time.deltaTime;
             if (_attackTime >= 0.5f) {
                 Vector2Int la = (Vector2Int) Parent.tilemap.WorldToCell(LivingRepresentation.LeftArmAttackPoint.transform.position);
@@ -67,7 +70,7 @@ namespace Entities.Kinds
         }
 
         public void PathChanged() {
-            Target = Parent.NearestBlock(Position).Position + Vector2.one * 0.5f;
+            SetTarget(Parent.NearestKillableBlock(Position) as IKillable);
             Pathfind();
         }
     }
