@@ -84,7 +84,7 @@ namespace Entities
         public void Repulse(Entity other) {
             Vector2 delta = Position - other.Position;
             float distance = delta.magnitude;
-
+            if (distance == 0) return;
             Vector2 direction = delta / distance;
             float total = RepulsionRadius + other.RepulsionRadius;
             float penetration = (total - distance) / total;
@@ -102,7 +102,9 @@ namespace Entities
             const float epsilon = 1e-5f;
             
             Vector2 fullMove = to - Position;
-            float t = Vector2.Dot(hit - Position, fullMove) / fullMove.sqrMagnitude;
+            float fullMoveSqrMagnitude = fullMove.sqrMagnitude;
+            if (fullMoveSqrMagnitude == 0) return;
+            float t = Vector2.Dot(hit - Position, fullMove) / fullMoveSqrMagnitude;
             t = Mathf.Clamp01(t);
 
             Vector2 resolved = Position + fullMove * t + normal * (0.0f + epsilon);

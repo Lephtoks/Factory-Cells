@@ -19,6 +19,9 @@ namespace Entities.Kinds
             get => _position;
             set
             {
+                if (float.IsNaN(value.x)) {
+                    Debug.Log("AHH");
+                }
                 _position = value;
                 LivingRepresentation?.SetPos(_position);
             }
