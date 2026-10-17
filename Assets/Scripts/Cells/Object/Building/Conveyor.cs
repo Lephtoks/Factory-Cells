@@ -5,11 +5,13 @@ using Cells.Object.Building.Mono;
 using Core;
 using Data;
 using Economics;
+using GameRenderer;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
     public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable, IKillable
+        // , IShadow
     {
         public float MaxHealth { get; }
         public float Health { get; set; }
@@ -54,5 +56,11 @@ namespace Cells.Object.Building
             LivingRepresentation.UpdateConveyorDisplay(LivingRepresentation.OriginalConveyor.Direction);
             return currentConnections != LivingRepresentation.Connections;
         }
+
+        // TODO:
+        // public IEnumerable<ShadowRect> CreateShadow() {
+        //     yield return new ShadowRect(Position, Vector2.one, 0.1f);
+        // }
+        // public int ShadowCount => 1;
     }
 }

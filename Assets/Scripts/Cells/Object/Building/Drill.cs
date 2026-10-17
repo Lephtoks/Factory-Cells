@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall, IKillable
+    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall, IKillable, ISquareShadow
     {
         public float MaxHealth { get; }
         public float Health { get; set; }

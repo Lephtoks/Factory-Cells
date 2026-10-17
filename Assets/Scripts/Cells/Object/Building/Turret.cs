@@ -4,11 +4,12 @@ using Core;
 using Data;
 using Economics;
 using Entities;
+using GameRenderer;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Turret: Block, IRepresentable<TurretRepr>, IKillable
+    public class Turret: Block, IRepresentable<TurretRepr>, IKillable, IShadow
     {
         public float MaxHealth { get; set; }
         public float Health { get; set; }
@@ -37,5 +38,13 @@ namespace Cells.Object.Building
         public static Block Create(Cell parent, BlockRepr repr) {
             return ((IRepresentable<TurretRepr>) new Turret(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
+        
+
+        public IEnumerable<ShadowRect> CreateShadow() {
+            yield return new ShadowRect(Position, new Vector2(1, 15/16f), 0.25f);
+            yield return new ShadowRect(Position + new Vector2(1/16f, 15/16f), new Vector2(14/16f, 1/16f), 0.25f);
+        }
+
+        public int ShadowCount => 2;
     }
 }

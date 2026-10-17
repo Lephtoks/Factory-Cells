@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class ItemSource: OneSlotBlock, IRepresentable<DefaultRepr>
+    public class ItemSource: OneSlotBlock, IRepresentable<DefaultRepr>, ISquareShadow
     {
         public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.ITEM_SOURCE;

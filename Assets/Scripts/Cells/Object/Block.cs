@@ -22,5 +22,9 @@ namespace Cells.Object
         public Block Duplicate() {
             return (Block)MemberwiseClone();
         }
+
+        public override int GetHashCode() {
+            return Position.GetHashCode();
+        }
     }
 }

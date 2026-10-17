@@ -8,6 +8,7 @@ using Data.GameManagement;
 using DG.Tweening;
 using Entities;
 using Entities.Navigation;
+using GameRenderer;
 using UnityEngine;
 using IHealth = Cells.Object.IHealth;
 
@@ -32,6 +33,11 @@ namespace Cells
             if (block is IHealth health) {
                 _healthBarRenderer.Remove(block);
             }
+            if (block is IShadow shadow) {
+                for (int i = 0; i < shadow.ShadowCount; i++) {
+                    _shadowRectRenderer.Remove(new ShadowID(block, i));
+                }
+            }
 
             if (blockRemovalType == BlockRemovalType.DESTRUCTION) { 
                 _fragmentRenderer.Add(position);
@@ -42,6 +48,13 @@ namespace Cells
             if (!IsTileEmpty(block.Position)) return false;
             _cellObjects.Add(block.Position, block);
             NavTree.RebuildWith(block);
+            if (block is IShadow shadow) {
+                int i = 0;
+                foreach (var rect in shadow.CreateShadow()) {
+                    _shadowRectRenderer.Add(new ShadowID(block, i), rect);
+                    i++;
+                }
+            }
 
             block.WhenBeingAddedToCell();
             return true;
