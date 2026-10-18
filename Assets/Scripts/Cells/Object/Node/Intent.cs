@@ -20,8 +20,8 @@ namespace Cells.Object.Node
         public bool Do() {
             if (Activated) return false;
             Processed = true;
-            if (Victim.Intent is { Activated: false }) {
-                if (Victim.Intent.Processed) {
+            if (Victim is IInventoryOut { Intent: { Activated: false } } victimOut) {
+                if (victimOut.Intent.Processed) {
                     var mvr = Actor.SuggestMoveStack();
                     Actor.CycleIntent = new CycleIntent(Actor.GetOutStack(), Actor, default);
                     Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Remove(mvr, out ItemStack removed);
@@ -30,12 +30,12 @@ namespace Cells.Object.Node
                     return true;
                 }
 
-                if (Victim.Intent.Do()) {
-                    Actor.CycleIntent = new CycleIntent(Actor.GetOutStack(), Victim.CycleIntent.Causer, Victim.CycleIntent.CauserStack);
+                if (victimOut.Intent.Do()) {
+                    Actor.CycleIntent = new CycleIntent(Actor.GetOutStack(), victimOut.CycleIntent.Causer, victimOut.CycleIntent.CauserStack);
                     {
                         var mv = Actor.SuggestMoveStack();
                         var itemOut = Actor.GetOutStack();
-                        Victim.CycleIntent.ItemStack = Victim.CycleIntent.ItemStack.Add(mv, Victim.GetCapacity(), out ItemStack added);
+                        victimOut.CycleIntent.ItemStack = victimOut.CycleIntent.ItemStack.Add(mv, Victim.GetCapacity(), out ItemStack added);
                         Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Remove(added, out _);
                         
                         
@@ -73,12 +73,12 @@ namespace Cells.Object.Node
                         
                         if (itemStackLeft.IsEmpty()) {
                             
-                            var inventories = new List<IInventory>();
+                            var inventories = new List<IInventoryOut>();
 
-                            IInventory cur = Actor.Intent.Victim;
+                            IInventoryOut cur = (IInventoryOut) Actor.Intent.Victim;
                             do {
                                 inventories.Add(cur);
-                                cur = cur.Intent.Victim;
+                                cur = (IInventoryOut) cur.Intent.Victim;
                                 if (cur.CycleIntent.RemoveDrop && cur is IItemDisplayable victimDisplayable) {
                                     victimDisplayable.RemoveDrop();
                                 }
@@ -87,7 +87,7 @@ namespace Cells.Object.Node
 
                             for (int i = inventories.Count - 1; i >= 0; i--) {
                                 var inventory = inventories[i];
-                                var sender = i-1 >= 0 ? (IInventoryOut)inventories[i-1] : (IInventoryOut)inventories[^1] ;
+                                var sender = i-1 >= 0 ? inventories[i-1] : inventories[^1] ;
 
                                 if (inventory is IItemDisplayable victimDisplayable) {
                                     if (sender.CycleIntent.Drop != null) {

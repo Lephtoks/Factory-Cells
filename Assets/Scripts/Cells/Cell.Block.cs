@@ -131,7 +131,7 @@ namespace Cells
             
             var intents = new List<Intent>();
             foreach (Block cellObject in _cellObjects.Values) {
-                if (cellObject is IInventory node) {
+                if (cellObject is IInventoryOut node) {
                     node.ResetIntent();
                     node.GenerateIntent();
                     if (node.Intent != null) intents.Add(node.Intent);

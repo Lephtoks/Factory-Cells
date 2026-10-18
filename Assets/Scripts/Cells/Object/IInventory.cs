@@ -6,22 +6,10 @@ namespace Cells.Object
     public interface IInventory
     {
         bool CanReceive => true;
-        
         ItemStack AddItemStack(ItemStack stack);
         ItemStack RemoveItemStack(ItemStack stack);
         void SetItem(ItemStack itemStack);
         ItemStack[] GetItems();
-        
-        Intent Intent {get; set; }
-        CycleIntent CycleIntent { get; set; }
-        
-        void GenerateIntent();
-        
-        void ResetIntent() {
-            Intent = null;
-            CycleIntent = null;
-        }
-
         int GetCapacity();
     }
 }

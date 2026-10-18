@@ -1,13 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Cells.Object.Building.Mono;
 using Data;
+using Economics;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Exporter : OneSlotBlock, IRepresentable<DefaultRepr>, IDirected
+    public class Exporter : Block, IInventory, IRepresentable<DefaultRepr>, IDirected
     {
-        public override bool CanReceive => true;
+        bool IInventory.CanReceive => true;
+
         public override BlockType BlockType => BlockTypes.EXPORTER;
         public DefaultRepr LivingRepresentation { get; set; }
         public Direction Direction { get; }
@@ -23,9 +26,25 @@ namespace Cells.Object.Building
             base.WhenBeingAddedToCell();
             Parent.Unlock(new ExporterLocker());
         }
+        public ItemStack AddItemStack(ItemStack stack) {
+            Debug.Log($"Added {stack.Count}: {stack.CurrencyType}");
+            return stack;
+        }
 
-        public override IEnumerable<Direction> OutDirections() {
-            return base.OutDirections();
+        public ItemStack RemoveItemStack(ItemStack stack) {
+            throw new System.NotImplementedException("Impossible to remove items from exporter!");
+        }
+
+        public void SetItem(ItemStack itemStack) {
+            AddItemStack(itemStack);
+        }
+
+        public ItemStack[] GetItems() {
+            return Array.Empty<ItemStack>();
+        }
+
+        public int GetCapacity() {
+            return int.MaxValue;
         }
     }
 }
