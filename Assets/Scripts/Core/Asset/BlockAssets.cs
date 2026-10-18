@@ -12,5 +12,7 @@ namespace Core.Asset
         public BlockDefinition itemSource;
         public BlockDefinition cellAnchor;
         public BlockDefinition turret;
+        public BlockDefinition importer;
+        public BlockDefinition exporter;
     }
 }

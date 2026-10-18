@@ -9,6 +9,7 @@ using DG.Tweening;
 using Entities;
 using Entities.Navigation;
 using GameRenderer;
+using Microsoft.CodeAnalysis;
 using UnityEngine;
 using IHealth = Cells.Object.IHealth;
 
@@ -45,7 +46,7 @@ namespace Cells
         }
 
         public bool TryAddObject(Block block) {
-            if (!IsTileEmpty(block.Position)) return false;
+            if (!IsTileEmpty(block.Position) && block.BlockType != BlockTypes.EXPORTER) return false;
             _cellObjects.Add(block.Position, block);
             NavTree.RebuildWith(block);
             if (block is IShadow shadow) {
@@ -154,6 +155,18 @@ namespace Cells
 
         public Block NearestKillableBlock(Vector2 pos) {
             return _cellObjects.Values.SkipWhile((block) => block is not IKillable).OrderBy((block) => Vector2.Distance(block.Position, pos)).First();
+        }
+
+        public Vector2Int NearestCellEdge(Vector2 pos, out Direction normal) {
+            var center = size / 2f;
+            var dx = Math.Abs(pos.x - center);
+            var dy = Math.Abs(pos.y - center);
+            if (dx > dy) {
+                normal = pos.x < center ? Direction.EAST : Direction.WEST;
+                return new Vector2Int(pos.x < center ? -1 : size, Mathf.FloorToInt(pos.y));
+            }
+            normal = pos.y < center ? Direction.NORTH : Direction.SOUTH;
+            return new Vector2Int(Mathf.FloorToInt(pos.x), pos.y < center ? -1 : size);
         }
     }
 }

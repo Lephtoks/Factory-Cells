@@ -119,6 +119,9 @@ namespace Cells
                         }
                     }
                     foreach (var block in added) {
+                        block.WhenBeingAddedToCellLate();
+                    }
+                    foreach (var block in added) {
                         cell.BlockUpdate(block);
                     }
                     GameStorage.Instance.MultipleBlockBuilderList.Clear();

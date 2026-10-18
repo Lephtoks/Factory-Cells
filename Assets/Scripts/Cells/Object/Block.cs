@@ -14,9 +14,9 @@ namespace Cells.Object
             Parent = parent;
         }
         public virtual void UpdateMove() {}
-        
-        public virtual void WhenBeingAddedToCell() {
-        }
+
+        public virtual void WhenBeingAddedToCell() { }
+        public virtual void WhenBeingAddedToCellLate() { }
         public virtual void OnDestroy() {}
 
         public Block Duplicate() {

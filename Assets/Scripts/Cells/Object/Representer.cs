@@ -32,8 +32,14 @@ namespace Cells.Object
         public void Place(Vector2Int cellPos, Cell cell) {
             CurrentCell = cell;
             foreach (var blockRepr in _reprs) {
-                Vector2Int pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
-                if (cell.IsTileExist(pos)) {
+                Vector2Int pos;
+                if (blockRepr.Value.BlockType != BlockTypes.EXPORTER)
+                    pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
+                else {
+                    pos = cell.NearestCellEdge(cell.CellPivot.InverseTransformPoint(MainController.Instance.CellBehaviourArguments.WorldPos), out Direction direction);
+                    blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
+                }
+                if (cell.IsTileExist(pos) || blockRepr.Value.BlockType == BlockTypes.EXPORTER) {
                     blockRepr.Value.transform.SetParent(cell.CellPivot, false);
                     blockRepr.Value.Cell = cell;
                     blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);

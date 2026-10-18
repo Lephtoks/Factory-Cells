@@ -19,6 +19,8 @@ MonoBehaviour:
     itemSource: {fileID: 11400000, guid: d7297f6adec43d3f3918f52bea402647, type: 2}
     cellAnchor: {fileID: 11400000, guid: 2cba4f078d3b9c802a935ef5b791c2b1, type: 2}
     turret: {fileID: 11400000, guid: 55f2198f5d578c91493558c8e00229ac, type: 2}
+    importer: {fileID: 11400000, guid: 4758cd4f51476d578b2ce78eff3c9f96, type: 2}
+    exporter: {fileID: 11400000, guid: 49d00fbeea76cf2fb9b7c4d1514aa2dc, type: 2}
   conveyorSprites:
     ConveyorUpClosedSprites:
     - {fileID: -2164540517423491671, guid: 8ec5b7fdf03902154bffa181c339a97f, type: 3}

@@ -17,6 +17,8 @@ namespace Cells.Object
         public static BlockType ITEM_SOURCE;
         public static BlockType CELL_ANCHOR;
         public static BlockType TURRET;
+        public static BlockType IMPORTER;
+        public static BlockType EXPORTER;
 
         public static void Init() {
             DRILL = Register(Drill.Create, Blocks.drill);
@@ -25,6 +27,8 @@ namespace Cells.Object
             ITEM_SOURCE = Register(ItemSource.Create, Blocks.itemSource);
             CELL_ANCHOR = Register(CellAnchor.Create, Blocks.cellAnchor);
             TURRET = Register(Turret.Create, Blocks.turret);
+            IMPORTER = Register(Importer.Create, Blocks.importer);
+            EXPORTER = Register(Exporter.Create, Blocks.exporter);
         }
         
         public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {

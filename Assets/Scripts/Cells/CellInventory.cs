@@ -29,6 +29,7 @@ public class CellInventory
     public Cell GetTable() {
         return onTable;
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     public void PlaceOnTable(Cell cell) {
         if (onTable) {
             if (onTable.IsLocked()) {

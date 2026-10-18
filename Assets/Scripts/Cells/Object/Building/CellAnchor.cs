@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cells.Object.Building.Mono;
 using Core;
 using Data;
+using Data.GameManagement;
 using Economics;
 using Entities;
 using GameRenderer;
@@ -29,6 +30,12 @@ namespace Cells.Object.Building
         public override void WhenBeingAddedToCell() {
             base.WhenBeingAddedToCell();
             Parent.Unlock(new CellAnchorLocker());
+        }
+
+        public override void WhenBeingAddedToCellLate() {
+            base.WhenBeingAddedToCellLate();
+            Parent.Lock(new ExporterLocker());
+            GameStorage.Instance.BuildOption.EnqueueNecessary(BlockTypes.EXPORTER);
         }
 
         public override void OnDestroy() {
