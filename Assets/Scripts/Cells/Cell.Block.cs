@@ -128,7 +128,7 @@ namespace Cells
             // TODO:
             // AddBullet(new Bullet(this, new Vector2(4, 4), 0f, BulletTypes.DEFAULT));
             // AddBullet(new Bullet(this, new Vector2(2, 6), -90f, BulletTypes.DEFAULT));
-            
+            UpdateDropPositions();
             var intents = new List<Intent>();
             foreach (Block cellObject in _cellObjects.Values) {
                 if (cellObject is IInventoryOut node) {
@@ -138,7 +138,6 @@ namespace Cells
                 }
             }
 
-            _tempDroppedItems.Clear();
             foreach (Intent intent in intents) {
                 intent.Do();
             }

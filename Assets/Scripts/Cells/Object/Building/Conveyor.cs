@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IItemDisplayable, IBlockUpdatable, IKillable
+    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IBlockUpdatable, IKillable
         // , IShadow
     {
         public float MaxHealth { get; }
@@ -23,7 +23,6 @@ namespace Cells.Object.Building
         public Direction Direction { get; }
         public override BlockType BlockType => BlockTypes.CONVEYOR;
         public ConveyorRepr LivingRepresentation { get; set; }
-        public DroppedItem DroppedItem { get; set; }
         
         public Conveyor(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
             Direction = direction;

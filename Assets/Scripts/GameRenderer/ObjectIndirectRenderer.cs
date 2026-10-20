@@ -36,5 +36,9 @@ namespace GameRenderer
             base.Release();
             _id2Index.Clear();
         }
+
+        public T[] GetValues() {
+            return CPUData.Clone() as T[];
+        }
     }
 }

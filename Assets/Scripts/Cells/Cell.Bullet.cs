@@ -40,9 +40,10 @@ namespace Cells
             foreach (var bullet in GetBullets()) {
                 var sprite = bullet.BulletType.bulletSprite;
                 if (sprite == null) continue;
-        
-                _droppedItemBlock.SetTexture("_MainTex", sprite.texture);
-                rp.matProps = _droppedItemBlock;
+                
+                // TODO:
+                // _droppedItemBlock.SetTexture("_MainTex", sprite.texture);
+                // rp.matProps = _droppedItemBlock;
         
                 var worldPos = CellPivot.TransformPoint(bullet.Position);
                 var matrix = Matrix4x4.TRS(worldPos, CellPivot.rotation, CellPivot.lossyScale * 0.25f);

@@ -38,19 +38,6 @@ namespace Cells.Object.Node
                         victimOut.CycleIntent.ItemStack = victimOut.CycleIntent.ItemStack.Add(mv, Victim.GetCapacity(), out ItemStack added);
                         Actor.CycleIntent.ItemStack = Actor.CycleIntent.ItemStack.Remove(added, out _);
                         
-                        
-                        if (Victim is IItemDisplayable victimDisplayable) {
-                            DroppedItem droppedItem;
-                            if (Actor is IItemDisplayable actorDisplayable && itemOut.Count == added.Count) {
-                                droppedItem = actorDisplayable.DroppedItem;
-                                Actor.CycleIntent.RemoveDrop = true;
-                            }
-                            else {
-                                droppedItem = new DroppedItem(added, victimDisplayable.Position);
-                            }
-                            Actor.CycleIntent.Drop = droppedItem;
-                        }
-                        
                         Activated = true;
                     }
 
@@ -61,15 +48,15 @@ namespace Cells.Object.Node
                         Actor.CycleIntent.Causer.CycleIntent.ItemStack = Actor.CycleIntent.Causer.CycleIntent.ItemStack.Add(itemStackLeft, Actor.CycleIntent.Causer.GetCapacity() ,out ItemStack mv2);
                         itemStackLeft = itemStackLeft.Remove(mv2, out _);
                         
-                        if (Actor.CycleIntent.Causer is IItemDisplayable causerDisplayable && mv.Count == Actor.CycleIntent.Causer.GetOutStack().Count) {
-                            Actor.CycleIntent.Causer.CycleIntent.Drop = causerDisplayable.DroppedItem;
-                            Actor.CycleIntent.Causer.CycleIntent.RemoveDrop = true;
-                        }
-                        else {
-                            if (Actor is IItemDisplayable actorDisplayable) {
-                                Actor.CycleIntent.Causer.CycleIntent.Drop = new DroppedItem(mv, actorDisplayable.Position);
-                            }
-                        }
+                        // if (Actor.CycleIntent.Causer is IItemDisplayable causerDisplayable && mv.Count == Actor.CycleIntent.Causer.GetOutStack().Count) {
+                        //     Actor.CycleIntent.Causer.CycleIntent.Drop = causerDisplayable.DroppedItem;
+                        //     Actor.CycleIntent.Causer.CycleIntent.RemoveDrop = true;
+                        // }
+                        // else {
+                        //     if (Actor is IItemDisplayable actorDisplayable) {
+                        //         Actor.CycleIntent.Causer.CycleIntent.Drop = new DroppedItem(mv, actorDisplayable.Position);
+                        //     }
+                        // }
                         
                         if (itemStackLeft.IsEmpty()) {
                             
@@ -79,9 +66,6 @@ namespace Cells.Object.Node
                             do {
                                 inventories.Add(cur);
                                 cur = (IInventoryOut) cur.Intent.Victim;
-                                if (cur.CycleIntent.RemoveDrop && cur is IItemDisplayable victimDisplayable) {
-                                    victimDisplayable.RemoveDrop();
-                                }
                             } while (cur != Actor.Intent.Victim);
 
 
@@ -89,12 +73,8 @@ namespace Cells.Object.Node
                                 var inventory = inventories[i];
                                 var sender = i-1 >= 0 ? inventories[i-1] : inventories[^1] ;
 
-                                if (inventory is IItemDisplayable victimDisplayable) {
-                                    if (sender.CycleIntent.Drop != null) {
-                                        victimDisplayable.BindDrop(sender.CycleIntent.Drop);
-                                        sender.CycleIntent.Drop.Animate(new Vector3(sender.Position.x, sender.Position.y));
-                                    }
-                                }
+                                sender.Parent.AddDrop(new DroppedItem(sender.Position, inventory.Position));
+                                
 
                                 inventory.SetItem(inventory.CycleIntent.ItemStack);
                             }
@@ -112,18 +92,9 @@ namespace Cells.Object.Node
                 var itemOut = Actor.GetOutStack();
                 var realMv = Victim.AddItemStack(mv);
                 Actor.RemoveItemStack(realMv);
-                if (Victim is IItemDisplayable victimDisplayable) {
-                    DroppedItem droppedItem;
-                    if (Actor is IItemDisplayable actorDisplayable && itemOut.Count == realMv.Count) {
-                        droppedItem = actorDisplayable.DroppedItem;
-                        actorDisplayable.RemoveDrop();
-                    }
-                    else {
-                        droppedItem = new DroppedItem(realMv, victimDisplayable.Position);
-                    }
-                    victimDisplayable.BindDrop(droppedItem);
-                    droppedItem.Animate(new Vector3(Actor.Position.x, Actor.Position.y));
-                }
+                
+                Actor.Parent.AddDrop(new DroppedItem(Actor.Position, ((IPositioned) Victim).Position));
+                
                 Activated = true;
             }
 

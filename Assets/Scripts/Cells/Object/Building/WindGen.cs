@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IItemDisplayable, IPreUpdatable, IKillable
+    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IPreUpdatable, IKillable
     {
         public float MaxHealth { get; }
         public float Health { get; set; }
@@ -16,7 +16,6 @@ namespace Cells.Object.Building
         public Direction Direction { get; }
         public override BlockType BlockType => BlockTypes.WIND_GEN;
         public WindGenRepr LivingRepresentation { get; set; }
-        public DroppedItem DroppedItem { get; set; }
         
         public WindGen(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
             Direction = direction;

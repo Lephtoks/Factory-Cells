@@ -23,7 +23,8 @@ namespace Cells
         private bool _initialized;
         private ObjectIndirectRenderer<Block, Vector3> _healthBarRenderer; 
         private FragmentRenderer _fragmentRenderer; 
-        private ObjectIndirectRenderer<ShadowID, ShadowRect> _shadowRectRenderer; 
+        private ObjectIndirectRenderer<ShadowID, ShadowRect> _shadowRectRenderer;
+        private DropRenderer _dropRenderer;
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -47,6 +48,10 @@ namespace Cells
                 AssetProvider.Instance.registry.render.ShadowRectMesh,
                 AssetProvider.Instance.registry.render.ShadowRectMaterial);
             _shadowRectRenderer.Init();
+            _dropRenderer = new DropRenderer(CellPivot.gameObject,
+                AssetProvider.Instance.registry.render.ItemDropMesh,
+                AssetProvider.Instance.registry.render.ItemDropMaterial);
+            _dropRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
@@ -58,19 +63,18 @@ namespace Cells
             FramePivot = transform.GetChild(0);
             CellPivot = FramePivot.GetChild(0);
             _baseScale = transform.localScale;
-
-            _droppedItemBlock = new(); // Cell.Drop.cs
         }
         
         private void Update() {
             _healthBarRenderer.Render();
             _fragmentRenderer.Render();
             _shadowRectRenderer.Render();
+            _dropRenderer.DropPositionTime = SynchronousConveyorTime - 1/16f;
+            _dropRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();
             UpdateAliveness();
-            DrawDroppedItems(); // Cell.Drop.cs
             DrawBullets(); // Cell.Bullet.cs
             DrawHitboxes(); // Cell.Debug.cs
             DrawNavigation(); // Cell.Debug.cs
