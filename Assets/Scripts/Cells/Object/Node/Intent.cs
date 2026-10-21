@@ -75,7 +75,6 @@ namespace Cells.Object.Node
 
                                 sender.Parent.AddDrop(new DroppedItem(sender.Position, inventory.Position));
                                 
-
                                 inventory.SetItem(inventory.CycleIntent.ItemStack);
                             }
                             
@@ -93,7 +92,7 @@ namespace Cells.Object.Node
                 var realMv = Victim.AddItemStack(mv);
                 Actor.RemoveItemStack(realMv);
                 
-                Actor.Parent.AddDrop(new DroppedItem(Actor.Position, ((IPositioned) Victim).Position));
+                if (!realMv.IsEmpty()) Actor.Parent.AddDrop(new DroppedItem(Actor.Position, ((IPositioned) Victim).Position));
                 
                 Activated = true;
             }
