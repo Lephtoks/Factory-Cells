@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace GameRenderer
         }
 
         public T[] GetValues() {
-            return CPUData.Clone() as T[];
+            return CPUData[..Count];
         }
     }
 }

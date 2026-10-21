@@ -18,7 +18,7 @@ Shader "Custom/Drops"
             Name "Drops"
 
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite Off
+            ZWrite On
             ZTest Always
             Cull Off
 
@@ -64,7 +64,7 @@ Shader "Custom/Drops"
                 float3 localPos =
                     v.vertex.xyz + 
                         float3(lerp(float2(instance.position), float2(instance.targetPosition), _GlobalTime), 0) + 
-                        float3(0.5f, 0.5f, 0.25f);
+                        float3(0.5f, 0.5f, 0.0f);
 
                 float4 worldPos = mul(
                     _ObjectToWorld,
