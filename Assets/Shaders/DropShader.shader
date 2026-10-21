@@ -36,6 +36,7 @@ Shader "Custom/Drops"
             {
                 float4 positionCS : SV_POSITION;
                 float2 uv         : TEXCOORD0;
+                float2 localPosition : TEXCOORD1;
             };
 
             struct DropItem
@@ -47,6 +48,7 @@ Shader "Custom/Drops"
             StructuredBuffer<DropItem> _InstanceData;
 
             float4x4 _ObjectToWorld;
+            float4 _LocalClipRect;
 
             // [0, 1]
             float _GlobalTime;
@@ -75,12 +77,20 @@ Shader "Custom/Drops"
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = v.texcoord.xy;
+                output.localPosition = localPos.xy;
 
                 return output;
             }
 
             float4 frag(Varyings input) : SV_Target
             {
+                float2 p = input.localPosition;
+
+                clip(p.x - _LocalClipRect.x);
+                clip(p.y - _LocalClipRect.y);
+                clip(_LocalClipRect.z - p.x);
+                clip(_LocalClipRect.w - p.y);
+                
                 float4 color = tex2D(
                     _itemSprite,
                     input.uv

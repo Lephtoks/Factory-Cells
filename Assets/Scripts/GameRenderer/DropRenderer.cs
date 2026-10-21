@@ -26,6 +26,7 @@ namespace GameRenderer
         public override void Init() {
             base.Init();
             Properties.SetTexture("_itemSprite", AssetProvider.Instance.registry.render.FragmentTexture);
+            Properties.SetVector("_LocalClipRect", new Vector4(0, 0, 8, 8));
         }
     }
 }
