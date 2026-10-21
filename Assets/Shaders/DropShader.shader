@@ -2,6 +2,7 @@ Shader "Custom/Drops"
 {
     Properties
     {
+        _SpriteAtlas ("Sprite Atlas", 2D) = "white" {}
     }
 
     SubShader
@@ -43,6 +44,7 @@ Shader "Custom/Drops"
             {
                 int2 position;
                 int2 targetPosition;
+                int  spriteIndex;
             };
 
             StructuredBuffer<DropItem> _InstanceData;
@@ -53,7 +55,11 @@ Shader "Custom/Drops"
             // [0, 1]
             float _GlobalTime;
 
-            sampler2D _itemSprite;
+            sampler2D _SpriteAtlas;
+
+            float4 _SpriteAtlas_TexelSize;
+
+            #define SPRITE_SIZE 16.0
 
             Varyings vert(appdata_base v, uint svInstanceID : SV_InstanceID)
             {
@@ -76,7 +82,8 @@ Shader "Custom/Drops"
                 worldPos.z = -1.0;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
-                output.uv = v.texcoord.xy;
+                output.uv = (float2(instance.spriteIndex * SPRITE_SIZE, 0.0) + v.texcoord.xy * SPRITE_SIZE) *
+                    _SpriteAtlas_TexelSize.xy;
                 output.localPosition = localPos.xy;
 
                 return output;
@@ -92,7 +99,7 @@ Shader "Custom/Drops"
                 clip(_LocalClipRect.w - p.y);
                 
                 float4 color = tex2D(
-                    _itemSprite,
+                    _SpriteAtlas,
                     input.uv
                 );
                 clip(color.a - 0.001);

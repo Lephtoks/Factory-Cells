@@ -16,5 +16,6 @@ namespace Core.Asset
         public Material DebugLineMaterial;
         public Mesh ShadowRectMesh;
         public Material ShadowRectMaterial;
+        public Texture DropAtlas;
     }
 }
