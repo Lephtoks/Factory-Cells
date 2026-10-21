@@ -64,6 +64,8 @@ Shader "Custom/Drops"
             Varyings vert(appdata_base v, uint svInstanceID : SV_InstanceID)
             {
                 Varyings output;
+                v.vertex.xy *= 0.9f;
+                v.vertex.xy += 1.0 / 16.0;
 
                 InitIndirectDrawArgs(0);
                 uint instanceID = GetIndirectInstanceID(svInstanceID);
