@@ -57,6 +57,7 @@ namespace Cells.Object.Building.Mono
             else {
                 transform.localScale = _originalScale;
             }
+            OriginalConveyor?.UpdateDisplayShadows();
         }
 
         public void Update() {

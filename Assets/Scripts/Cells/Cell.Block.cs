@@ -34,14 +34,28 @@ namespace Cells
             if (block is IHealth health) {
                 _healthBarRenderer.Remove(block);
             }
-            if (block is IShadow shadow) {
-                for (int i = 0; i < shadow.ShadowCount; i++) {
-                    _shadowRectRenderer.Remove(new ShadowID(block, i));
-                }
-            }
+            RemoveShadows(block);
 
             if (blockRemovalType == BlockRemovalType.DESTRUCTION) { 
                 _fragmentRenderer.Add(position);
+            }
+        }
+
+        public void RemoveShadows(Block block) {
+            if (block is not IShadow shadow) return;
+            
+            for (int i = 0; i < shadow.ShadowCount; i++) {
+                _shadowRectRenderer.Remove(new ShadowID(block, i));
+            }
+        }
+
+        public void CreateShadows(Block block) {
+            if (block is not IShadow shadow) return;
+
+            int i = 0;
+            foreach (var rect in shadow.CreateShadow()) {
+                _shadowRectRenderer.Add(new ShadowID(block, i), rect);
+                i++;
             }
         }
 
@@ -49,13 +63,7 @@ namespace Cells
             if (!IsTileEmpty(block.Position) && block.BlockType != BlockTypes.EXPORTER) return false;
             _cellObjects.Add(block.Position, block);
             NavTree.RebuildWith(block);
-            if (block is IShadow shadow) {
-                int i = 0;
-                foreach (var rect in shadow.CreateShadow()) {
-                    _shadowRectRenderer.Add(new ShadowID(block, i), rect);
-                    i++;
-                }
-            }
+            CreateShadows(block);
 
             block.WhenBeingAddedToCell();
             return true;
