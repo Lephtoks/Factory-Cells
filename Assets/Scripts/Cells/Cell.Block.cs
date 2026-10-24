@@ -6,6 +6,7 @@ using Cells.Object.Node;
 using Data;
 using Data.GameManagement;
 using DG.Tweening;
+using Economics;
 using Entities;
 using Entities.Navigation;
 using GameRenderer;
@@ -174,6 +175,25 @@ namespace Cells
             }
             normal = pos.y < center ? Direction.NORTH : Direction.SOUTH;
             return new Vector2Int(Mathf.FloorToInt(pos.x), pos.y < center ? -1 : size);
+        }
+
+        public bool TryAddOre(Vector2Int position, Currency currency) {
+            if (!IsTileExist(position)) return false;
+            _oreRenderer.Add(position, new OreInstance(position,  currency));
+            return true;
+        }
+
+        public bool TryGetOre(Vector2Int position, out Currency currency) {
+            currency = Currency.AIR;
+            if (!IsTileExist(position)) return false;
+            var res = _oreRenderer.TryGet(position, out var currencyInstance);
+            currency = currencyInstance.OreType;
+            return res;
+        }
+
+        public void RemoveOre(Vector2Int position) {
+            if (!IsTileExist(position)) return;
+            _oreRenderer.Remove(position);
         }
     }
 }

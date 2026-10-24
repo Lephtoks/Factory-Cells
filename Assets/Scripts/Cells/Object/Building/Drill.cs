@@ -29,7 +29,9 @@ namespace Cells.Object.Building
             _counter++;
             if (_counter >= 5) {
                 _counter = 0;
-                AddItemStack(Currency.COPPER.OfCount(1));
+                if (Parent.TryGetOre(Position, out var ore)) {
+                    AddItemStack(ore.OfCount(1));
+                };
             }
         }
 

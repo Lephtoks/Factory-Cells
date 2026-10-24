@@ -629,3 +629,6 @@ MonoBehaviour:
     ShadowRectMesh: {fileID: 4300000, guid: 0b552b94d28d3cd96886228f12ccb381, type: 2}
     ShadowRectMaterial: {fileID: 2100000, guid: 4e6683006ac5e452dbd6fee3e6814dc7, type: 2}
     DropAtlas: {fileID: 2800000, guid: 3dc2040efb207a47b97806b69f3c1d92, type: 3}
+    OreAtlas: {fileID: 2800000, guid: 8c932e4e152bb1b21a089bb05bc6cdd9, type: 3}
+    OreMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    OreMaterial: {fileID: 2100000, guid: 7b1ed64a8df61374e99f18a78ea97c96, type: 2}

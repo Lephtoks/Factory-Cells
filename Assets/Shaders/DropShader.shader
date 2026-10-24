@@ -40,14 +40,14 @@ Shader "Custom/Drops"
                 float2 localPosition : TEXCOORD1;
             };
 
-            struct DropItem
+            struct OreItem
             {
                 int2 position;
                 int2 targetPosition;
                 int  spriteIndex;
             };
 
-            StructuredBuffer<DropItem> _InstanceData;
+            StructuredBuffer<OreItem> _InstanceData;
 
             float4x4 _ObjectToWorld;
             float4 _LocalClipRect;
@@ -70,7 +70,7 @@ Shader "Custom/Drops"
                 InitIndirectDrawArgs(0);
                 uint instanceID = GetIndirectInstanceID(svInstanceID);
 
-                DropItem instance = _InstanceData[instanceID];
+                OreItem instance = _InstanceData[instanceID];
                 float3 localPos =
                     v.vertex.xyz + 
                         float3(lerp(float2(instance.position), float2(instance.targetPosition), _GlobalTime), 0) + 

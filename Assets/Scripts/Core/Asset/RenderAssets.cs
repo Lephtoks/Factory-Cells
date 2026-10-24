@@ -17,5 +17,8 @@ namespace Core.Asset
         public Mesh ShadowRectMesh;
         public Material ShadowRectMaterial;
         public Texture DropAtlas;
+        public Texture OreAtlas;
+        public Mesh OreMesh;
+        public Material OreMaterial;
     }
 }

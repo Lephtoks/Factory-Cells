@@ -33,6 +33,14 @@ namespace GameRenderer
             }
         }
 
+        public bool TryGet(K key, out T value) {
+            value = default;
+            if (!_id2Index.TryGetValue(key, out int index)) return false;
+            value = CPUData[index];
+            return true;
+            
+        }
+
         public override void Release() {
             base.Release();
             _id2Index.Clear();

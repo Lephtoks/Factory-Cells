@@ -6,6 +6,7 @@ using Core;
 using Data;
 using Data.GameManagement;
 using DG.Tweening;
+using Economics;
 using Entities.Navigation;
 using GameRenderer;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace Cells
         private FragmentRenderer _fragmentRenderer; 
         private ObjectIndirectRenderer<ShadowID, ShadowRect> _shadowRectRenderer;
         private DropRenderer _dropRenderer;
+        private OreRenderer _oreRenderer;
+
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
             var cell = Instantiate(prefab);
@@ -52,9 +55,23 @@ namespace Cells
                 AssetProvider.Instance.registry.render.ItemDropMesh,
                 AssetProvider.Instance.registry.render.ItemDropMaterial);
             _dropRenderer.Init();
+            _oreRenderer = new OreRenderer(CellPivot.gameObject,
+                AssetProvider.Instance.registry.render.OreMesh,
+                AssetProvider.Instance.registry.render.OreMaterial,
+                capacity: size*size);
+            _oreRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }
+
+            TryAddOre(new Vector2Int(1, 1), Currency.COPPER_ORE);
+            TryAddOre(new Vector2Int(3, 1), Currency.COPPER_ORE);
+            TryAddOre(new Vector2Int(1, 1), Currency.COPPER_ORE);
+            TryAddOre(new Vector2Int(1, 2), Currency.COPPER_ORE);
+            TryAddOre(new Vector2Int(2, 2), Currency.COPPER_ORE);
+            TryAddOre(new Vector2Int(5, 4), Currency.STONE);
+            TryAddOre(new Vector2Int(6, 4), Currency.STONE);
+            TryAddOre(new Vector2Int(6, 5), Currency.STONE);
 
             OnEnable();
         }
@@ -71,6 +88,7 @@ namespace Cells
             _shadowRectRenderer.Render();
             _dropRenderer.DropPositionTime = SynchronousConveyorTime - 1/16f;
             _dropRenderer.Render();
+            _oreRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();
