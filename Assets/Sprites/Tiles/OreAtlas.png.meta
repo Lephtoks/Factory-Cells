@@ -161,11 +161,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 9
-        width: 6
-        height: 6
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -182,12 +182,12 @@ TextureImporter:
       name: OreAtlas_1
       rect:
         serializedVersion: 2
-        x: 1
+        x: 16
         y: 0
-        width: 15
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -204,12 +204,12 @@ TextureImporter:
       name: OreAtlas_2
       rect:
         serializedVersion: 2
-        x: 16
-        y: 7
-        width: 8
-        height: 9
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -226,12 +226,12 @@ TextureImporter:
       name: OreAtlas_3
       rect:
         serializedVersion: 2
-        x: 17
+        x: 48
         y: 0
-        width: 8
-        height: 7
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -248,12 +248,12 @@ TextureImporter:
       name: OreAtlas_4
       rect:
         serializedVersion: 2
-        x: 23
-        y: 1
-        width: 9
-        height: 10
+        x: 64
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -270,12 +270,12 @@ TextureImporter:
       name: OreAtlas_5
       rect:
         serializedVersion: 2
-        x: 26
-        y: 10
-        width: 7
-        height: 6
+        x: 80
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -288,319 +288,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: OreAtlas_6
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 7
-        width: 8
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd522fb3d747b5a00800000000000000
-      internalID: 746318244485408219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_7
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 0
-        width: 9
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 813a81f72bc9ffd90800000000000000
-      internalID: -7061753400243215592
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_8
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 7
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 77c619a3ab80a6110800000000000000
-      internalID: 1254825042115652727
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_9
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 2
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 14e8192162cd77250800000000000000
-      internalID: 5942460289417055809
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_10
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 15
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b15935d01ecf869e0800000000000000
-      internalID: -1627773221773011685
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_11
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 1
-        width: 7
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9f410c5bc7337c4a0800000000000000
-      internalID: -6573228520405723911
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_12
-      rect:
-        serializedVersion: 2
-        x: 58
-        y: 9
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e70a5c2a3a7fd4500800000000000000
-      internalID: 382233825578950782
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_13
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bad7f44e74eb5e5d0800000000000000
-      internalID: -3033809557981790805
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_14
-      rect:
-        serializedVersion: 2
-        x: 65
-        y: 9
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b00a62c987a6c1bf0800000000000000
-      internalID: -352289604593344501
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_15
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 2
-        width: 16
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ebeaa9aacba2414d0800000000000000
-      internalID: -3164857648330133826
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_16
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 8
-        width: 7
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 058f001e68d3283c0800000000000000
-      internalID: -4358853839831369648
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_17
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 0
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d29e87501aa95f920800000000000000
-      internalID: 3023492741221378349
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_18
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 6
-        width: 6
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ed9f1cf9303d48770800000000000000
-      internalID: 8612240399957883358
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OreAtlas_19
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 0
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1aa0ff3aa1c3a5330800000000000000
-      internalID: 3700336128956500641
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4973cb0c888a3cbffad4ecd202ca1184
     internalID: 0
     vertices: []
     indices: 
@@ -608,28 +300,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       OreAtlas_0: 8954303235211846485
       OreAtlas_1: -7112663041645260285
-      OreAtlas_10: -1627773221773011685
-      OreAtlas_11: -6573228520405723911
-      OreAtlas_12: 382233825578950782
-      OreAtlas_13: -3033809557981790805
-      OreAtlas_14: -352289604593344501
-      OreAtlas_15: -3164857648330133826
-      OreAtlas_16: -4358853839831369648
-      OreAtlas_17: 3023492741221378349
-      OreAtlas_18: 8612240399957883358
-      OreAtlas_19: 3700336128956500641
       OreAtlas_2: 7083021629992379744
       OreAtlas_3: 4893727279870750736
       OreAtlas_4: -4663956311302619406
       OreAtlas_5: -1221584384428160082
-      OreAtlas_6: 746318244485408219
-      OreAtlas_7: -7061753400243215592
-      OreAtlas_8: 1254825042115652727
-      OreAtlas_9: 5942460289417055809
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
