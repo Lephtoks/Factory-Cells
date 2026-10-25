@@ -19,7 +19,7 @@ Shader "Custom/Ores"
             Name "Drops"
 
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite On
+            ZWrite Off
             ZTest Always
             Cull Off
 
