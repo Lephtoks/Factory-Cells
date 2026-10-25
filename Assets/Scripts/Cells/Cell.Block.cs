@@ -13,6 +13,7 @@ using GameRenderer;
 using Microsoft.CodeAnalysis;
 using UnityEngine;
 using IHealth = Cells.Object.IHealth;
+using Random = UnityEngine.Random;
 
 namespace Cells
 {
@@ -194,6 +195,83 @@ namespace Cells
         public void RemoveOre(Vector2Int position) {
             if (!IsTileExist(position)) return;
             _oreRenderer.Remove(position);
+        }
+
+        private void GenerateOres(OreData[] ores) {
+            foreach (var ore in ores) {
+                // var veins = Mathf.RoundToInt(Random.Range(1, ore.OreAmount / 5 + 1));
+
+                var left = ore.OreAmount;
+                for (int i = 0; left > 0; i++) {
+                    int amount = Mathf.Min(Mathf.RoundToInt(Random.Range(5, 15)), left);
+                    if (!TryFindVeinSeed(out var seed)) break;
+                    left -= GenerateVein(seed, amount, ore.OreType);
+                }
+            }
+        }
+
+        private static readonly Vector2Int[] VeinOffsets = {
+            Vector2Int.up,
+            Vector2Int.right,
+            Vector2Int.down,
+            Vector2Int.left
+        };
+
+        private const int VeinSeedAttempts = 16;
+
+        private bool TryFindVeinSeed(out Vector2Int seed) {
+            for (int attempt = 0; attempt < VeinSeedAttempts; attempt++) {
+                var candidate = new Vector2Int(Random.Range(0, size), Random.Range(0, size));
+                if (TryGetOre(candidate, out _)) continue;
+                seed = candidate;
+                return true;
+            }
+
+            for (int i = 0; i < size * size; i++) {
+                var candidate = new Vector2Int(i % size, i / size);
+                if (TryGetOre(candidate, out _)) continue;
+                seed = candidate;
+                return true;
+            }
+
+            seed = default;
+            return false;
+        }
+
+        private int GenerateVein(Vector2Int seed, int amount, Currency currency) {
+            if (amount <= 0) return 0;
+
+            var candidates = new List<Vector2Int> { seed };
+            var visited = new HashSet<Vector2Int> { seed };
+            var placed = 0;
+
+            while (placed < amount && candidates.Count > 0) {
+                var index = Random.Range(0, candidates.Count);
+                var current = candidates[index];
+                candidates.RemoveAt(index);
+
+                if (TryGetOre(current, out _)) {
+                    EnqueueNeighbours(current);
+                    continue;
+                }
+
+                if (!TryAddOre(current, currency)) continue;
+
+                placed++;
+                EnqueueNeighbours(current);
+
+            }
+
+            return placed;
+
+            void EnqueueNeighbours(Vector2Int origin) {
+                foreach (var offset in VeinOffsets) {
+                    var neighbour = origin + offset;
+                    if (IsTileExist(neighbour) && visited.Add(neighbour)) {
+                        candidates.Add(neighbour);
+                    }
+                }
+            }
         }
     }
 }

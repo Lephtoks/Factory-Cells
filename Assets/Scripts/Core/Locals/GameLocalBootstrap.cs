@@ -2,6 +2,7 @@ using Cells;
 using Cells.Object;
 using Data;
 using Data.GameManagement;
+using Economics;
 using UI;
 using UI.Cards;
 using UI.Cloud;
@@ -34,7 +35,7 @@ namespace Core.Locals
                 .AddCard(BlockTypes.WIND_GEN)
                 .AddCard(BlockTypes.TURRET)
                 // .AddCell()
-                .AddCell(CellStaticTraits.NONE, new [] { CellDynamicTraits.AttackTrait() })
+                .AddCell(CellStaticTraits.NONE, new [] { CellDynamicTraits.AttackTrait() }, new CellArguments(new []{ new OreData { OreAmount = 6, OreType = Currency.COPPER_ORE}, new OreData { OreAmount = 7, OreType = Currency.STONE}}))
                 .Show();
         }
     }

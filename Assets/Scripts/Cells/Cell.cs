@@ -29,13 +29,12 @@ namespace Cells
         private OreRenderer _oreRenderer;
 
 
-        public static Cell Create(Cell prefab, ICellBehaviour behaviour = null) {
+        public static Cell Create(Cell prefab, ICellBehaviour behaviour = null, CellArguments cellArgs = null) {
             var cell = Instantiate(prefab);
-            cell.Init(behaviour);
+            cell.Init(behaviour, cellArgs);
             return cell;
         }
-
-        private void Init(ICellBehaviour behaviour = null) {
+        private void Init(ICellBehaviour behaviour = null, CellArguments cellArgs = null) {
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
             NavTree = new NavTree(this);
@@ -64,14 +63,9 @@ namespace Cells
                 SetBehaviour(behaviour);
             }
 
-            TryAddOre(new Vector2Int(1, 1), Currency.COPPER_ORE);
-            TryAddOre(new Vector2Int(3, 1), Currency.COPPER_ORE);
-            TryAddOre(new Vector2Int(1, 1), Currency.COPPER_ORE);
-            TryAddOre(new Vector2Int(1, 2), Currency.COPPER_ORE);
-            TryAddOre(new Vector2Int(2, 2), Currency.COPPER_ORE);
-            TryAddOre(new Vector2Int(5, 4), Currency.STONE);
-            TryAddOre(new Vector2Int(6, 4), Currency.STONE);
-            TryAddOre(new Vector2Int(6, 5), Currency.STONE);
+            if (cellArgs != null) {
+                GenerateOres(cellArgs.Ores);
+            }
 
             OnEnable();
         }

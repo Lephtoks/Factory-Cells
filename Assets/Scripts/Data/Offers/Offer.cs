@@ -16,8 +16,8 @@ namespace Data.Offers
             return this;
         }
         
-        public Offer AddCell(CellStaticTraits staticTraits, object[] dynamicTraits) {
-            var offerable = Cell.Create(AssetProvider.Instance.registry.cells.cellPrefab);
+        public Offer AddCell(CellStaticTraits staticTraits, object[] dynamicTraits, CellArguments cellArguments) {
+            var offerable = Cell.Create(AssetProvider.Instance.registry.cells.cellPrefab, cellArgs: cellArguments);
             offerable.AddTrait(staticTraits);
             foreach (var dynamicTrait in dynamicTraits) {
                 offerable.AddTrait(dynamicTrait);
