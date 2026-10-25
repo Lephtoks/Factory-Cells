@@ -25,8 +25,8 @@ namespace GameRenderer
 
         public OreInstance(Vector2Int position, Currency currency) {
             Index = currency switch {
-                Currency.STONE => Random.Next(0, 2),
-                Currency.COPPER_ORE => Random.Next(3, 5),
+                Currency.STONE => Random.Next(0, 3),
+                Currency.COPPER_ORE => Random.Next(3, 6),
                 _ => throw new ArgumentException($"Currency {currency} does not have a place in ore atlas")
             };
             Position = position;
