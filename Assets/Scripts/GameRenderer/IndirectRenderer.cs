@@ -96,6 +96,10 @@ namespace GameRenderer
             };
         }
 
+        public void UpdateLayer() {
+            RenderParams.layer = GameObject.layer;
+        }
+
         protected void UpdateTransform() {
             var tr = GameObject.transform;
             var matrix = tr.localToWorldMatrix;

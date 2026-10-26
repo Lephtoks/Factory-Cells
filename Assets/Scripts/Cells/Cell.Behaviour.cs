@@ -60,6 +60,7 @@ namespace Cells
 
         public void OnDisable(Cell cell) {
             GameStorage.Instance.MoveOnDefaultLayer(cell.gameObject);
+            cell.UpdateRendererLayers();
             GameEvents.OnScreenSizeChanged -= cell.OnScreenSizeChanged;
             GameEvents.OnCameraUpdate -= cell.OnCameraUpdate;
         }
@@ -67,6 +68,7 @@ namespace Cells
         public void InitBehaviour(Cell cell) {
             cell.UpdateShopPosition();
             GameStorage.Instance.MoveOnOfferLayer(cell.gameObject);
+            cell.UpdateRendererLayers();
         }
 
         public void OnClickRelease(Cell cell, CellBehaviourArguments args) {

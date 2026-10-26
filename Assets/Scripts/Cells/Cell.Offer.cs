@@ -74,6 +74,7 @@ namespace Cells
                 : Mathf.Lerp(0.8f, 0.2f, (float)row / (totalRows - 1));
 
             Vector3 worldPos = cam.ViewportToWorldPoint(new Vector3(vx, vy, 15f));
+            worldPos.z = 0;
 
             transform.DOKill();
 

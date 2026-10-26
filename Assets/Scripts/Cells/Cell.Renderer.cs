@@ -19,5 +19,12 @@ namespace Cells
             }
         }
 
+        public void UpdateRendererLayers() {
+            _oreRenderer.UpdateLayer();
+            _dropRenderer.UpdateLayer();
+            _fragmentRenderer.UpdateLayer();
+            _healthBarRenderer.UpdateLayer();
+            _shadowRectRenderer.UpdateLayer();
+        }
     }
 }
