@@ -19,7 +19,7 @@ Shader "Custom/DestroyedBlocks"
 
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest Always
+            ZTest LEqual
             Cull Off
 
             HLSLPROGRAM
@@ -87,7 +87,7 @@ Shader "Custom/DestroyedBlocks"
                     float4(localPos, 1.0)
                 );
 
-                worldPos.z = -1.0;
+                worldPos.z = -0.1f;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = v.texcoord.xy;

@@ -59,6 +59,7 @@ namespace GameRenderer
 
 
         public override void Init() {
+            SortingDepth = -0.1f;
             base.Init();
             Properties.SetTexture("_DestroyedBlockSprite", AssetProvider.Instance.registry.render.FragmentTexture);
         }

@@ -20,7 +20,7 @@ Shader "Custom/Ores"
 
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest Always
+            ZTest LEqual
             Cull Off
 
             HLSLPROGRAM
@@ -73,7 +73,7 @@ Shader "Custom/Ores"
                     float4(localPos, 1.0)
                 );
 
-                worldPos.z = -1.0;
+                worldPos.z = -0.05f;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = (float2(instance.spriteIndex * SPRITE_SIZE, 0.0) + v.texcoord.xy * SPRITE_SIZE) *

@@ -30,7 +30,7 @@ Shader "Custom/RectangularShadow"
 
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            ZTest Always
+            ZTest LEqual
             Cull Off
 
             HLSLPROGRAM
@@ -130,7 +130,7 @@ Shader "Custom/RectangularShadow"
                 }
 
                 float4 worldPos = mul(_ObjectToWorld, float4(localPos, 1.0));
-                worldPos.z = -1.0;
+                worldPos.z = -0.9f;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv         = v.texcoord.xy;

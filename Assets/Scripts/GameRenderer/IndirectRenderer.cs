@@ -31,6 +31,8 @@ namespace GameRenderer
         
         public int Count { get; protected set; }
         
+        public float SortingDepth { get; set; }
+
         protected RenderParams RenderParams;
         protected GraphicsBuffer ArgsBuffer;
         
@@ -82,7 +84,7 @@ namespace GameRenderer
             RenderParams = new RenderParams(Material)
             {
                 worldBounds = new Bounds(
-                    Vector3.zero,
+                    new Vector3(0f, 0f, SortingDepth),
                     Vector3.one * 10000f),
 
                 matProps = Properties,

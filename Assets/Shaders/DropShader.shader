@@ -19,8 +19,8 @@ Shader "Custom/Drops"
             Name "Drops"
 
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite On
-            ZTest Always
+            ZWrite Off
+            ZTest LEqual
             Cull Off
 
             HLSLPROGRAM
@@ -80,8 +80,7 @@ Shader "Custom/Drops"
                     _ObjectToWorld,
                     float4(localPos, 1.0)
                 );
-
-                worldPos.z = -1.0;
+                worldPos.z = -0.2f;
 
                 output.positionCS = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = (float2(instance.spriteIndex * SPRITE_SIZE, 0.0) + v.texcoord.xy * SPRITE_SIZE) *

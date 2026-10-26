@@ -11,6 +11,7 @@ namespace GameRenderer
         }
 
         public override void Init() {
+            SortingDepth = -0.05f;
             base.Init();
             Properties.SetTexture("_SpriteAtlas", AssetProvider.Instance.registry.render.OreAtlas);
         }

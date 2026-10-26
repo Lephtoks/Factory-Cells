@@ -49,6 +49,7 @@ namespace Cells
             _shadowRectRenderer = new ObjectIndirectRenderer<ShadowID, ShadowRect>(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.ShadowRectMesh,
                 AssetProvider.Instance.registry.render.ShadowRectMaterial);
+            _shadowRectRenderer.SortingDepth = -0.2f;
             _shadowRectRenderer.Init();
             _dropRenderer = new DropRenderer(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.ItemDropMesh,

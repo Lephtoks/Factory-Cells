@@ -24,6 +24,7 @@ namespace GameRenderer
 
 
         public override void Init() {
+            SortingDepth = -0.95f;
             base.Init();
             Properties.SetTexture("_SpriteAtlas", AssetProvider.Instance.registry.render.DropAtlas);
             Properties.SetVector("_LocalClipRect", new Vector4(0, 0, 8, 8));
