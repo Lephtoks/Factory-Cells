@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cells.Object.Building.Mono;
 using Data;
+using Data.GameManagement;
 using Economics;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace Cells.Object.Building
         }
         public ItemStack AddItemStack(ItemStack stack) {
             Debug.Log($"Added {stack.Count}: {stack.CurrencyType}");
+            GameStorage.Instance.CurrencyData.Add(stack.CurrencyType, stack.Count);
             return stack;
         }
 
