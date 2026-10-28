@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17778fc89224b4a839b1b5dd4974902, type: 3}
   m_Name: CopperOre
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.CurrencySettings
-  currency: 11
-  icon: {fileID: -2067898546876541913, guid: 938756012feb6406bae3b66949e82ce3, type: 3}
-  displayName: Stone
-  color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+  currency: 10
+  icon: {fileID: 3615109535770239713, guid: 3dc2040efb207a47b97806b69f3c1d92, type: 3}
+  displayName: CopperOre
+  color: {r: 0.764151, g: 0.42726773, b: 0, a: 0}
