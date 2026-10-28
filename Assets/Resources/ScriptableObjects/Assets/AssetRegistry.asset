@@ -612,6 +612,8 @@ MonoBehaviour:
       settings: {fileID: 11400000, guid: 1916dbbdc73337303bb8904ce9594ee0, type: 2}
     - type: 1
       settings: {fileID: 11400000, guid: 8a393e48389289ccb981999658167aca, type: 2}
+    - type: 10
+      settings: {fileID: 11400000, guid: 1916dbbdc73337303bb8904ce9594ee0, type: 2}
   entities:
     pointEntity: {fileID: 5237991183933707098, guid: d5c0cbbe5454b05038a1f1698ecb8843, type: 3}
   traits:
