@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Conveyor : OneSlotBlock, IRepresentable<ConveyorRepr>, IDirected, IBlockUpdatable, IKillable, IShadow
+    public class Conveyor : OneSlotBlock, IDirected, IBlockUpdatable, IKillable, IShadow
     {
         public float MaxHealth { get; }
         public float Health { get; set; }
@@ -20,12 +20,11 @@ namespace Cells.Object.Building
             return 1;
         }
 
-        public Direction Direction { get; }
+        public Direction Direction { get; private set; }
         public override BlockType BlockType => BlockTypes.CONVEYOR;
-        public ConveyorRepr LivingRepresentation { get; set; }
         
-        public Conveyor(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
-            Direction = direction;
+        public Conveyor(Cell parent) : base(parent) {
+            Direction = Direction.NORTH;
             MaxHealth = 100f;
             Health = MaxHealth;
             ShadowCount = 0;
@@ -35,8 +34,8 @@ namespace Cells.Object.Building
             yield return Direction;
         }
         
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<ConveyorRepr>)new Conveyor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), ((ConveyorRepr) repr).Direction)).AssignRepresentation(repr);
+        public static Block Create(Cell parent) {
+            return new Conveyor(parent);
         }
 
         public bool BlockUpdate() {

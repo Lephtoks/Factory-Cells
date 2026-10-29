@@ -23,8 +23,8 @@ namespace Cells.Object.Building
             return ((IRepresentable<DefaultRepr>) new Exporter(parent, new Vector2Int(Mathf.FloorToInt(repr.transform.localPosition.x), Mathf.FloorToInt(repr.transform.localPosition.y)),  DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
 
-        public override void WhenBeingAddedToCell() {
-            base.WhenBeingAddedToCell();
+        public override void Init() {
+            base.Init();
             Parent.Unlock(new ExporterLocker());
         }
         public ItemStack AddItemStack(ItemStack stack) {

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using GameRenderer;
 using UnityEngine;
 
 namespace Core.Asset
@@ -20,5 +22,13 @@ namespace Core.Asset
         public Texture OreAtlas;
         public Mesh OreMesh;
         public Material OreMaterial;
+        public Texture BlockAtlas;
+        public Material BlockMaterial;
+        public Mesh BlockMesh;
+        public List<BlockAnimation> BlockAnimations = new();
+
+        public int GetDefinitionIndex(BlockAnimation animation) {
+            return BlockAnimations.IndexOf(animation);
+        }
     }
 }

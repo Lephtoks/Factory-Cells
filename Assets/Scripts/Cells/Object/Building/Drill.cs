@@ -4,11 +4,12 @@ using Core;
 using Data;
 using Economics;
 using Entities.Navigation;
+using GameRenderer;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Drill : OneSlotBlock, IRepresentable<DefaultRepr>, INavWall, IKillable, ISquareShadow
+    public class Drill : OneSlotBlock, INavWall, IKillable, ISquareShadow
     {
         public float MaxHealth { get; }
         public float Health { get; set; }
@@ -18,13 +19,11 @@ namespace Cells.Object.Building
         public DefaultRepr LivingRepresentation { get; set; }
         private int _counter;
 
-        public Drill(Cell parent, Vector2Int pos) : base(parent, pos) {
+        public Drill(Cell parent) : base(parent) {
             MaxHealth = 200f;
             Health = MaxHealth;
         }
-
-
-
+        
         public override void UpdateMove() {
             _counter++;
             if (_counter >= 5) {
@@ -35,8 +34,8 @@ namespace Cells.Object.Building
             }
         }
 
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<DefaultRepr>) new Drill(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
+        public static Block Create(Cell parent) {
+            return new Drill(parent);
         }
     }
 }

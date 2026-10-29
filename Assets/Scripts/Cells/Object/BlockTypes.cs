@@ -31,12 +31,11 @@ namespace Cells.Object
             EXPORTER = Register(Exporter.Create, Blocks.exporter);
         }
         
-        public static BlockType Register(Func<Cell, BlockRepr, Block> creator, BlockDefinition def) {
+        public static BlockType Register(Func<Cell, Block> creator, BlockDefinition def) {
             var blockType = new BlockType(
                 creator,
                 def
             );
-            def.Representation.BlockType = blockType;
             return blockType;
         }
     }

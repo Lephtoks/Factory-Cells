@@ -27,7 +27,7 @@ namespace Cells
         private ObjectIndirectRenderer<ShadowID, ShadowRect> _shadowRectRenderer;
         private DropRenderer _dropRenderer;
         private OreRenderer _oreRenderer;
-
+        private BlockRenderer _blockRenderer;
 
         public static Cell Create(Cell prefab, ICellBehaviour behaviour = null, CellArguments cellArgs = null) {
             var cell = Instantiate(prefab);
@@ -60,6 +60,11 @@ namespace Cells
                 AssetProvider.Instance.registry.render.OreMaterial,
                 capacity: size*size);
             _oreRenderer.Init();
+            _blockRenderer = new BlockRenderer(CellPivot.gameObject,
+                AssetProvider.Instance.registry.render.BlockMesh,
+                AssetProvider.Instance.registry.render.BlockMaterial,
+                capacity: size*size);
+            _blockRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
             }

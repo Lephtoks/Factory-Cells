@@ -18,7 +18,7 @@ namespace Cells.Object.Building
         public override BlockType BlockType => BlockTypes.CELL_ANCHOR;
         public DefaultRepr LivingRepresentation { get; set; }
         
-        public CellAnchor(Cell parent, Vector2Int pos) : base(parent, pos) {
+        public CellAnchor(Cell parent) : base(parent) {
             MaxHealth = 1000;
             Health = 1000;
         }
@@ -27,8 +27,8 @@ namespace Cells.Object.Building
             base.UpdateMove();
         }
 
-        public override void WhenBeingAddedToCell() {
-            base.WhenBeingAddedToCell();
+        public override void Init(Vector2Int pos) {
+            base.Init(pos);
             Parent.Unlock(new CellAnchorLocker());
         }
 

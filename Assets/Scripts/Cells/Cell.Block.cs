@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cells.Object;
 using Cells.Object.Node;
+using Core;
 using Data;
 using Data.GameManagement;
 using DG.Tweening;
@@ -29,9 +30,8 @@ namespace Cells
             _cellObjects.Remove(position);
             NavTree.RebuildWithout(block);
             block.OnDestroy();
-            if (block is IRepresentable representable) {
-                Destroy((representable.LivingRepresentationObj as MonoBehaviour)?.gameObject);
-            }
+            
+            RemoveBlockRepr(block);
 
             if (block is IHealth health) {
                 _healthBarRenderer.Remove(block);
@@ -61,15 +61,25 @@ namespace Cells
             }
         }
 
-        public bool TryAddObject(Block block) {
-            if (!IsTileEmpty(block.Position) && block.BlockType != BlockTypes.EXPORTER) return false;
+        public bool TryAddObject(Vector2Int pos, Block block) {
+            if (!IsTileEmpty(pos) && block.BlockType != BlockTypes.EXPORTER) return false;
+            block.Init(pos);
             _cellObjects.Add(block.Position, block);
             NavTree.RebuildWith(block);
             CreateShadows(block);
-
-            block.WhenBeingAddedToCell();
             return true;
         }
+
+        public void AddBlockRepr(Block block) {
+            _blockRenderer.Add(block, new BlockRepresenter() {
+                Position = block.Position,
+                DefinitionIndex = AssetProvider.Instance.registry.render.GetDefinitionIndex(block.BlockType.Def.Animations[0])
+            });
+        } 
+
+        public void RemoveBlockRepr(Block block) {
+            _blockRenderer.Remove(block);
+        } 
 
         public void BlockUpdate(Block block) {
             Queue<IBlockUpdatable> queue = new();

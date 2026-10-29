@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Cells.Object
 {
     public record BlockType(
-        Func<Cell, BlockRepr, Block> Factory,
+        Func<Cell, Block> Factory,
         BlockDefinition Def
         )
     {
 
-    public Block Create(Cell cell, BlockRepr repr) {
-        return Factory.Invoke(cell, repr);
+    public Block Create(Cell cell) {
+        return Factory.Invoke(cell);
     }
     };
 }

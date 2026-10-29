@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Cells.Object;
 using Core;
 using Core.Locals;
+using GameRenderer;
 using UI;
 using UI.Cloud;
 using UnityEngine;
@@ -23,6 +25,7 @@ namespace Data.GameManagement
             
             Cam = Camera.main;
             InfoCloud = FindGameObjectWithTag("UICloud").GetComponent<UICloudInfo>();
+            BlockRenderer.InitStatic();
             Table = GameLocalBootstrap.Instance.table;
         }
         public void Update() {

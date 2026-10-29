@@ -10,7 +10,7 @@ namespace Cells.Object
 {
     public class Representer
     {
-        private readonly Dictionary<Vector2Int, BlockRepr> _reprs = new();
+        private readonly Dictionary<Vector2Int, Block> _reprs = new();
         [CanBeNull] public Cell CurrentCell { get; private set; }
         
         public int Width { get; private set; }
@@ -37,19 +37,19 @@ namespace Cells.Object
                     pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
                 else {
                     pos = cell.NearestCellEdge(cell.CellPivot.InverseTransformPoint(MainController.Instance.CellBehaviourArguments.WorldPos), out Direction direction);
-                    blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
+                    // blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
                 }
                 if (cell.IsTileExist(pos) || blockRepr.Value.BlockType == BlockTypes.EXPORTER) {
                     blockRepr.Value.transform.SetParent(cell.CellPivot, false);
                     blockRepr.Value.Cell = cell;
-                    blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
-                    blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
-                    if (cell.IsTileOccupied(pos)) {
-                        blockRepr.Value.MakeWrong();
-                    }
-                    else {
-                        blockRepr.Value.MakePhantom();
-                    }
+                    // blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
+                    // blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
+                    // if (cell.IsTileOccupied(pos)) {
+                    //     blockRepr.Value.MakeWrong();
+                    // }
+                    // else {
+                    //     blockRepr.Value.MakePhantom();
+                    // }
                 }
                 else {
                     blockRepr.Value.transform.SetParent(null, false);
