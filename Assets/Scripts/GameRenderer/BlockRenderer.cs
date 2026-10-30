@@ -18,6 +18,7 @@ namespace GameRenderer
         public static List<BlockSprite> Sprites;
         private static GraphicsBuffer _buffer;
         private static GraphicsBuffer _spritesBuffer;
+        private static List<BlockAnimation> _animations;
         
         public override void Render() {
             UpdateCPU();
@@ -35,13 +36,20 @@ namespace GameRenderer
         public static void InitStatic() {
             Definitions = new List<BlockReprDefinition>();
             Sprites = new List<BlockSprite>();
+            _animations = new List<BlockAnimation>();
 
-            var animations = AssetProvider.Instance.registry.render.BlockAnimations;
-            if (animations != null) {
-                foreach (var animation in animations) {
-                    if (animation != null) {
-                        AddDefinition(animation);
-                    }
+            var processed = new HashSet<BlockAnimation>();
+            foreach (var blockType in BlockTypes.Types) {
+                if (blockType.Def.Animations == null) continue;
+                foreach (var anim in blockType.Def.Animations) {
+                    if (!processed.Add(anim)) continue;
+                    _animations.Add(anim);
+                }
+            }
+            
+            foreach (var animation in _animations) {
+                if (animation != null) {
+                    AddDefinition(animation);
                 }
             }
 
@@ -118,6 +126,10 @@ namespace GameRenderer
                 From = new Vector2(rect.xMin / texture.width, rect.yMin / texture.height),
                 To = new Vector2(rect.xMax / texture.width, rect.yMax / texture.height)
             };
+        }
+        
+        public static int GetDefinitionIndex(BlockAnimation animation) {
+            return _animations.IndexOf(animation);
         }
     }
 }

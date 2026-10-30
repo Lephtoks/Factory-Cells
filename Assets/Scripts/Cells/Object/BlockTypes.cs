@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cells.Object.Building;
 using Core;
 using Core.Asset;
@@ -8,6 +9,7 @@ namespace Cells.Object
     public static class BlockTypes
     {
         private static readonly BlockAssets Blocks = AssetProvider.Instance.registry.blocks;
+        public static List<BlockType> Types;
         public static BlockType DRILL;
         public static BlockType CONVEYOR;
         public static BlockType WIND_GEN;
@@ -18,6 +20,7 @@ namespace Cells.Object
         public static BlockType EXPORTER;
 
         public static void Init() {
+            Types = new List<BlockType>();
             DRILL = Register(() => new Drill(), Blocks.drill);
             CONVEYOR = Register(() => new Conveyor(), Blocks.conveyor);
             WIND_GEN = Register(() => new WindGen(), Blocks.windGen);
@@ -33,6 +36,7 @@ namespace Cells.Object
                 creator,
                 def
             );
+            Types.Add(blockType);
             return blockType;
         }
     }

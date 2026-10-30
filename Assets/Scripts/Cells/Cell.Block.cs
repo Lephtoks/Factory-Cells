@@ -73,7 +73,7 @@ namespace Cells
         public void AddBlockRepr(Block block) {
             _blockRenderer.Add(block, new BlockRepresenter() {
                 Position = block.Position,
-                DefinitionIndex = AssetProvider.Instance.registry.render.GetDefinitionIndex(block.BlockType.Def.Animations[0])
+                DefinitionIndex = BlockRenderer.GetDefinitionIndex(block.BlockType.Def.Animations[0])
             });
         } 
 

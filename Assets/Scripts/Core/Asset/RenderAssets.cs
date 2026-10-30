@@ -25,10 +25,5 @@ namespace Core.Asset
         public Texture BlockAtlas;
         public Material BlockMaterial;
         public Mesh BlockMesh;
-        public List<BlockAnimation> BlockAnimations = new();
-
-        public int GetDefinitionIndex(BlockAnimation animation) {
-            return BlockAnimations.IndexOf(animation);
-        }
     }
 }
