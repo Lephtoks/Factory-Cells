@@ -74,6 +74,7 @@ namespace Cells
                 AssetProvider.Instance.registry.render.BlockMesh,
                 AssetProvider.Instance.registry.render.BlockMaterial,
                 capacity: tileCapacity);
+            _blockRenderer.SortingDepth = -1f;
             _blockRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
