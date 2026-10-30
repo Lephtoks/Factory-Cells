@@ -22,5 +22,5 @@ MonoBehaviour:
   - {fileID: 1400878929, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
   - {fileID: -1697293132, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
   - {fileID: -173473117, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
-  Scale: {x: 1, y: 1}
+  Scale: {x: 1, y: 0.3125}
   Speed: 1

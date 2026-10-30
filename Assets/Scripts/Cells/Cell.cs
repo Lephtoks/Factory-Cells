@@ -38,22 +38,32 @@ namespace Cells
             _initialized = true;
             _behaviour = CellBehaviours.NONE;
             NavTree = new NavTree(this);
+
+            // One instance slot per grid tile (+1 for exporters on the border), x2 as a safety
+            // margin. Buffers used to default to 10000 entries each; with six buffers per cell
+            // that was ~0.6 MB of GPU memory per cell, mostly unused.
+            var tileCapacity = (size + 1) * (size + 1) * 2;
+
             _healthBarRenderer = new ObjectIndirectRenderer<Block, Vector3>(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.HealthBarMesh,
-                AssetProvider.Instance.registry.render.HealthBarMaterial);
+                AssetProvider.Instance.registry.render.HealthBarMaterial,
+                capacity: tileCapacity);
             _healthBarRenderer.Init();
             _fragmentRenderer = new FragmentRenderer(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.FragmentMesh,
-                AssetProvider.Instance.registry.render.FragmentMaterial);
+                AssetProvider.Instance.registry.render.FragmentMaterial,
+                capacity: tileCapacity);
             _fragmentRenderer.Init();
             _shadowRectRenderer = new ObjectIndirectRenderer<ShadowID, ShadowRect>(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.ShadowRectMesh,
-                AssetProvider.Instance.registry.render.ShadowRectMaterial);
+                AssetProvider.Instance.registry.render.ShadowRectMaterial,
+                capacity: tileCapacity * 5); // CellAnchor emits up to 5 shadow rects per block
             _shadowRectRenderer.SortingDepth = -0.2f;
             _shadowRectRenderer.Init();
             _dropRenderer = new DropRenderer(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.ItemDropMesh,
-                AssetProvider.Instance.registry.render.ItemDropMaterial);
+                AssetProvider.Instance.registry.render.ItemDropMaterial,
+                capacity: tileCapacity);
             _dropRenderer.Init();
             _oreRenderer = new OreRenderer(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.OreMesh,
@@ -63,7 +73,7 @@ namespace Cells
             _blockRenderer = new BlockRenderer(CellPivot.gameObject,
                 AssetProvider.Instance.registry.render.BlockMesh,
                 AssetProvider.Instance.registry.render.BlockMaterial,
-                capacity: size*size);
+                capacity: tileCapacity);
             _blockRenderer.Init();
             if (behaviour != null) {
                 SetBehaviour(behaviour);
@@ -119,9 +129,14 @@ namespace Cells
         }
 
         private void OnDestroy() {
-            _healthBarRenderer.Release();
-            _shadowRectRenderer.Release();
-            _fragmentRenderer.Release();
+            _healthBarRenderer?.Release();
+            _shadowRectRenderer?.Release();
+            _fragmentRenderer?.Release();
+            _dropRenderer?.Release();
+            _oreRenderer?.Release();
+            _blockRenderer?.Release();
+
+            DOTween.Kill(this);
         }
 
         private void OnAnyCellPositionUpdate() {

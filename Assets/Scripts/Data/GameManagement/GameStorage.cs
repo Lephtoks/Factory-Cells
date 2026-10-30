@@ -28,6 +28,12 @@ namespace Data.GameManagement
             BlockRenderer.InitStatic();
             Table = GameLocalBootstrap.Instance.table;
         }
+
+        public override void Dispose() {
+            base.Dispose();
+            BlockRenderer.ReleaseStatic();
+        }
+
         public void Update() {
             Time.MoveTime += UnityEngine.Time.deltaTime;
             var t =  Time.MoveTime / Time.MoveRate;

@@ -639,3 +639,4 @@ MonoBehaviour:
     BlockMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
     BlockAnimations:
     - {fileID: 11400000, guid: a2135c10df4db0da591eae7cc4ab498a, type: 2}
+    - {fileID: 11400000, guid: deaaec58f93f8b983b83c5e582240b8c, type: 2}

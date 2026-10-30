@@ -62,6 +62,15 @@ namespace GameRenderer
             AssetProvider.Instance.registry.render.BlockMaterial.SetBuffer("_Sprites", _spritesBuffer);
         }
 
+        public static void ReleaseStatic() {
+            _buffer?.Release();
+            _buffer = null;
+            _spritesBuffer?.Release();
+            _spritesBuffer = null;
+            Definitions?.Clear();
+            Sprites?.Clear();
+        }
+
         private static int AddDefinition(BlockSprite[] animation, Vector2 scale, float speed = 1f) {
             var definition = new BlockReprDefinition {
                 SpriteOffset = animation is { Length: > 0 } ? Sprites.Count : 0,
