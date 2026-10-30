@@ -1,30 +1,21 @@
-using System.Collections.Generic;
-using Cells.Object.Building.Mono;
-using Core;
 using Data;
 using Data.GameManagement;
-using Economics;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class WindGen : Block, IRepresentable<WindGenRepr>, IDirected, IPreUpdatable, IKillable
+    public class WindGen : Block, IDirected, IPreUpdatable, IKillable
     {
         public float MaxHealth { get; }
         public float Health { get; set; }
         public bool Dead { get; set; }
-        public Direction Direction { get; }
+        public Direction Direction { get; set; }
         public override BlockType BlockType => BlockTypes.WIND_GEN;
-        public WindGenRepr LivingRepresentation { get; set; }
         
-        public WindGen(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
-            Direction = direction;
+        public WindGen() : base() {
+            Direction = Direction.NORTH;
             MaxHealth = 200f;
             Health = MaxHealth;
-        }
-        
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<WindGenRepr>)new WindGen(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y), DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
         }
 
         public void UpdatePreMove() {

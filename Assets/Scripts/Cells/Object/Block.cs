@@ -15,11 +15,15 @@ namespace Cells.Object
         public virtual void UpdateMove() {}
 
         public virtual void Init(Vector2Int pos) {
-            Position = pos;
+            SetPosition(pos);
             IsGhost = false;
         }
         public virtual void WhenBeingAddedToCellLate() { }
         public virtual void OnDestroy() {}
+
+        public void SetPosition(Vector2Int pos) {
+            Position = pos;
+        }
 
         public Block Duplicate() {
             return (Block)MemberwiseClone();

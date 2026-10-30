@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2dd7a259227c5f3e8d07945267c48df, type: 3}
+  m_Name: ExporterAnimation
+  m_EditorClassIdentifier: Assembly-CSharp::GameRenderer.BlockAnimation
+  Sprites:
+  - {fileID: -3010401151903113755, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 1882381334, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 115547083, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 1153053903, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 903614582, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 1426313432, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: 1400878929, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: -1697293132, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  - {fileID: -173473117, guid: 4d700968dd42ef6d989b2f1f8cd55827, type: 3}
+  Scale: {x: 1, y: 1}
+  Speed: 1

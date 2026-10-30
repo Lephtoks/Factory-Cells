@@ -4,6 +4,6 @@ namespace Cells.Object
 {
     public interface IDirected
     {
-        Direction Direction { get; }
+        Direction Direction { get; set; }
     }
 }

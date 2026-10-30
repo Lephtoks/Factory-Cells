@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Cells.Object.Building.Mono;
 using Data;
 using Data.GameManagement;
 using Economics;
@@ -8,23 +6,19 @@ using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class Exporter : Block, IInventory, IRepresentable<DefaultRepr>, IDirected
+    public class Exporter : Block, IInventory, IDirected
     {
         bool IInventory.CanReceive => true;
 
         public override BlockType BlockType => BlockTypes.EXPORTER;
-        public DefaultRepr LivingRepresentation { get; set; }
-        public Direction Direction { get; }
+        public Direction Direction { get; set; }
 
-        public Exporter(Cell parent, Vector2Int pos, Direction direction) : base(parent, pos) {
-            Direction = direction;
-        }
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<DefaultRepr>) new Exporter(parent, new Vector2Int(Mathf.FloorToInt(repr.transform.localPosition.x), Mathf.FloorToInt(repr.transform.localPosition.y)),  DirectionHelper.QuaternionToDirection(repr.transform.localRotation))).AssignRepresentation(repr);
+        public Exporter() : base() {
+            Direction = Direction.NORTH;
         }
 
-        public override void Init() {
-            base.Init();
+        public override void Init(Vector2Int pos) {
+            base.Init(pos);
             Parent.Unlock(new ExporterLocker());
         }
         public ItemStack AddItemStack(ItemStack stack) {

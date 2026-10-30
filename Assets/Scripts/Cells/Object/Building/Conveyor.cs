@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cells.Object.Building.Mono;
-using Core;
 using Data;
-using Economics;
 using GameRenderer;
 using UnityEngine;
 
@@ -20,10 +17,10 @@ namespace Cells.Object.Building
             return 1;
         }
 
-        public Direction Direction { get; private set; }
+        public Direction Direction { get; set; }
         public override BlockType BlockType => BlockTypes.CONVEYOR;
         
-        public Conveyor(Cell parent) : base(parent) {
+        public Conveyor() : base() {
             Direction = Direction.NORTH;
             MaxHealth = 100f;
             Health = MaxHealth;
@@ -33,27 +30,25 @@ namespace Cells.Object.Building
         public override IEnumerable<Direction> OutDirections() {
             yield return Direction;
         }
-        
-        public static Block Create(Cell parent) {
-            return new Conveyor(parent);
-        }
 
         public bool BlockUpdate() {
             if (Destroyed) return true;
-            if (!LivingRepresentation) return false;
-            var currentConnections = LivingRepresentation.Connections;
-            LivingRepresentation.Connections = new DirectionFlag();
-            foreach (var dir in new[] { Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH}) {
-                if (((ILookup)this).TryGetNeighbor(dir, out Block block)) {
-                    if (dir == Direction) {
-                        LivingRepresentation.Connections += Direction;
-                    } else if (block is IInventoryOut inventoryOut && inventoryOut.OutDirections().Contains(dir.Opposite())) {
-                        LivingRepresentation.Connections += dir;
-                    }
-                };
-            }
-            LivingRepresentation.UpdateConveyorDisplay(LivingRepresentation.OriginalConveyor.Direction);
-            return currentConnections != LivingRepresentation.Connections;
+            // TODO
+            // if (!LivingRepresentation) return false;
+            // var currentConnections = LivingRepresentation.Connections;
+            // LivingRepresentation.Connections = new DirectionFlag();
+            // foreach (var dir in new[] { Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH}) {
+            //     if (((ILookup)this).TryGetNeighbor(dir, out Block block)) {
+            //         if (dir == Direction) {
+            //             LivingRepresentation.Connections += Direction;
+            //         } else if (block is IInventoryOut inventoryOut && inventoryOut.OutDirections().Contains(dir.Opposite())) {
+            //             LivingRepresentation.Connections += dir;
+            //         }
+            //     };
+            // }
+            // LivingRepresentation.UpdateConveyorDisplay(LivingRepresentation.OriginalConveyor.Direction);
+            // return currentConnections != LivingRepresentation.Connections;
+            return false;
         }
 
         public IEnumerable<ShadowRect> CreateShadow() {
@@ -62,10 +57,11 @@ namespace Cells.Object.Building
         public int ShadowCount {get; private set;}
         
         public void UpdateDisplayShadows() {
-            Parent.RemoveShadows(this);
-            _shadows = ConveyorShadows.GetShadows(LivingRepresentation.Connections, LivingRepresentation.Direction);
-            ShadowCount = _shadows.Length;
-            Parent.CreateShadows(this);
+            // TODO
+            // Parent.RemoveShadows(this);
+            // _shadows = ConveyorShadows.GetShadows(LivingRepresentation.Connections, LivingRepresentation.Direction);
+            // ShadowCount = _shadows.Length;
+            // Parent.CreateShadows(this);
         }
     }
 

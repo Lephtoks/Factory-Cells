@@ -1,19 +1,15 @@
 using System.Collections.Generic;
-using Cells.Object.Building.Mono;
-using Core;
 using Data;
 using Economics;
-using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class ItemSource: OneSlotBlock, IRepresentable<DefaultRepr>, ISquareShadow
+    public class ItemSource: OneSlotBlock, ISquareShadow
     {
         public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.ITEM_SOURCE;
-        public DefaultRepr LivingRepresentation { get; set; }
         
-        public ItemSource(Cell parent, Vector2Int pos) : base(parent, pos) {
+        public ItemSource() : base() {
         }
         
         
@@ -26,10 +22,6 @@ namespace Cells.Object.Building
         
         public override void UpdateMove() {
             SetItem(Currency.STONE.OfCount(1));
-        }
-
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<DefaultRepr>) new ItemSource(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
     }
 }

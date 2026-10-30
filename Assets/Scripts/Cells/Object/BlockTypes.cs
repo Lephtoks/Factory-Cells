@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Cells.Object.Building;
-using Cells.Object.Building.Mono;
 using Core;
 using Core.Asset;
-using UnityEngine;
 
 namespace Cells.Object
 {
@@ -21,17 +18,17 @@ namespace Cells.Object
         public static BlockType EXPORTER;
 
         public static void Init() {
-            DRILL = Register(Drill.Create, Blocks.drill);
-            CONVEYOR = Register(Conveyor.Create, Blocks.conveyor);
-            WIND_GEN = Register(WindGen.Create, Blocks.windGen);
-            ITEM_SOURCE = Register(ItemSource.Create, Blocks.itemSource);
-            CELL_ANCHOR = Register(CellAnchor.Create, Blocks.cellAnchor);
-            TURRET = Register(Turret.Create, Blocks.turret);
-            IMPORTER = Register(Importer.Create, Blocks.importer);
-            EXPORTER = Register(Exporter.Create, Blocks.exporter);
+            DRILL = Register(() => new Drill(), Blocks.drill);
+            CONVEYOR = Register(() => new Conveyor(), Blocks.conveyor);
+            WIND_GEN = Register(() => new WindGen(), Blocks.windGen);
+            ITEM_SOURCE = Register(() => new ItemSource(), Blocks.itemSource);
+            CELL_ANCHOR = Register(() => new CellAnchor(), Blocks.cellAnchor);
+            TURRET = Register(() => new Turret(), Blocks.turret);
+            IMPORTER = Register(() => new Importer(), Blocks.importer);
+            EXPORTER = Register(() => new Exporter(), Blocks.exporter);
         }
         
-        public static BlockType Register(Func<Cell, Block> creator, BlockDefinition def) {
+        public static BlockType Register(Func<Block> creator, BlockDefinition def) {
             var blockType = new BlockType(
                 creator,
                 def

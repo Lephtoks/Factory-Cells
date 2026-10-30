@@ -89,6 +89,7 @@ namespace Cells
             _dropRenderer.DropPositionTime = SynchronousConveyorTime - 1/16f;
             _dropRenderer.Render();
             _oreRenderer.Render();
+            _blockRenderer.Render();
             UpdateBullets();
             UpdateEntities();
             CheckCollisions();

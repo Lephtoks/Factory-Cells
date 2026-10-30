@@ -37,13 +37,12 @@ namespace Cells.Object
                     pos = cellPos + blockRepr.Key.Rotate(GameStorage.Instance.RepresentationSettings.Direction);
                 else {
                     pos = cell.NearestCellEdge(cell.CellPivot.InverseTransformPoint(MainController.Instance.CellBehaviourArguments.WorldPos), out Direction direction);
-                    // blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
+                    // TODO: blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
                 }
                 if (cell.IsTileExist(pos) || blockRepr.Value.BlockType == BlockTypes.EXPORTER) {
-                    blockRepr.Value.transform.SetParent(cell.CellPivot, false);
-                    blockRepr.Value.Cell = cell;
-                    // blockRepr.Value.transform.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1);
-                    // blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
+                    blockRepr.Value.SetParent(cell);
+                    blockRepr.Value.SetPosition(pos);
+                    // TODO: blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
                     // if (cell.IsTileOccupied(pos)) {
                     //     blockRepr.Value.MakeWrong();
                     // }
@@ -52,9 +51,8 @@ namespace Cells.Object
                     // }
                 }
                 else {
-                    blockRepr.Value.transform.SetParent(null, false);
-                    blockRepr.Value.Cell = null;
-                    blockRepr.Value.MakeInvisible();
+                    blockRepr.Value.SetParent(null);
+                    // blockRepr.Value.MakeInvisible();
                 }
             }
             
@@ -62,9 +60,8 @@ namespace Cells.Object
 
         public void Displace() {
             foreach (var blockRepr in _reprs) {
-                blockRepr.Value.transform.SetParent(null, false);
-                blockRepr.Value.Cell = null;
-                blockRepr.Value.MakeInvisible();
+                blockRepr.Value.SetParent(null);
+                // blockRepr.Value.MakeInvisible();
             }
 
             CurrentCell = null;
@@ -75,16 +72,15 @@ namespace Cells.Object
             var added = new List<Block>();
             foreach (var repr in _reprs) {
                 var blockType = repr.Value.BlockType;
-                if (!repr.Value.transform.IsChildOf(CurrentCell.CellPivot)) {
+                if (repr.Value.Parent != CurrentCell) {
                     GameStorage.Instance.RemoveRepresentationCached(repr.Value);
                     continue;
                 }
-                Block block = blockType.Create(CurrentCell, repr.Value);
-                if (!CurrentCell.TryAddObject(block)) {
+                if (!CurrentCell.TryAddObject(repr.Value.Position, repr.Value)) {
                     GameStorage.Instance.RemoveRepresentationCacheless(repr.Value);
                 }
                 else {
-                    added.Add(block);
+                    added.Add(repr.Value);
                 }
 
             }
@@ -94,9 +90,9 @@ namespace Cells.Object
 
         }
 
-        public void SetRepresentation(BlockRepr blockReprPrefab) {
+        public void SetRepresentation(BlockType blockType) {
             ClearAndCache();
-            _reprs[Vector2Int.zero] = GameStorage.Instance.CreateRepresentationCached(blockReprPrefab);
+            _reprs[Vector2Int.zero] = GameStorage.Instance.CreateRepresentationCached(blockType);
             GameStorage.Instance.DisposeRepresenterCache();
             UpdateScales();
         }
@@ -110,7 +106,7 @@ namespace Cells.Object
                 for (int y = min.y; y <= max.y; y++) {
                     var pos = new Vector2Int(x, y);
                     if (cell.TryGetObject(pos, out Block block)) {
-                        _reprs[pos - anchor] = GameStorage.Instance.CreateRepresentationCached(block.BlockType.Def.Representation);
+                        _reprs[pos - anchor] = GameStorage.Instance.CreateRepresentationCached(block.BlockType);
                     }
                 }
             }
@@ -124,7 +120,7 @@ namespace Cells.Object
             BlockType activeBlock = GameStorage.Instance.BuildOption.GetActiveBlock();
             if (activeBlock == null) return;
             
-            SetRepresentation(activeBlock.Def.Representation);
+            SetRepresentation(activeBlock);
         }
 
         public void ClearAndCache() {
@@ -137,7 +133,7 @@ namespace Cells.Object
             var representer = new Representer();
             foreach (var pair in _reprs) 
             {
-                representer._reprs[pair.Key] = GameStorage.Instance.CreateRepresentationCached(pair.Value.BlockType.Def.Representation);
+                representer._reprs[pair.Key] = GameStorage.Instance.CreateRepresentationCached(pair.Value.BlockType);
             }
 
             return representer;

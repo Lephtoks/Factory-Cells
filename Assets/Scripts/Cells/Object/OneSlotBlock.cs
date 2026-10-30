@@ -14,7 +14,7 @@ namespace Cells.Object
         public Intent Intent { get; set; }
         public CycleIntent CycleIntent { get; set; }
 
-        public OneSlotBlock(Cell parent) : base(parent) {
+        public OneSlotBlock() : base() {
             _directionGenerator = DirectionGenerator().GetEnumerator();
         }
 

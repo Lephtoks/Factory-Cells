@@ -1,24 +1,18 @@
 using System.Collections.Generic;
-using Cells.Object.Building.Mono;
-using Core;
-using Data;
 using Data.GameManagement;
-using Economics;
-using Entities;
 using GameRenderer;
 using UnityEngine;
 
 namespace Cells.Object.Building
 {
-    public class CellAnchor: Block, IRepresentable<DefaultRepr>, IKillable, IShadow
+    public class CellAnchor: Block, IKillable, IShadow
     {
         public float MaxHealth { get; set; }
         public float Health { get; set; }
         public bool Dead { get; set; }
         public override BlockType BlockType => BlockTypes.CELL_ANCHOR;
-        public DefaultRepr LivingRepresentation { get; set; }
         
-        public CellAnchor(Cell parent) : base(parent) {
+        public CellAnchor() : base() {
             MaxHealth = 1000;
             Health = 1000;
         }
@@ -40,10 +34,6 @@ namespace Cells.Object.Building
 
         public override void OnDestroy() {
             Parent.InitiateCellDestruction();
-        }
-
-        public static Block Create(Cell parent, BlockRepr repr) {
-            return ((IRepresentable<DefaultRepr>) new CellAnchor(parent, new Vector2Int((int) repr.transform.localPosition.x, (int) repr.transform.localPosition.y))).AssignRepresentation(repr);
         }
 
         public IEnumerable<ShadowRect> CreateShadow() {

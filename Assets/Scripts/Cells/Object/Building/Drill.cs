@@ -1,11 +1,5 @@
-using System.Collections.Generic;
-using Cells.Object.Building.Mono;
-using Core;
-using Data;
 using Economics;
 using Entities.Navigation;
-using GameRenderer;
-using UnityEngine;
 
 namespace Cells.Object.Building
 {
@@ -16,10 +10,9 @@ namespace Cells.Object.Building
         public bool Dead { get; set; }
         public override bool CanReceive => false;
         public override BlockType BlockType => BlockTypes.DRILL;
-        public DefaultRepr LivingRepresentation { get; set; }
         private int _counter;
 
-        public Drill(Cell parent) : base(parent) {
+        public Drill() : base() {
             MaxHealth = 200f;
             Health = MaxHealth;
         }
@@ -32,10 +25,6 @@ namespace Cells.Object.Building
                     AddItemStack(ore.OfCount(1));
                 };
             }
-        }
-
-        public static Block Create(Cell parent) {
-            return new Drill(parent);
         }
     }
 }
