@@ -40,8 +40,10 @@ namespace Cells.Object
                     // TODO: blockRepr.Value.transform.localRotation = direction.Opposite().ToQuaternion();
                 }
                 if (cell.IsTileExist(pos) || blockRepr.Value.BlockType == BlockTypes.EXPORTER) {
-                    blockRepr.Value.SetParent(cell);
-                    blockRepr.Value.SetPosition(pos);
+                    // TODO: Non‑obvious behaviour
+                    blockRepr.Value.SetPosition(pos); // Here
+                    blockRepr.Value.SetParent(cell); // Here
+                    
                     // TODO: blockRepr.Value.UseSettings(GameStorage.Instance.RepresentationSettings);
                     // if (cell.IsTileOccupied(pos)) {
                     //     blockRepr.Value.MakeWrong();
